@@ -2,6 +2,7 @@
 
 {% block transportes %}
 
+<body>
 <p>Por favor llene los datos solicitados:</p>
 
 <form action={% url 'index_transporte' %} method = "POST" enctype="multipart/form-data"> 
@@ -12,7 +13,7 @@
     </table>
     <button>>Enviar</button>
 </form>
-
+</body>
 {% endblock transportes %}
 
 
