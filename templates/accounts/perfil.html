@@ -1,0 +1,38 @@
+{% extends 'index.html' %}
+
+{% block transportes %}
+{% comment %} <p>
+    <a href = {% url 'maestro' %}>Volver<a/>
+    <a href = {% url 'editar_perfil' %}>Editar Perfil<a/>
+    <a href={% url 'cambiar_password' %}>Cambiar Password</a>
+</p> {% endcomment %}
+<body>
+<p>
+    <ul>
+        <li>
+Nombre: {{request.user.first_name}}
+        </li>
+        <li>
+Apellido: {{request.user.last_name}}
+        </li>
+        <li>
+Email: {{request.user.email}}
+        </li>
+        <li>
+Descripcion: {{request.user.masdatosusuario.descripcion | safe}}
+        </li>
+        <li>
+            <p>Imagen de perfil:</p>
+            {% if request.user.masdatosusuario.avatar %}
+            <img src={{request.user.masdatosusuario.avatar.url}} alt="" height="200px">
+            {% endif %}
+        </li>
+
+    </ul> 
+</p>
+</body>
+
+{% endblock transportes %}
+
+
+

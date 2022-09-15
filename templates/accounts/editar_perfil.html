@@ -1,0 +1,21 @@
+{% extends 'index.html' %}
+
+{% block transportes %}
+<p>
+    <a href = {% url 'perfil' %}>Volver<a/>
+</p>
+<body>
+<p>
+    <form action={% url 'editar_perfil' %} method="post" enctype="multipart/form-data">
+        {%csrf_token%}
+        <table>
+            {{form.media}}
+            {{form.as_table}}
+        </table>
+    <button>Editar</button>
+</p>
+</body>
+
+{% endblock transportes %}
+
+

@@ -8,12 +8,17 @@
 {% if request.user.is_authenticated %}
 <h2>Esta logeado como {{request.user.username}}</h2>
 {% else %}
-<h2>Si posee una cuenta, ingrese:</h2>
+<h2>Si posee una cuenta, ingrese</h2>
+<p>
+    <a href = {% url 'login' %}>Ingresar<a/>
+</p>
 
 {% endif %}
 
 
 
 {% block transportes %}
+<body>
+</body>
 {% endblock transportes %}
 
