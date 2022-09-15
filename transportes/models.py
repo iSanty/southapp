@@ -1,7 +1,7 @@
 from django.db import models
 
 # Create your models here.
-class Transportes(models.model):
+class Transportes(models.Model):
     dominio = models.CharField(max_length=30)
     nombre = models.CharField(max_length=15)
     apellido = models.CharField(max_length=15)

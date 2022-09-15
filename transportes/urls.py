@@ -1,8 +1,8 @@
 from django.urls import path
-from .views import index_transportes
+from . import views
 
 urlpatterns = [
-    path('', index_transportes, name='index_transportes'),
+    path('', views.CrearTransporte.as_view(), name='CrearTransporte'),
 
 
 

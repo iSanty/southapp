@@ -1,7 +1,7 @@
 from django import forms
 
 
-class EnvioDatos(forms.form):
+class EnvioDatos(forms.Form):
     dominio = forms.CharField(label='Dominio', max_length=30)
     nombre = forms.CharField(label='Nombre', max_length=30)
     apellido = forms.CharField(label='Apellido', max_length=30)
