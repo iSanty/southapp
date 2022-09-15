@@ -1,17 +1,19 @@
 {% load static %}
 
-
-Página en construccion
-
+<title>Southapp</title>
 
 
-<p>Por favor llene los datos solicitados:</p>
+<h1>Página en desarrollo</h1>
 
-<form action={% url 'index' %} method = "POST" enctype="multipart/form-data"> 
-    {% csrf_token %}
-    <table>
-        {{form.media}}
-        {{form.as_table}}
-    </table>
-    <button>>Enviar</button>
-</form>
+{% if request.user.is_authenticated %}
+<h2>Esta logeado como {{request.user.username}}</h2>
+{% else %}
+<h2>Si posee una cuenta, ingrese:</h2>
+
+{% endif %}
+
+
+
+{% block transportes %}
+{% endblock transportes %}
+
