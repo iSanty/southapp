@@ -4,7 +4,7 @@
 
 <p>Por favor llene los datos solicitados:</p>
 
-<form action={% url 'index_transportes' %} method = "POST" enctype="multipart/form-data"> 
+<form action={% url 'index_transporte' %} method = "POST" enctype="multipart/form-data"> 
     {% csrf_token %}
     <table>
         {{form.media}}
