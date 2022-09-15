@@ -1,8 +1,12 @@
 {% extends 'index.html' %}
 
 {% block transportes %}
-
 <body>
+<p>
+    <a href = {% url 'index' %}>HOME<a/>
+</p>
+
+
 <p>Por favor llene los datos solicitados:</p>
 
 <form action={% url 'index_transporte' %} method = "POST" enctype="multipart/form-data"> 

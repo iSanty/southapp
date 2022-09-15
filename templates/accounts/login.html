@@ -1,12 +1,13 @@
 {% extends 'index.html' %}
 
 {% block transportes %}
+<body>
 <p>
     <a href = {% url 'index' %}>HOME<a/>
 </p>
 
 
-<body>
+
 <h1>Por favor ingrese su nombre de usuario y contraseña previamente otorgados.</h1>
 
 <form action={% url 'login' %} method = "POST"> 
