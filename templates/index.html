@@ -1,1 +1,17 @@
+{% load static %}
+
+
 Página en construccion
+
+
+
+<p>Por favor llene los datos solicitados:</p>
+
+<form action={% url 'index' %} method = "POST" enctype="multipart/form-data"> 
+    {% csrf_token %}
+    <table>
+        {{form.media}}
+        {{form.as_table}}
+    </table>
+    <button>>Enviar</button>
+</form>
