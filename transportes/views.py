@@ -2,13 +2,14 @@ from django.shortcuts import render
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
 from transportes.forms import FormBusquedaTransporte, EnvioDatos
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 from transportes.models import Transportes
 
 # Create your views here.
 
-class CrearTransporte(CreateView):
+class CrearTransporte(LoginRequiredMixin, CreateView):
     model = Transportes
     template_name = 'transportes/transportes.html'
     success_url = '/transportes'
@@ -16,7 +17,7 @@ class CrearTransporte(CreateView):
     
     
     
-class VerTransporte(ListView):
+class VerTransporte(LoginRequiredMixin, ListView):
     model = Transportes
     template_name = 'transportes/ver_transportes.html'
     
@@ -34,7 +35,7 @@ class VerTransporte(ListView):
         return context
     
     
-class VerDominio(ListView):
+class VerDominio(LoginRequiredMixin, ListView):
     model = Transportes
     template_name = 'transportes/ver_dominio.html'
     success_url = '/transportes/ver_dominio'

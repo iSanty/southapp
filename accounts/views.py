@@ -28,7 +28,7 @@ def conectarse(request):
     form_login = AuthenticationForm()
     return render(request, 'accounts/login.html', {'form': form_login})
 
-
+@login_required
 def registrarse(request):
     if request.method == 'POST':
         form = MyUserCreationForm(request.POST)
