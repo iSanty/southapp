@@ -3,6 +3,7 @@ from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
 from transportes.forms import FormBusquedaTransporte
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from . import models
 
 
@@ -35,7 +36,7 @@ class VerTransporte(LoginRequiredMixin, ListView):
         context["form"] = FormBusquedaTransporte()
         return context
     
-    
+@login_required
 def ver_dominio(request, dominio):
     object_list = models.Transportes.objects.filter(dominio=dominio)
     return render(request, 'transportes/ver_dominio.html', {'object_list':object_list})
