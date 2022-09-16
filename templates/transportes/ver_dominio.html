@@ -16,12 +16,11 @@
 
 
 {% block campos %}
-{% for valor in object_list %}
 
-<li>Dominio: {{request.valor.dominio}}</li>
+<li>Dominio: {{request.user.object_list.dominio}}</li>
 <li><img src={{request.valor.imagen1.url}} alt="" height="200px"></li>
 
 
-{% endfor %}
+
 
 {% endblock campos %}
