@@ -1,0 +1,51 @@
+{% extends 'index.html' %}
+
+{% block titulo %}
+<title>Busqueda de transportes</title>
+{% endblock titulo %}
+
+
+{% block sub_titulo %}
+<h1 class="mt-4">Busqueda de transportes</h1>
+{% endblock sub_titulo %}
+
+
+{% block sub_titulo_2 %}
+<li class="breadcrumb-item active">Introduzca el dominio</li>
+{% endblock sub_titulo_2 %}
+
+
+{% block campos %}
+
+{% block accion %}
+    <form action= {% url 'busqueda_transporte' %}>
+{% endblock accion %}
+
+{% block informacion %}
+
+    {% if object_list %}
+    {{form}}
+        <button>Buscar</button>
+    </form>
+<p></p>
+
+    
+<p></p>
+<p></p>
+    <p>Resultado de la busqueda:</p>
+
+    <ul>
+        {%for transporte in object_list %}
+        <li>{% block Form %}{% endblock Form %}{% block botones %}{% endblock botones %}Codigo: {{transporte.dominio}}- Tipo: {{transporte.nombre}}- Marca: {{transporte.apellido}}- imagen1: {{transporte.imagen1}}</li>
+
+        {% endfor %}
+
+    </ul>
+
+    {% else %}
+    Aun no se han creado transportes. Cree uno y vuelva a consultar
+    <a href={% url 'busqueda_transporte' %}>Buscar</a>
+    {% endif %}
+{% endblock informacion %}
+{% block youtube %}{% endblock youtube %}
+{% endblock campos %}

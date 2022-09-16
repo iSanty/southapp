@@ -3,7 +3,7 @@ from . import views
 
 urlpatterns = [
     path('', views.CrearTransporte.as_view(), name='index_transporte'),
-    #path('crear_transporte', views.CrearTransporte.as_view(), name='crear_transporte'),
+    path('busqueda_transporte', views.VerTransporte.as_view(), name='busqueda_transporte'),
 
 
 

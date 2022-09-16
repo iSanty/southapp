@@ -13,3 +13,7 @@ class EnvioDatos(forms.Form):
     imagen6 = forms.ImageField(required=True)
     imagen7 = forms.ImageField(required=True)
     
+    
+    
+class FormBusquedaTransporte(forms.Form):
+    dominio = forms.CharField(max_length=15)
