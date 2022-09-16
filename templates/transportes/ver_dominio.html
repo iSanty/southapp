@@ -1,0 +1,31 @@
+{% extends 'index.html' %}
+
+
+{% block titulo %}
+<title>Visualizacion de dominio: {{request.object_list.dominio}}</title>
+{% endblock titulo %}
+
+
+{% block sub_titulo %}
+<h1 class="mt-4">Nombre: {{request.object_list.nombre}}- Apellido: {{request.object_list.apellido}}</h1>
+{% endblock sub_titulo %}
+
+
+{% block sub_titulo_2 %}
+<li class="breadcrumb-item active">Documentacion:</li>
+{% endblock sub_titulo_2 %}
+
+
+{% block campos %}
+<li>
+<img src={{request.object_list.imagen1.url}} alt="" height="200px">
+<img src={{request.object_list.imagen2.url}} alt="" height="200px">
+<img src={{request.object_list.imagen3.url}} alt="" height="200px">
+<img src={{request.object_list.imagen4.url}} alt="" height="200px">
+<img src={{request.object_list.imagen5.url}} alt="" height="200px">
+<img src={{request.object_list.imagen6.url}} alt="" height="200px">
+<img src={{request.object_list.imagen7.url}} alt="" height="200px">
+</li>
+
+
+{% endblock campos %}

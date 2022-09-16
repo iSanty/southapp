@@ -32,3 +32,18 @@ class VerTransporte(ListView):
         context = super().get_context_data(**kwargs)
         context["form"] = FormBusquedaTransporte()
         return context
+    
+    
+class VerDominio(ListView):
+    model = Transportes
+    template_name = 'transportes/ver_dominio.html'
+    success_url = '/transportes/ver_dominio'
+    fields = ['dominio', 'nombre', 'apellido', 'imagen1', 'imagen2', 'imagen3', 'imagen4','imagen5','imagen6','imagen7']
+    
+    def get_queryset(self):
+        dominio = self.request.GET.get('dominio', '')
+        if dominio:
+            object_list = self.model.objects.filter(dominio__icontains=dominio)
+        else:
+            object_list = self.model.objects.all()
+        return object_list
