@@ -14,13 +14,17 @@
 <li class="breadcrumb-item active">Documentacion:</li>
 {% endblock sub_titulo_2 %}
 
-
 {% block campos %}
 
-<li>Dominio: {{request.object_list.dominio}}</li>
-<li><img src={{request.valor.imagen1.url}} alt="" height="200px"></li>
+{% for dato in object_list %}
 
+<p>Dominio: {{dato.dominio}}</p>
+        <p>Nombre: {{dato.nombre}}</p>
+        <p>Apellido: {{dato.apellido}}</p>
+        <p>Imagen 1:<img src={{dato.imagen1.url}} alt="" height="200px"></p>
 
+        <p><a class="nav-link" href={% url 'busqueda_transporte' %}>Volver</a></p>
+{% endfor %}
 
 
 {% endblock campos %}

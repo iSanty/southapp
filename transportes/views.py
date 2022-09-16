@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
-from transportes.forms import FormBusquedaTransporte, EnvioDatos
+from transportes.forms import FormBusquedaTransporte
 from django.contrib.auth.mixins import LoginRequiredMixin
+from . import models
 
 
 from transportes.models import Transportes
@@ -35,14 +36,6 @@ class VerTransporte(LoginRequiredMixin, ListView):
         return context
     
     
-class VerDominio(LoginRequiredMixin, ListView):
-    model = Transportes
-    template_name = 'transportes/ver_dominio.html'
-    success_url = '/transportes/ver_dominio'
-    fields = ['dominio', 'nombre', 'apellido', 'imagen1', 'imagen2', 'imagen3', 'imagen4','imagen5','imagen6','imagen7']
-    
-    def get_queryset(self):
-        dominio = self.request.GET.get('dominio', '')
-        object_list = self.model.objects.filter(dominio__icontains=dominio)
-        return object_list
-    
+def ver_dominio(request, dominio):
+    object_list = models.Transportes.objects.filter(dominio=dominio)
+    return render(request, 'transportes/ver_dominio', {'object_list':object_list})
