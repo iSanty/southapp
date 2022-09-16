@@ -1,13 +1,12 @@
 {% extends 'index.html' %}
 
-{% for valor in object_list %}
 {% block titulo %}
-<title>Visualizacion de dominio: {{request.valor.dominio}}</title>
+<title>Visualizacion de dominios</title>
 {% endblock titulo %}
 
 
 {% block sub_titulo %}
-<h1 class="mt-4">Nombre: {{request.valor.nombre}}- Apellido: {{request.valor.apellido}}</h1>
+<h1 class="mt-4">Control</h1>
 {% endblock sub_titulo %}
 
 
@@ -17,16 +16,12 @@
 
 
 {% block campos %}
-<li>
-<img src={{request.valor.imagen1.url}} alt="" height="200px">
-<img src={{request.valor.imagen2.url}} alt="" height="200px">
-<img src={{request.valor.imagen3.url}} alt="" height="200px">
-<img src={{request.valor.imagen4.url}} alt="" height="200px">
-<img src={{request.valor.imagen5.url}} alt="" height="200px">
-<img src={{request.valor.imagen6.url}} alt="" height="200px">
-<img src={{request.valor.imagen7.url}} alt="" height="200px">
-</li>
+{% for valor in object_list %}
 
+<li>Dominio: {{request.valor.dominio}}</li>
+<li><img src={{request.valor.imagen1.url}} alt="" height="200px"></li>
+
+
+{% endfor %}
 
 {% endblock campos %}
-{% endfor %}
