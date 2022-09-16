@@ -38,10 +38,10 @@ Email: {{request.user.email}}
 Descripcion: {{request.user.masdatosusuario.descripcion | safe}}
         </li>
         <li>
+        {% if request.user.masdatosusuario.avatar %}
             <p>Imagen:</p>
-            {% if request.user.masdatosusuario.avatar %}
             <img src={{request.user.masdatosusuario.avatar.url}} alt="" height="200px">
-            {% endif %}
+        {% endif %}
         </li>
 
     </ul> 
