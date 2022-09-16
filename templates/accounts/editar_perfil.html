@@ -1,13 +1,28 @@
 {% extends 'index.html' %}
+{% block login %}
+{% endblock login %}
+{% block titulo %}
+<title>Editar Perfil</title>
+{% endblock titulo %}
 
-{% block transportes %}
-<body>
+{% block sub_titulo %}
+<h1 class="mt-4">
+    
+    Edicion del perfil: {{request.user.username}}
+</h1>
+{% endblock sub_titulo %}
+
+
+
+{% block link %}href={% url 'index_empleados' %}{% endblock link %}
+
+{% block campos %}
 <p>
     <a href = {% url 'perfil' %}>Volver<a/>
 </p>
-
+<body>
 <p>
-    <form action={% url 'editar_perfil' %} method="post" enctype="multipart/form-data">
+    <form action={%url 'editar_perfil'%} method="post" enctype="multipart/form-data">
         {%csrf_token%}
         <table>
             {{form.media}}
@@ -16,7 +31,7 @@
     <button>Editar</button>
 </p>
 </body>
-
-{% endblock transportes %}
+{% block youtube %}{% endblock youtube %}
+{% endblock campos %}
 
 

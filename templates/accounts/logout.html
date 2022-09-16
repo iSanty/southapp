@@ -1,11 +1,26 @@
 {% extends 'index.html' %}
 
-{% block transportes %}
+{% block titulo %}
+<title>Control de cuentas de usuario</title>
+{% endblock titulo %}
+
+
+{% block sub_titulo %}
+<h1 class="mt-4">Desconexión</h1>
+
+{% endblock sub_titulo %}
+
+
+{% block sub_titulo_2 %}
+<li class="breadcrumb-item active">Has salido correctamente.</li>
+{% endblock sub_titulo_2 %}
+
+{% block campos %}
 Ah sido desconectado correctamente.
 
 <p>
     <a href = {% url 'index' %}>HOME<a/>
 </p>
-
-{% endblock transportes %}
+{% block youtube %}{% endblock youtube %}
+{% endblock campos %}
 

@@ -1,15 +1,19 @@
 {% extends 'index.html' %}
-
-{% block transportes %}
-<body>
-<p>
-    <a href = {% url 'index' %}>HOME<a/>
-</p>
+{% block titulo %}
+<title>Control de cuentas de usuario</title>
+{% endblock titulo %}
 
 
+{% block sub_titulo %}
+<h1 class="mt-4">Inicio de sesión</h1>
+{% endblock sub_titulo %}
 
-<h1>Por favor ingrese su nombre de usuario y contraseña previamente otorgados.</h1>
 
+{% block sub_titulo_2 %}
+<li class="breadcrumb-item active">Para continuar escriba su usuario y contraseña</li>
+{% endblock sub_titulo_2 %}
+
+{% block campos %}
 <form action={% url 'login' %} method = "POST"> 
     {% csrf_token %}
     <table>
@@ -17,6 +21,6 @@
     </table>
     <button>>Entrar</button>
 </form>
-<body>
-{% endblock transportes %}
+{% block youtube %}{% endblock youtube %}
+{% endblock campos %}
 
