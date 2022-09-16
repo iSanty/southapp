@@ -18,7 +18,7 @@ class CrearTransporte(CreateView):
     
 class VerTransporte(ListView):
     model = Transportes
-    template_name = 'transportes/ver_transporte.html'
+    template_name = 'transportes/ver_transportes.html'
     
     def get_queryset(self):
         dominio = self.request.GET.get('dominio', '')
