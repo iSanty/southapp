@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
-from transportes.forms import FormBusquedaTransporte
+from transportes.forms import FormBusquedaTransporte, EnvioDatos
 
 
 from transportes.models import Transportes
@@ -42,8 +42,6 @@ class VerDominio(ListView):
     
     def get_queryset(self):
         dominio = self.request.GET.get('dominio', '')
-        if dominio:
-            object_list = self.model.objects.filter(dominio__icontains=dominio)
-        else:
-            object_list = self.model.objects.all()
+        object_list = self.model.objects.filter(dominio__icontains=dominio)
         return object_list
+    
