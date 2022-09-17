@@ -17,11 +17,18 @@
 {% block campos %}
 
 {% for info in object_list %}
+<p><a class="nav-link" href={% url 'busqueda_transporte' %}>Volver</a></p>
 
 <p>Dominio: {{info.dominio}}</p>
 <p>Nombre: {{info.nombre}}</p>
 <p>Apellido: {{info.apellido}}</p>
 <p>Imagen 1:<img src={{info.imagen1.url}} alt="" height="200px"></p>
+<p>Imagen 2:<img src={{info.imagen2.url}} alt="" height="200px"></p>
+<p>Imagen 3:<img src={{info.imagen3.url}} alt="" height="200px"></p>
+<p>Imagen 4:<img src={{info.imagen4.url}} alt="" height="200px"></p>
+<p>Imagen 5:<img src={{info.imagen5.url}} alt="" height="200px"></p>
+<p>Imagen 6:<img src={{info.imagen6.url}} alt="" height="200px"></p>
+<p>Imagen 7:<img src={{info.imagen7.url}} alt="" height="200px"></p>
 
 <p><a class="nav-link" href={% url 'busqueda_transporte' %}>Volver</a></p>
 
