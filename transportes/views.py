@@ -38,5 +38,5 @@ class VerTransporte(LoginRequiredMixin, ListView):
     
 @login_required
 def ver_dominio(request, dominio):
-    object_list = models.Transportes.objects.filter(dominio=dominio)
+    object_list = models.Transportes.objects.filter(id=dominio)
     return render(request, 'transportes/ver_dominio.html', {'object_list':object_list})
