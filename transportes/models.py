@@ -13,3 +13,6 @@ class Transportes(models.Model):
     imagen6 = models.ImageField(upload_to='camionetas', null=True, blank =True)
     imagen7 = models.ImageField(upload_to='camionetas', null=True, blank =True)
     
+    def __str__(self):
+        return f'{self.dominio}'
+    
