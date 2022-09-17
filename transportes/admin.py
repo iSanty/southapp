@@ -1,3 +1,6 @@
 from django.contrib import admin
+from .models import Transportes
 
-# Register your models here.
+
+admin.site.register(Transportes)
+
