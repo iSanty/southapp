@@ -36,7 +36,7 @@
 
     <ul>
         {%for transporte in object_list %}
-        <li>{% block Form %}{% endblock Form %}{% block botones %}{% endblock botones %}Codigo: {{transporte.dominio}}- Tipo: {{transporte.nombre}}- Marca: {{transporte.apellido}} <a href={% url 'ver_dominio' transporte.id %}>Ver</a></li>
+        <li>{% block Form %}{% endblock Form %}{% block botones %}{% endblock botones %}Codigo: {{transporte.dominio}}- Nombre: {{transporte.nombre}}- Apellido: {{transporte.apellido}} <a href={% url 'ver_dominio' transporte.id %}>Ver</a></li>
 
         {% endfor %}
 
