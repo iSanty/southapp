@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
 from transportes.forms import FormBusquedaTransporte
@@ -10,6 +10,10 @@ from . import models
 from transportes.models import Transportes
 
 # Create your views here.
+
+def mandarafreirchurros(request):
+    return redirect('https://epresis.southpost.com.ar/')
+
 
 class CrearTransporte(LoginRequiredMixin, CreateView):
     model = Transportes
