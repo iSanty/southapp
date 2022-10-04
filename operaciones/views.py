@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django.views.generic.edit import DeleteView, UpdateView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from operaciones.forms import FormCrearProducto
+from operaciones.forms import FormCrearProducto, FormBusquedaProducto, FormEditarProducto
 from datetime import datetime
 from operaciones.models import Cia, Producto
 import django_excel as excel
@@ -174,3 +174,76 @@ class CrearCia(LoginRequiredMixin, CreateView):
     template_name = 'operaciones/nueva_cia.html'
     success_url = '/operaciones/crear_cia'
     fields = ['cod', 'descripcion']
+    
+    
+
+def ver_productos(request):
+    id_producto = request.GET.get('codigo')
+    #productos_listado = Producto.objects.all()
+    
+    if id_producto:
+        productos_listado = Producto.objects.filter(producto_codigo=id_producto)
+        
+    else:
+        productos_listado = Producto.objects.all()
+        form = FormBusquedaProducto()
+    
+    form = FormBusquedaProducto()
+    return render(request, 'operaciones/ver_productos.html', {'form':form,'productos_listado':productos_listado} )
+
+
+def editar_producto(request, id):
+    prod = Producto.objects.get(id=id)
+    
+    if request.method == 'POST':
+        form = FormEditarProducto(request.POST)
+        if form.is_valid():
+            prod.cia = form.cleaned_data.get('cia')
+            prod.codigo = form.cleaned_data.get('codigo')
+            prod.descripcion = form.cleaned_data.get('descripcion')
+            prod.peso_un = form.cleaned_data.get('peso_un')
+            prod.largo_un = form.cleaned_data.get('largo_un')
+            prod.ancho_un = form.cleaned_data.get('ancho_un')
+            prod.alto_un = form.cleaned_data.get('alto_un')
+            prod.unidad_caja = form.cleaned_data.get('unidad_caja')
+            prod.largo_cj = form.cleaned_data.get('largo_cj')
+            prod.ancho_cj = form.cleaned_data.get('ancho_cj')
+            prod.alto_cj = form.cleaned_data.get('alto_cj')
+            prod.unidad_pall = form.cleaned_data.get('unidad_pall')
+            prod.pack = form.cleaned_data.get('pack')
+            prod.vd = form.cleaned_data.get('vd')
+            prod.que_es = form.cleaned_data.get('que_es')
+            
+            datos = form.cleaned_data
+            if form.cleaned_data.get('peso_un') and form.cleaned_data.get('unidad_caja') and form.cleaned_data.get('unidad_pall'):
+                peso_caja = float(datos['peso_un']) * float(datos['unidad_caja'])
+                peso_pallet = float(datos['peso_un']) * float(datos['unidad_pall'])
+                prod.peso_cj = peso_caja
+                prod.peso_pall = peso_pallet
+            
+            prod.importado = 'No'
+            prod.save()
+            return redirect('ver_productos')
+        
+        else:
+            return render(request, 'operaciones/editar_producto.html', {'form': form, 'producto':prod})
+
+    form_producto = FormEditarProducto(initial={
+        'cia': prod.cia,
+        'codigo': prod.codigo,
+        'descripcion': prod.descripcion,
+        'peso_un': prod.peso_un, 
+        'largo_un': prod.largo_un,
+        'ancho_un': prod.ancho_un,
+        'alto_un': prod.alto_un, 
+        'unidad_caja': prod.unidad_caja, 
+        'largo_cj': prod.largo_cj, 
+        'ancho_cj': prod.ancho_cj, 
+        'alto_cj': prod.alto_cj, 
+        'unidad_pall': prod.unidad_pall, 
+        'pack': prod.pack, 
+        'vd': prod.vd, 
+        'que_es': prod.que_es, 
+        
+        })
+    return render(request, 'operaciones/editar_producto.html', {'form':form_producto, 'producto':prod})

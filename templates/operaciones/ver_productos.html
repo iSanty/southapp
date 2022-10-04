@@ -1,0 +1,27 @@
+
+{% extends 'index_new.html' %}
+
+{% block graficos_tablas %}
+
+<form action= {% url 'ver_productos' %}>
+    {% if productos_listado %}
+    {{form}}
+        <button>Buscar</button>
+    </form>
+<p></p>
+
+    
+<p></p>
+<p></p>
+<p>Resultado de la busqueda:</p>
+    <ul>
+        {%for producto in productos_listado%}
+        <li><a href={% url 'editar_producto' producto.id %} method="post">Editar</a>-Compañia: {{producto.cia}}- Código: {{producto.codigo}}- Descripción: {{producto.descripcion}}- Fecha Creacion: {{producto.fecha_creacion}}</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    Aun no hay productos creados, puede dar de alta uno en la seccion aforos
+    <a href={% url 'nuevo_aforo' %}>Ir</a>
+    {% endif %}
+
+{% endblock graficos_tablas %}
