@@ -182,10 +182,10 @@ def ver_productos(request):
     #productos_listado = Producto.objects.all()
     
     if id_producto:
-        productos_listado = Producto.objects.filter(producto_codigo=id_producto)
+        productos_listado = Producto.objects.filter(codigo=id_producto)
         
     else:
-        productos_listado = Producto.objects.all()
+        productos_listado = Producto.objects.all().order_by('-id')
         form = FormBusquedaProducto()
     
     form = FormBusquedaProducto()
