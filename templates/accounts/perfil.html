@@ -1,22 +1,10 @@
-{% extends 'index.html' %}
-{% block login %}
-{% endblock login %}
-{% block titulo %}
+{% extends 'index_new.html' %}
+
+{% block titulo1 %}
 <title>Perfil</title>
-{% endblock titulo %}
+{% endblock titulo1 %}
 
-{% block sub_titulo %}
-<h1 class="mt-4">
-    
-    Perfil Usuario: {{request.user.username}}
-</h1>
-{% endblock sub_titulo %}
-
-
-
-{% block link %}href={% url 'index_empleados' %}{% endblock link %}
-
-{% block campos %}
+{% block graficos_tablas %}
 <p>
     <a href = {% url 'index' %}>Volver<a/>
     <a href = {% url 'editar_perfil' %}>Editar Perfil<a/>
@@ -47,7 +35,7 @@ Descripcion: {{request.user.masdatosusuario.descripcion | safe}}
     </ul> 
 </p>
 </body>
-{% block youtube %}{% endblock youtube %}
-{% endblock campos %}
+
+{% endblock graficos_tablas %}
 
 

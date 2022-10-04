@@ -71,9 +71,15 @@
                         </div>
                         <button type="submit" class="btn btn-primary py-3 w-100 mb-4">Entrar</button>
                         <p class="text-center mb-0">No tenes una cuenta? <a href="">Registrarse</a></p> {% endcomment %}
-                        {{form.as_table}}
-                        <button type="submit" class="btn btn-primary py-3 w-100 mb-4">Entrar</button>
+                        <div class="form-control-lg mb-3">
+                            <form action={% url 'login' %} method = "POST">
+                                {% csrf_token %}
+                                <table>
+                                    {{form.as_table}}
+                                </table>
 
+                                <button type="submit" class="btn btn-primary py-3 w-100 mb-4">Entrar</button>
+                            </form>
 
                         </div>
                     </div>
