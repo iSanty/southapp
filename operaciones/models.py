@@ -41,3 +41,12 @@ class Producto(models.Model):
     
     def __str__(self):
         return f'{self.codigo}'
+    
+    
+class Cia(models.Model):
+    
+    cod = models.CharField(max_length=3)
+    descripcion = models.CharField(max_length=30)
+    
+    def __str__(self):
+        return f'{self.cod}'

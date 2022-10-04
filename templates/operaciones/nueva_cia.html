@@ -1,0 +1,25 @@
+{% extends 'index_new.html' %}
+
+
+{% block titulo1 %}
+
+<title>Southapp - Cia's</title>
+{% endblock titulo1 %}
+
+{% block graficos_tablas %}
+
+<form action={% url 'crear_cia' %} method = "POST"> 
+    {% csrf_token %}
+    <table>
+        {{form.as_table}}
+    </table>
+    <button>>Crear</button>
+</form>
+
+
+{% endblock graficos_tablas %}
+
+
+
+
+
