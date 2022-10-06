@@ -15,7 +15,7 @@ class FormCrearProducto(forms.Form):
     unidad_pall = forms.IntegerField()
     pack = forms.CharField(max_length=15)
     vd = forms.FloatField()
-    que_es = forms.CharField(max_length=15)
+    tipo_alm = forms.CharField(max_length=15)
     
     
     
@@ -43,4 +43,27 @@ class FormEditarProducto(forms.Form):
     unidad_pall = forms.IntegerField()
     pack = forms.CharField(max_length=15)
     vd = forms.FloatField()
-    que_es = forms.CharField(max_length=15)
+    tipo_alm = forms.CharField(max_length=15)
+    
+    
+class FormCrearCia(forms.Form):
+    cod = forms.CharField(max_length=3)
+    desc = forms.CharField(max_length=180)
+    
+class FormCrearCatUb(forms.Form):
+    cod = forms.CharField(max_length=3)
+    desc = forms.CharField(max_length=180)
+    
+class FormCatPk(forms.Form):
+    cod = forms.CharField(max_length=3)
+    desc = forms.CharField(max_length=180)
+    
+class FormCatRepo(forms.Form):
+    cod = forms.CharField(max_length=3)
+    desc = forms.CharField(max_length=180)
+    
+class FormTipoAlm(forms.Form):
+    desc = forms.CharField(max_length=180)
+    
+class FormPack(forms.Form):
+    desc = forms.CharField(max_length=10)

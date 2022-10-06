@@ -1,16 +1,50 @@
 from django.shortcuts import redirect, render
 from django.views.generic.edit import DeleteView, UpdateView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from operaciones.forms import FormCrearProducto, FormBusquedaProducto, FormEditarProducto
+from operaciones.forms import FormCrearCatUb, FormCrearProducto, FormBusquedaProducto, FormEditarProducto, FormCrearCia, FormPack, FormCatPk, FormCatRepo, FormTipoAlm, FormPack
 from datetime import datetime
-from operaciones.models import Cia, Producto
+from operaciones.models import Cia, Producto, TipoPack
 import django_excel as excel
 
 from django.contrib.auth.decorators import login_required
 
 
 
-# Create your views here.
+def crear_parametros(request):
+    formcia = FormCrearCia()
+    formcatub = FormCrearCatUb()
+    formcatrepo = FormCatRepo()
+    formcatpk = FormCatPk()
+    formtipoalm = FormTipoAlm()
+    formpack = FormPack()
+    
+    if request.method == 'POST':
+        
+        
+        #boton para crear pack
+        if 'btn_pack' in request.POST:
+            datos_pack = FormPack(request.POST)
+            if datos_pack.is_valid():
+                info = datos_pack.cleaned_data
+                pack = TipoPack(
+                    desc = info['desc']
+                    )
+                pack.save
+                grabado = 'Pack ' + pack.desc + ' creado exitosamente.'
+                return render(request,'operaciones/nueva_cia.html',{'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':grabado})
+            else:
+                grabado = 'Formulario invalido'
+                return render(request,'operaciones/nueva_cia.html',{'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':grabado})
+        #boton para crear pack
+        
+        
+        
+        
+        else:
+            return redirect('index')
+    return render(request,'operaciones/nueva_cia.html',{'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm})
+    
+    
 @login_required
 def nuevo_aforo(request):
     if request.method == 'POST':
@@ -21,10 +55,14 @@ def nuevo_aforo(request):
             
             validar_cia = informacion['cia']
             cia_en_base = Cia.objects.filter(cod=validar_cia)
+            
             if cia_en_base:
+                
                 peso_caja = float(informacion['peso_un']) * float(informacion['unidad_caja'])
                 
                 peso_pallet = float(informacion['peso_un']) * float(informacion['unidad_pall'])
+                
+                user = request.user
                 
                 producto = Producto(cia = informacion['cia'],
                                 codigo = informacion['codigo'],
@@ -38,12 +76,10 @@ def nuevo_aforo(request):
                                 ancho_cj = informacion['ancho_cj'],
                                 alto_cj = informacion['alto_cj'],
                                 unidad_pall = informacion['unidad_pall'],
-                                
+                                usuario = user,
                                 pack = informacion['pack'],
-                                
                                 vd = informacion['vd'],
-                                que_es = informacion['que_es'],
-                                usuario = 'SANTU',
+                                tipo_alm = informacion['tipo_alm'],
                                 cat_ub = 'UB',
                                 cat_pk = 'pk',
                                 cat_repo = 'repo',
@@ -58,7 +94,8 @@ def nuevo_aforo(request):
                 producto.largo_pall = '1,2'
                 producto.ancho_pall = '1'
                 producto.alto_pall = '1,4'
-                producto.importado = 'No'
+                producto.importado_saad = 'No'
+                producto.importado_presis = 'No'
                 producto.save()
                 
                 form_crear_producto = FormCrearProducto(informacion)
@@ -67,7 +104,7 @@ def nuevo_aforo(request):
                 # return redirect('nuevo_aforo')
             else:
                 form_crear_producto = FormCrearProducto(informacion)
-                form_error = 'CIA no existente'
+                form_error = 'La CIA no existe, verifique...'
             return render(request,'operaciones/nuevo_aforo.html',{'form':form_crear_producto, 'form2':form_error} )
         else:
             form_crear_producto = FormCrearProducto()
@@ -78,7 +115,7 @@ def nuevo_aforo(request):
 @login_required
 def exportar_saad(request):
     export = []
-    productos = Producto.objects.filter(importado='No')
+    productos = Producto.objects.filter(importado_saad='No')
     
     export.append([
         'Cia',
@@ -121,7 +158,8 @@ def exportar_saad(request):
     ])
     
     for producto in productos:
-        producto.importado = 'Si'
+        producto.importado_saad = 'Si'
+        
         producto.save()
         export.append([
             producto.cia,
@@ -168,6 +206,99 @@ def exportar_saad(request):
     return excel.make_response(sheet, "xlsx", file_name="Alta SAAD"+ strHoy + ".xlsx")
 
 
+@login_required
+def exportar_presis(request):
+    export = []
+    productos = Producto.objects.filter(importado_presis='No')
+    
+    export.append([
+        'Cia',
+        'Producto',
+        'Descripcion',
+        'Clase',
+        'Unidad_min',
+        'peso_un',
+        'largo_un',
+        'ancho_un',
+        'alto_un',
+        'unid_medida',
+        'cant_cj',
+        'peso_cj',
+        'largo_cj',
+        'ancho_cj',
+        'alto_cj',
+        'cant_pall',
+        'peso_pall',
+        'largo_pall',
+        'ancho_pall',
+        'alto_pall',
+        'cat_ub',
+        'cat_pk',
+        'cat_repo',
+        'cat_emb',
+        'rubro',
+        'subrubro',
+        'lote',
+        'serie',
+        'tip_serie',
+        'desc_fant',
+        'cod_barra_1',
+        'cod_barra_2',
+        'cod_barra_3',
+        'ref A',
+        'ref B',
+        'cant_dias_vto',
+        'fecha_elab',
+    ])
+    
+    for producto in productos:
+        producto.importado_presis = 'Si'
+        
+        
+        export.append([
+            producto.cia,
+            producto.codigo,
+            producto.descripcion,
+            producto.clase,
+            producto.unidad_minima,
+            producto.peso_un,
+            producto.largo_un,
+            producto.ancho_un,
+            producto.alto_un,
+            producto.unidad_medida,
+            producto.unidad_caja,
+            producto.peso_cj,
+            producto.largo_cj,
+            producto.ancho_cj,
+            producto.alto_cj,
+            producto.unidad_pall,
+            producto.peso_pall,
+            producto.largo_pall,
+            producto.ancho_pall,
+            producto.alto_pall,
+            producto.cat_ub,
+            producto.cat_pk,
+            producto.cat_repo,
+            producto.cat_emb,
+            producto.pack,
+            '',
+            '',
+            '',
+            '',
+            producto.descripcion,
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            ''  
+    ])
+        producto.save()
+    hoy = datetime.now()
+    strHoy = hoy.strftime("%Y%m%d")
+    sheet = excel.pe.Sheet(export)
+    return excel.make_response(sheet, "xlsx", file_name="Alta PRESIS"+ strHoy + ".xlsx")
 
 class CrearCia(LoginRequiredMixin, CreateView):
     model = Cia
@@ -212,7 +343,7 @@ def editar_producto(request, id):
             prod.unidad_pall = form.cleaned_data.get('unidad_pall')
             prod.pack = form.cleaned_data.get('pack')
             prod.vd = form.cleaned_data.get('vd')
-            prod.que_es = form.cleaned_data.get('que_es')
+            prod.tipo_alm = form.cleaned_data.get('tipo_alm')
             
             datos = form.cleaned_data
             if form.cleaned_data.get('peso_un') and form.cleaned_data.get('unidad_caja') and form.cleaned_data.get('unidad_pall'):
@@ -221,7 +352,8 @@ def editar_producto(request, id):
                 prod.peso_cj = peso_caja
                 prod.peso_pall = peso_pallet
             
-            prod.importado = 'No'
+            prod.importado_saad = 'No'
+            prod.importado_presis = 'No'
             prod.save()
             return redirect('ver_productos')
         
@@ -243,7 +375,9 @@ def editar_producto(request, id):
         'unidad_pall': prod.unidad_pall, 
         'pack': prod.pack, 
         'vd': prod.vd, 
-        'que_es': prod.que_es, 
+        'tipo_alm': prod.tipo_alm, 
         
         })
     return render(request, 'operaciones/editar_producto.html', {'form':form_producto, 'producto':prod})
+
+

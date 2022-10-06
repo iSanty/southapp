@@ -1,7 +1,7 @@
 
 from django.db import models
 
-
+from django.contrib.auth.models import User
 
 class Producto(models.Model):
     
@@ -19,7 +19,7 @@ class Producto(models.Model):
     unidad_pall = models.IntegerField(null=0)
     pack = models.CharField(max_length=15)
     vd = models.FloatField(null=0)
-    que_es = models.CharField(max_length=15)
+    tipo_alm = models.CharField(max_length=15)
     fecha_creacion = models.DateTimeField(null=True)
     usuario = models.CharField(max_length=180)
 
@@ -37,16 +37,51 @@ class Producto(models.Model):
     ancho_pall = models.CharField(max_length=180, null='1')
     alto_pall = models.CharField(max_length=180, null='1,4')
     
-    importado = models.CharField(max_length=2, null='No') #si o no 'para importar solo lo que hace falta en saad
+    importado_saad = models.CharField(max_length=2, null='No') #si o no 'para importar solo lo que hace falta en saad
+    importado_presis = models.CharField(max_length=2, null='No') #si o no 'para importar solo lo que hace falta en saad
     
     def __str__(self):
         return f'{self.codigo}'
     
     
-class Cia(models.Model):
     
+class Cia(models.Model):
     cod = models.CharField(max_length=3)
     descripcion = models.CharField(max_length=30)
-    
     def __str__(self):
         return f'{self.cod}'
+    
+    
+class CatUbicacion(models.Model):
+    cod = models.CharField(max_length=3)
+    descripcion = models.CharField(max_length=30)
+    def __str__(self):
+        return f'{self.cod}'
+    
+    
+class CatPicking(models.Model):
+    cod = models.CharField(max_length=3)
+    descripcion = models.CharField(max_length=30)
+    def __str__(self):
+        return f'{self.cod}'
+    
+    
+class CatRepo(models.Model):
+    cod = models.CharField(max_length=3)
+    descripcion = models.CharField(max_length=30)
+    def __str__(self):
+        return f'{self.cod}'
+    
+    
+class TipoAlm(models.Model):
+    descripcion = models.CharField(max_length=30)
+    def __str__(self):
+        return f'{self.cod}'
+    
+    
+    
+class TipoPack(models.Model):
+    desc = models.CharField(max_length=30)
+    def __str__(self):
+        return f'{self.cod}'
+    

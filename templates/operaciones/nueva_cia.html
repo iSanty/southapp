@@ -8,13 +8,106 @@
 
 {% block graficos_tablas %}
 
-<form action={% url 'crear_cia' %} method = "POST"> 
-    {% csrf_token %}
-    <table>
-        {{form.as_table}}
-    </table>
-    <button>>Crear</button>
-</form>
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        {{msj}}
+    </div>
+</div>
+
+
+<div class="container-fluid pt-4 px-4">
+    <h3>Nueva CIA</h3>
+    <div class="row g-4">
+        <form action={% url 'crear_parametros'%} method = "POST"> 
+            {% csrf_token %}
+            <table>
+                {{formcia.as_table}}
+            </table>
+            <button type="submit" class="btn btn-info">Grabar</button>
+        </form>
+    </div>
+</div>
+
+
+<div class="container-fluid pt-4 px-4">
+    <h3>Nueva Categoria de ubicacion</h3>
+    <div class="row g-4">
+        <form action={% url 'crear_parametros' %} method = "POST"> 
+            {% csrf_token %}
+            <table>
+                {{formcatub.as_table}}
+            </table>
+            <button type="submit" class="btn btn-info">Grabar</button>
+        </form>
+    </div>
+</div>
+
+
+
+<div class="container-fluid pt-4 px-4">
+    <h3>Nueva categoria de reposicion</h3>
+    <div class="row g-4">
+        <form action={% url 'crear_parametros' %} method = "POST"> 
+            {% csrf_token %}
+            <table>
+                {{formcatrepo.as_table}}
+            </table>
+            <button type="submit" class="btn btn-info">Grabar</button>
+        </form>
+    </div>
+</div>
+
+
+
+<div class="container-fluid pt-4 px-4">
+    <h3>Nueva categoria de picking</h3>
+    <div class="row g-4">
+        <form action={% url 'crear_parametros' %} method = "POST"> 
+            {% csrf_token %}
+            <table>
+                {{formcatpk.as_table}}
+            </table>
+            <button type="submit" class="btn btn-info">Grabar</button>
+        </form>
+    </div>
+</div>
+
+
+
+<div class="container-fluid pt-4 px-4">
+    <h3>Nuevo tipo de almacenaje</h3>
+    <div class="row g-4">
+        <form action={% url 'crear_parametros' %} method = "POST"> 
+            {% csrf_token %}
+            <table>
+                {{formtipoalm.as_table}}
+            </table>
+            <button type="submit" class="btn btn-info">Grabar</button>
+        </form>
+    </div>
+</div>
+
+
+
+
+
+<div class="container-fluid pt-4 px-4">
+    <h3>Nuevo pack</h3>
+    <div class="row g-4">
+        <form action={% url 'crear_parametros' %} method = "POST"> 
+            {% csrf_token %}
+            <table>
+                {{formpack.as_table}}
+            </table>
+            <button type="submit" class="btn btn-info" name="btn_pack">Grabar</button>
+        </form>
+    </div>
+</div>
+
+
+
+
+
 
 
 {% endblock graficos_tablas %}

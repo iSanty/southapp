@@ -16,12 +16,12 @@
 <p>Resultado de la busqueda:</p>
     <ul>
         {%for producto in productos_listado%}
-        <li><a href={% url 'editar_producto' producto.id %} method="post">Editar</a>-Compañia: {{producto.cia}}- Código: {{producto.codigo}}- Descripción: {{producto.descripcion}}- Fecha Creacion: {{producto.fecha_creacion}}</li>
+        <li><a href={% url 'editar_producto' producto.id %} method="post">>Mas datos<</a>-Compañia: {{producto.cia}}- Código: {{producto.codigo}}- Descripción: {{producto.descripcion}}- Fecha Creacion: {{producto.fecha_creacion}} - Creado por: {{producto.usuario}}</li>
         {% endfor %}
     </ul>
     {% else %}
-    Aun no hay productos creados, puede dar de alta uno en la seccion aforos
-    <a href={% url 'nuevo_aforo' %}>Ir</a>
+    Aun no se han encontrado productos.
+    <a href={% url 'nuevo_aforo' %}>Crear productos</a>
     {% endif %}
 
 {% endblock graficos_tablas %}

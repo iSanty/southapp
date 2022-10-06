@@ -4,4 +4,6 @@ from django.contrib.auth.decorators import login_required
 
 @login_required
 def index_empleados(request):
-    return render(request, 'index.html')
+    return render(request, 'empleados/index_empleados.html')
+
+
