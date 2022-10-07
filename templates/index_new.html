@@ -1,6 +1,56 @@
 {% extends 'index.html' %}
 
+
+
+
+{% block barra_lateral %}
+<div class="navbar-nav w-100">
+    <a href={% url 'index' %} class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+    <div class="nav-item dropdown">
+        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Empleados</a>
+        <div class="dropdown-menu bg-transparent border-0">
+            <a href={% url '404' %} class="dropdown-item">Personal SP</a>
+            <a href={% url '404' %} class="dropdown-item">Contratistas</a>
+            <a href={% url 'index_meli' %} class="dropdown-item">MELI</a>
+        </div>
+    </div>
+    <a href={% url '404' %} class="nav-item nav-link"><i class="fa fa-th me-2"></i>Distribucion</a>
+    <a href={% url '404' %} class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Deposito</a>
+    <a href={% url '404' %} class="nav-item nav-link"><i class="fa fa-table me-2"></i>Auditoria</a>
+    <a href={% url '404' %} class="nav-item nav-link"><i class="fa fa-table me-2"></i>Empresa</a>
+    <a href={% url '404' %} class="nav-item nav-link"><i class="fa fa-table me-2"></i>Api</a>
+    {% comment %} <a href={% url 'index' %} class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>inf. tatan</a> {% endcomment %}
+    <div class="nav-item dropdown">
+        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Links utiles</a>
+        <div class="dropdown-menu bg-transparent border-0">
+            <a href={% url '404' %} class="dropdown-item">Sistema SAAD</a>
+            <a href={% url '404' %} class="dropdown-item">Sistema PRESIS</a>
+            {% comment %} <a href={% url 'index' %} class="dropdown-item">Cordoba</a>
+            <a href={% url 'index' %} class="dropdown-item">Tortuguitas</a> {% endcomment %}
+        </div>
+    </div>
+</div>
+{% endblock barra_lateral %}
+
+
 {% block graficos_tablas %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <div class="container-fluid pt-4 px-4">
     <div class="row g-4">
         <div class="col-sm-12 col-md-6 col-xl-4">

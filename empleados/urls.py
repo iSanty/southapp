@@ -1,9 +1,7 @@
 from django.urls import path
-from .views import index_empleados
+from .views import index_meli
 
 urlpatterns = [
-    path('', index_empleados, name='index_empleados'),
-
-
+    path('meli/', index_meli, name='index_meli'),
 
 ]

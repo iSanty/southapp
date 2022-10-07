@@ -45,6 +45,7 @@ class Producto(models.Model):
     
     
     
+    
 class Cia(models.Model):
     cod = models.CharField(max_length=3)
     descripcion = models.CharField(max_length=30)
