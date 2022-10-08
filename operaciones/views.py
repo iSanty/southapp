@@ -189,7 +189,7 @@ def nuevo_aforo(request):
                                 tipo_alm = informacion['tipo_alm'],
                                 cat_ub = 'UB',
                                 cat_pk = 'pk',
-                                cat_repo = 'repo',
+                                cat_repo = 'rep',
                                 cat_emb = '001',
                                 clase = 'B',
                                 unidad_minima = 1 ,
