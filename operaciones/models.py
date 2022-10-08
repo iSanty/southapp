@@ -1,7 +1,6 @@
 
 from django.db import models
 
-from django.contrib.auth.models import User
 
 class Producto(models.Model):
     
@@ -77,12 +76,12 @@ class CatRepo(models.Model):
 class TipoAlm(models.Model):
     descripcion = models.CharField(max_length=30)
     def __str__(self):
-        return f'{self.cod}'
+        return f'{self.descripcion}'
     
     
     
 class TipoPack(models.Model):
-    desc = models.CharField(max_length=10)
+    descripcion = models.CharField(max_length=10)
     def __str__(self):
-        return f'{self.desc}'
+        return f'{self.descripcion}'
     
