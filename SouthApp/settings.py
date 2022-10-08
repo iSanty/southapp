@@ -93,13 +93,13 @@ DATABASES = {
     'default': {
         
         # poner online
-        # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
+         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        #'ENGINE': 'django.db.backends.sqlite3',
+        #'NAME': BASE_DIR / 'db.sqlite3',
         
         #Poner Online
-        #'NAME': 'dbsp',
+        'NAME': 'dbsp',
     }
 }
 
@@ -153,4 +153,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 #Poner online
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-#django_heroku.settings(locals())
+django_heroku.settings(locals())
