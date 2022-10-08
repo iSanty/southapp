@@ -9,7 +9,7 @@ import django_excel as excel
 from django.contrib.auth.decorators import login_required
 
 
-
+@login_required
 def crear_parametros(request):
     formcia = FormCrearCia()
     formcatub = FormCrearCatUb()
@@ -423,7 +423,7 @@ def ver_productos(request):
     form = FormBusquedaProducto()
     return render(request, 'operaciones/ver_productos.html', {'form':form,'productos_listado':productos_listado} )
 
-
+@login_required
 def editar_producto(request, id):
     prod = Producto.objects.get(id=id)
     
@@ -481,6 +481,6 @@ def editar_producto(request, id):
         })
     return render(request, 'operaciones/editar_producto.html', {'form':form_producto, 'producto':prod})
 
-
+@login_required
 def index_deposito(request):
     return render(request, 'operaciones/index_operaciones.html')

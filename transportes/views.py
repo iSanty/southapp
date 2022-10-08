@@ -11,6 +11,7 @@ from transportes.models import Transportes
 
 # Create your views here.
 
+@login_required
 def mandarafreirchurros(request):
     return redirect('https://epresis.southpost.com.ar/')
 
