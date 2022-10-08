@@ -40,7 +40,7 @@
     <div class="container-fluid position-relative d-flex p-0">
         <!-- Spinner Start -->
         <div id="spinner" class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <div class="spinner-border text-info" style="width: 3rem; height: 3rem;" role="status">
                 <span class="sr-only">Cargando...</span>
             </div>
         </div>
@@ -105,7 +105,7 @@
             <!-- Navbar Start -->
             <nav class="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0">
                 <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
-                    <h2 class="text-primary mb-0"><i class="fa fa-user-edit"></i></h2>
+                    <h2 class="text-info mb-0"><i class="fa fa-user-edit"></i></h2>
                 </a>
                 <a href="#" class="sidebar-toggler flex-shrink-0">
                     <i class="fa fa-bars"></i>
@@ -184,17 +184,17 @@
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                             {% if request.user.is_authenticated %}
-                            <img class="rounded-circle me-lg-2" src={% static 'prueba/img/user.jpg' %} alt="" style="width: 40px; height: 40px;">
+                            {% comment %} <img class="rounded-circle me-lg-2" src={% static 'prueba/img/user.jpg' %} alt="" style="width: 40px; height: 40px;"> {% endcomment %}
                             <span class="d-none d-lg-inline-flex">{{request.user.username}}</span>
                             {% else %}
-                            <img class="rounded-circle me-lg-2" src={% static 'prueba/img/avatar.jpg' %} alt="" style="width: 40px; height: 40px;">
+                            {% comment %} <img class="rounded-circle me-lg-2" src={% static 'prueba/img/avatar.jpg' %} alt="" style="width: 40px; height: 40px;"> {% endcomment %}
                             <span class="d-none d-lg-inline-flex">Anonimo</span>
                             {% endif %}
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
                             {% if request.user.is_authenticated %}
                             <a href={% url 'perfil' %} class="dropdown-item">Perfil</a>
-                            <a href={% url 'editar_perfil' %} class="dropdown-item">Configuracion</a>
+                            <a href={% url 'editar_perfil' %} class="dropdown-item">Editar Perfil</a>
                             <a href={% url 'logout' %} class="dropdown-item">Log out</a>
                             {% else %}
                             <a href={% url 'login' %} class="dropdown-item">Log in</a>
@@ -212,7 +212,7 @@
                 <div class="row g-4">
                     <div class="col-sm-6 col-xl-3">
                         <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
-                            <i class="fa fa-chart-line fa-3x text-primary"></i>
+                            <i class="fa fa-chart-line fa-3x text-info"></i>
                             <div class="ms-3">
                                 <p class="mb-2">Today Sale</p>
                                 <h6 class="mb-0">$1234</h6>
@@ -221,7 +221,7 @@
                     </div>
                     <div class="col-sm-6 col-xl-3">
                         <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
-                            <i class="fa fa-chart-bar fa-3x text-primary"></i>
+                            <i class="fa fa-chart-bar fa-3x text-info"></i>
                             <div class="ms-3">
                                 <p class="mb-2">Total Sale</p>
                                 <h6 class="mb-0">$1234</h6>
@@ -230,7 +230,7 @@
                     </div>
                     <div class="col-sm-6 col-xl-3">
                         <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
-                            <i class="fa fa-chart-area fa-3x text-primary"></i>
+                            <i class="fa fa-chart-area fa-3x text-info"></i>
                             <div class="ms-3">
                                 <p class="mb-2">Today Revenue</p>
                                 <h6 class="mb-0">$1234</h6>
@@ -239,7 +239,7 @@
                     </div>
                     <div class="col-sm-6 col-xl-3">
                         <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
-                            <i class="fa fa-chart-pie fa-3x text-primary"></i>
+                            <i class="fa fa-chart-pie fa-3x text-info"></i>
                             <div class="ms-3">
                                 <p class="mb-2">Total Revenue</p>
                                 <h6 class="mb-0">$1234</h6>
@@ -305,7 +305,7 @@
                                     <td>Jhon Doe</td>
                                     <td>$123</td>
                                     <td>Paid</td>
-                                    <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
+                                    <td><a class="btn btn-sm btn-info" href="">Detail</a></td>
                                 </tr>
                                 <tr>
                                     <td><input class="form-check-input" type="checkbox"></td>
@@ -314,7 +314,7 @@
                                     <td>Jhon Doe</td>
                                     <td>$123</td>
                                     <td>Paid</td>
-                                    <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
+                                    <td><a class="btn btn-sm btn-info" href="">Detail</a></td>
                                 </tr>
                                 <tr>
                                     <td><input class="form-check-input" type="checkbox"></td>
@@ -323,7 +323,7 @@
                                     <td>Jhon Doe</td>
                                     <td>$123</td>
                                     <td>Paid</td>
-                                    <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
+                                    <td><a class="btn btn-sm btn-info" href="">Detail</a></td>
                                 </tr>
                                 <tr>
                                     <td><input class="form-check-input" type="checkbox"></td>
@@ -332,7 +332,7 @@
                                     <td>Jhon Doe</td>
                                     <td>$123</td>
                                     <td>Paid</td>
-                                    <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
+                                    <td><a class="btn btn-sm btn-info" href="">Detail</a></td>
                                 </tr>
                                 <tr>
                                     <td><input class="form-check-input" type="checkbox"></td>
@@ -341,7 +341,7 @@
                                     <td>Jhon Doe</td>
                                     <td>$123</td>
                                     <td>Paid</td>
-                                    <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
+                                    <td><a class="btn btn-sm btn-info" href="">Detail</a></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -423,7 +423,7 @@
                             </div>
                             <div class="d-flex mb-2">
                                 <input class="form-control bg-dark border-0" type="text" placeholder="Enter task">
-                                <button type="button" class="btn btn-primary ms-2">Add</button>
+                                <button type="button" class="btn btn-info ms-2">Add</button>
                             </div>
                             <div class="d-flex align-items-center border-bottom py-2">
                                 <input class="form-check-input m-0" type="checkbox">
@@ -448,7 +448,7 @@
                                 <div class="w-100 ms-3">
                                     <div class="d-flex w-100 align-items-center justify-content-between">
                                         <span><del>Short task goes here...</del></span>
-                                        <button class="btn btn-sm text-primary"><i class="fa fa-times"></i></button>
+                                        <button class="btn btn-sm text-info"><i class="fa fa-times"></i></button>
                                     </div>
                                 </div>
                             </div>
@@ -497,7 +497,7 @@
 <!-- Footer End -->
 
         <!-- Back to Top -->
-        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+        <a href="#" class="btn btn-lg btn-info btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
         
     </div>
     

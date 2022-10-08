@@ -1,40 +1,44 @@
 {% extends 'index_new.html' %}
 
 {% block titulo1 %}
-<title>Perfil</title>
+<title>Perfil Usuario</title>
 {% endblock titulo1 %}
 
 {% block graficos_tablas %}
-<p>
-    <a href = {% url 'index' %}>Volver<a/>
-    <a href = {% url 'editar_perfil' %}>Editar Perfil<a/>
-    <a href={% url 'cambiar_password' %}>Cambiar Password</a>
-</p>
-<body>
-<p>
-    <ul>
-        <li>
-Nombre: {{request.user.first_name}}
-        </li>
-        <li>
-Apellido: {{request.user.last_name}}
-        </li>
-        <li>
-Email: {{request.user.email}}
-        </li>
-        <li>
-Descripcion: {{request.user.masdatosusuario.descripcion | safe}}
-        </li>
-        <li>
-        {% if request.user.masdatosusuario.avatar %}
-            <p>Imagen:</p>
-            <img src={{request.user.masdatosusuario.avatar.url}} alt="" height="200px">
-        {% endif %}
-        </li>
 
-    </ul> 
-</p>
-</body>
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <p>
+            <a href = {% url 'index' %}>Volver<a/>
+            <a href = {% url 'editar_perfil' %}>Editar Perfil<a/>
+            <a href={% url 'cambiar_password' %}>Cambiar Password</a>
+        </p>
+
+        <p>
+            <ul>
+                <li>
+        Nombre: {{request.user.first_name}}
+                </li>
+                <li>
+        Apellido: {{request.user.last_name}}
+                </li>
+                <li>
+        Email: {{request.user.email}}
+                </li>
+                <li>
+        Descripcion: {{request.user.masdatosusuario.descripcion | safe}}
+                </li>
+                <li>
+                {% if request.user.masdatosusuario.avatar %}
+                    <p>Imagen:</p>
+                    <img src={{request.user.masdatosusuario.avatar.url}} alt="" height="200px">
+                {% endif %}
+                </li>
+
+            </ul> 
+        </p>
+    </div>
+</div>
 
 {% endblock graficos_tablas %}
 

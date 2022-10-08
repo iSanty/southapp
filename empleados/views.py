@@ -7,3 +7,7 @@ def index_meli(request):
     return render(request, 'empleados/index_meli.html')
 
 
+def linkeo(request):
+    return render(request, 'index_new.html')
+
+

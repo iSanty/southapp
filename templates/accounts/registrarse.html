@@ -1,32 +1,26 @@
-{% extends 'index_old.html' %}
-{% block login %}
-{% endblock login %}
-{% block titulo %}
-<title>Register</title>
-{% endblock titulo %}
-
-{% block sub_titulo %}
-<h1 class="mt-4">Sistema de Registro de Usarios</h1>
-{% endblock sub_titulo %}
+{% extends 'index_new.html' %}
 
 
 
-{% block link %}href={% url 'index_empleados' %}{% endblock link %}
+{% block titulo1 %}
 
-{% block campos %}
-<p>
-    <a href = {% url 'index' %}>Volver<a/>
-</p>
-<body>
-    <form action ={% url 'registrarse' %} method = "post"> 
-        {% csrf_token %}
-        <table>
-        {{form.as_table}}
-        </table>
-        <button>Registrarse</button>
-    </form>
+<title>Southapp - Registro</title>
+{% endblock titulo1 %}
 
-</body>
-{% block youtube %}{% endblock youtube %}
-{% endblock campos %}
 
+
+
+
+{% block graficos_tablas %}
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <form action ={% url 'registrarse' %} method = "post"> 
+            {% csrf_token %}
+            <table>
+            {{form.as_table}}
+            </table>
+            <button type="submit" class="btn btn-info">Registrar Usuario</button>
+        </form>
+    </div>
+</div>
+{% endblock graficos_tablas %}

@@ -48,22 +48,22 @@ class FormEditarProducto(forms.Form):
     
 class FormCrearCia(forms.Form):
     cod = forms.CharField(max_length=3)
-    desc = forms.CharField(max_length=180)
+    descripcion = forms.CharField(max_length=180)
     
 class FormCrearCatUb(forms.Form):
     cod = forms.CharField(max_length=3)
-    desc = forms.CharField(max_length=180)
+    descripcion = forms.CharField(max_length=180)
     
 class FormCatPk(forms.Form):
     cod = forms.CharField(max_length=3)
-    desc = forms.CharField(max_length=180)
+    descripcion = forms.CharField(max_length=180)
     
 class FormCatRepo(forms.Form):
     cod = forms.CharField(max_length=3)
-    desc = forms.CharField(max_length=180)
+    descripcion = forms.CharField(max_length=180)
     
 class FormTipoAlm(forms.Form):
-    desc = forms.CharField(max_length=180)
+    descripcion = forms.CharField(max_length=180)
     
 class FormPack(forms.Form):
-    desc = forms.CharField(max_length=10)
+    descripcion = forms.CharField(max_length=10)

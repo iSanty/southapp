@@ -48,28 +48,28 @@ class Producto(models.Model):
     
 class Cia(models.Model):
     cod = models.CharField(max_length=3)
-    descripcion = models.CharField(max_length=30)
+    descripcion = models.CharField(max_length=180)
     def __str__(self):
         return f'{self.cod}'
     
     
 class CatUbicacion(models.Model):
     cod = models.CharField(max_length=3)
-    descripcion = models.CharField(max_length=30)
+    descripcion = models.CharField(max_length=180)
     def __str__(self):
         return f'{self.cod}'
     
     
 class CatPicking(models.Model):
     cod = models.CharField(max_length=3)
-    descripcion = models.CharField(max_length=30)
+    descripcion = models.CharField(max_length=180)
     def __str__(self):
         return f'{self.cod}'
     
     
 class CatRepo(models.Model):
     cod = models.CharField(max_length=3)
-    descripcion = models.CharField(max_length=30)
+    descripcion = models.CharField(max_length=180)
     def __str__(self):
         return f'{self.cod}'
     
@@ -82,7 +82,7 @@ class TipoAlm(models.Model):
     
     
 class TipoPack(models.Model):
-    desc = models.CharField(max_length=30)
+    desc = models.CharField(max_length=10)
     def __str__(self):
-        return f'{self.cod}'
+        return f'{self.desc}'
     
