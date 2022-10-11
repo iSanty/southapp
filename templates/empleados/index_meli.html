@@ -12,13 +12,13 @@
     <div class="nav-item dropdown">
         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Altas</a>
         <div class="dropdown-menu bg-transparent border-0">
-            <a href={% url '404' %} class="dropdown-item">Personal</a>
-            <a href={% url '404' %} class="dropdown-item">Transportes</a>
+            <a href={% url 'alta_personal_meli' %} class="dropdown-item">Personal</a>
+            <a href={% url 'crear_categoria' %} class="dropdown-item">Categorias</a>
             {% comment %} <a href={% url 'index_meli' %} class="dropdown-item">Transportes</a> {% endcomment %}
         </div>
     </div>
-    <a href={% url '404' %} class="nav-item nav-link"><i class="fa fa-th me-2"></i>Fichero</a>
-    <a href={% url '404' %} class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Consultas</a>
+    <a href={% url 'fichero' %} class="nav-item nav-link"><i class="fa fa-th me-2"></i>Fichero</a>
+    <a href={% url 'editar_fichero' %} class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Consultas</a>
     {% comment %} <a href={% url 'ver_productos' %} class="nav-item nav-link"><i class="fa fa-table me-2"></i>Migrador</a>
     <a href={% url 'ver_productos' %} class="nav-item nav-link"><i class="fa fa-table me-2"></i>Empresa</a>
     <a href={% url 'ver_productos' %} class="nav-item nav-link"><i class="fa fa-table me-2"></i>Api</a>

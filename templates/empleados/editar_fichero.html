@@ -1,0 +1,28 @@
+{% extends 'empleados/index_meli.html' %}
+
+
+{% block graficos_tablas %}
+
+    <form action= {% url 'editar_fichero' %}>
+
+    {{form}}
+        <button>Buscar</button>
+    </form>
+
+
+{% if msj %}
+{{msj}}
+{% else %}
+
+
+<p>Resultado de la busqueda:</p>
+    <ul>
+        {%for fichero in ficheros_listado%}
+        <li><a href={% url '404' %}>Editar - </a>Fecha: {{fichero.fecha_trabajada}}- Dni: {{fichero.dni}}- Nombre: {{fichero.nombre}}- Apellido: {{fichero.apellido}}</li>
+        {% endfor %}
+    </ul>
+
+
+{% endif %}
+    
+{% endblock graficos_tablas %}

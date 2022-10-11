@@ -1,0 +1,27 @@
+{% extends 'empleados/index_meli.html' %}
+
+
+{% block graficos_tablas %}
+
+
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        {{msj}}
+    </div>
+</div>
+
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <form action={% url 'fichero' %} method = "POST"> 
+            {% csrf_token %}
+            <table>
+                {{form_fichero.as_table}}
+            </table>
+
+            <button type="submit" class="btn btn-info">Fichar</button>
+        </form>
+    </div>
+</div>
+
+
+{% endblock graficos_tablas %}

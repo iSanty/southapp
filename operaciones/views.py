@@ -154,6 +154,8 @@ def crear_parametros(request):
     
 @login_required
 def nuevo_aforo(request):
+    
+    
     if request.method == 'POST':
         form_crear_producto = FormCrearProducto(request.POST)
         if form_crear_producto.is_valid():
