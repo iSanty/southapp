@@ -13,7 +13,7 @@ def index_meli(request):
 def linkeo(request):
     return render(request, 'index_new.html')
 
-
+@login_required
 def alta_personal_meli(request):
     
     if request.method == 'POST':
@@ -45,7 +45,7 @@ def alta_personal_meli(request):
         return render(request, 'empleados/alta_personal_meli.html', {'form_alta':form_alta, 'msj':msj})
     
     
-
+@login_required
 def alta_categoria(request):
     form_cat = CrearCategoria()
     msj = 'Ingrese los datos solicitados.'
@@ -80,6 +80,8 @@ def alta_categoria(request):
         return render(request, 'empleados/alta_categoria.html', {'form_cat':form_cat, 'msj':msj})
         
         
+        
+@login_required
 def fichero(request):
     form_fichero = FicharPersonalMeli()
     msj = 'Ingrese los datos solicitados. POR AHORA el formato fecha es AAAA-MM-DD ejemplo 2022-10-25'
@@ -135,7 +137,7 @@ def fichero(request):
 
 
 
-
+@login_required
 def editar_fichero(request):
     
     ficheros = request.GET.get('dni')
