@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import alta_personal_meli, index_meli, linkeo, alta_categoria, fichero, editar_fichero
+from .views import alta_personal_meli, edicion_fichero, index_meli, linkeo, alta_categoria, fichero, editar_fichero
 
 urlpatterns = [
     
@@ -10,6 +10,7 @@ urlpatterns = [
     path('crear_categoria/', alta_categoria, name='crear_categoria'),
     path('fichero/', fichero, name='fichero'),
     path('editar_fichero/', editar_fichero, name='editar_fichero'),
+    path('edicion_ficha/<int:id>/', edicion_fichero, name = 'edicion_ficha'),
 
 ]
 

@@ -3,26 +3,34 @@
 
 {% block graficos_tablas %}
 
-    <form action= {% url 'editar_fichero' %}>
-
-    {{form}}
-        <button>Buscar</button>
-    </form>
 
 
-{% if msj %}
-{{msj}}
-{% else %}
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <form action= {% url 'editar_fichero' %}>
+
+        {{form}}
+            <button>Buscar</button>
+        </form>
 
 
-<p>Resultado de la busqueda:</p>
-    <ul>
-        {%for fichero in ficheros_listado%}
-        <li><a href={% url '404' %}>Editar - </a>Fecha: {{fichero.fecha_trabajada}}- Dni: {{fichero.dni}}- Nombre: {{fichero.nombre}}- Apellido: {{fichero.apellido}}</li>
-        {% endfor %}
-    </ul>
+        {% if msj %}
+        {{msj}}
+        {% else %}
+        
 
 
-{% endif %}
-    
+
+        <p>Resultado de la busqueda:</p>
+            <ul>
+                {%for fichero in ficheros_listado%}
+                <li><a href={% url 'edicion_ficha' fichero.id %}>Editar - </a>Fecha: {{fichero.fecha_trabajada}}- Dni: {{fichero.dni}}- Nombre: {{fichero.nombre}}- Apellido: {{fichero.apellido}}</li>
+                {% endfor %}
+            </ul>
+
+
+        {% endif %}
+
+    </div>
+</div>        
 {% endblock graficos_tablas %}

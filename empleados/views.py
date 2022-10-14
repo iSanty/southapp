@@ -1,8 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
 from empleados.models import Categoria, EmpleadoMeli, Fichero
-from .forms import FormAltaPersonalMeli, FicharPersonalMeli, CrearCategoria, FormBusquedaFichero
+from .forms import FormAltaPersonalMeli, FicharPersonalMeli, CrearCategoria, FormBusquedaFichero, FormEditarFicha
 # Create your views here.
 
 @login_required
@@ -84,7 +84,8 @@ def alta_categoria(request):
 @login_required
 def fichero(request):
     form_fichero = FicharPersonalMeli()
-    msj = 'Ingrese los datos solicitados. POR AHORA el formato fecha es AAAA-MM-DD ejemplo 2022-10-25'
+    
+    msj = 'Ingrese los datos solicitados.'
     
     if request.method == 'POST':
         form_fichero = FicharPersonalMeli(request.POST)
@@ -132,7 +133,7 @@ def fichero(request):
             return render(request, 'empleados/fichero.html', {'form_fichero':form_fichero, 'msj':msj})
                     
 
-
+    
     return render(request, 'empleados/fichero.html', {'form_fichero':form_fichero, 'msj':msj})
 
 
@@ -156,7 +157,41 @@ def editar_fichero(request):
             return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj} )
         
     else:
-        msj = 'Sin datos'
+        msj = 'Ingrese el documento de la ficha a consultar'
         form = FormBusquedaFichero()
         return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj} )
     
+    
+@login_required
+def edicion_fichero(request, id):
+    
+    ficha = Fichero.objects.get(id=id)
+    
+    if request.method == 'POST':
+        form = FormEditarFicha(request.POST)
+        if form.is_valid():
+            
+            ficha.fecha_trabajada = form.cleaned_data.get('fecha_trabajada')
+            ficha.dni = form.cleaned_data.get('dni')
+            ficha.categoria = form.cleaned_data.get('categoria')
+            ficha.tarifa = form.cleaned_data.get('tarifa')
+            
+            
+            
+            ficha.save()
+            msj = 'Ficha editada correctamente'
+            return render(request, 'empleados/edicion_ficha.html', {'form': form, 'msj':msj, 'ficha':ficha})
+        
+        else:
+            msj = 'Formulario incorrecto'
+            return render(request, 'empleados/edicion_ficha.html', {'form': form, 'msj':msj, 'ficha':ficha})
+
+    form_ficha = FormEditarFicha(initial={
+        'fecha_trabajada': ficha.fecha_trabajada,
+        'dni': ficha.dni,
+        'categoria': ficha.categoria,
+        'tarifa': ficha.tarifa, 
+        
+        })
+    msj = 'Edicion de ficha de ' + ficha.nombre + ' ,' + ficha.apellido + ' del dia '
+    return render(request, 'empleados/edicion_ficha.html', {'form':form_ficha, 'msj':msj, 'ficha':ficha})

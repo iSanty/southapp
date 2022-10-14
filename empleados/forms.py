@@ -10,7 +10,7 @@ class FormAltaPersonalMeli(forms.Form):
     
 class FicharPersonalMeli(forms.Form):
     dni = forms.CharField(max_length=10)
-    fecha_trabajada = forms.DateTimeField()
+    fecha_trabajada = forms.DateTimeField(input_formats=['%d/%m/%Y'])
     categoria = forms.CharField(max_length=25)
     
     
@@ -23,3 +23,10 @@ class CrearCategoria(forms.Form):
     
 class FormBusquedaFichero(forms.Form):
     dni = forms.IntegerField()
+    
+    
+class FormEditarFicha(forms.Form):
+    fecha_trabajada = forms.DateTimeField()
+    dni = forms.IntegerField()
+    categoria = forms.CharField(max_length=25)
+    tarifa = forms.FloatField()
