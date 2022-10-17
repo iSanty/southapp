@@ -149,16 +149,16 @@ def editar_fichero(request):
         ficheros_listado = Fichero.objects.filter(dni=ficheros)
         
         if ficheros_listado:
-            form = FormBusquedaFichero()
+            
             return render(request, 'empleados/editar_fichero.html', {'form':form,'ficheros_listado':ficheros_listado} )
         else:
             msj = 'Documento inexistente'
-            form = FormBusquedaFichero()
+            
             return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj} )
         
     else:
         msj = 'Ingrese el documento de la ficha a consultar'
-        form = FormBusquedaFichero()
+        
         return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj} )
     
     

@@ -107,8 +107,9 @@ DATABASES = {
     'default': {
         #'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'southapp',
-        'HOST':'localhost',
+        'NAME': 'dbsp',
+        
+        'HOST':'',
         'PORT':'3306',
         'USER':'root',
         'PASSWORD':'2355',

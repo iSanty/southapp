@@ -1,5 +1,7 @@
 from django import forms
 
+from empleados.models import Categoria
+
 
 class FormAltaPersonalMeli(forms.Form):
     dni = forms.IntegerField()
@@ -11,7 +13,7 @@ class FormAltaPersonalMeli(forms.Form):
 class FicharPersonalMeli(forms.Form):
     dni = forms.CharField(max_length=10)
     fecha_trabajada = forms.DateTimeField(input_formats=['%d/%m/%Y'])
-    categoria = forms.CharField(max_length=25)
+    categoria = forms.ModelChoiceField(queryset= Categoria.objects.all())
     
     
     
@@ -28,5 +30,5 @@ class FormBusquedaFichero(forms.Form):
 class FormEditarFicha(forms.Form):
     fecha_trabajada = forms.DateTimeField()
     dni = forms.IntegerField()
-    categoria = forms.CharField(max_length=25)
+    categoria = forms.ModelChoiceField(queryset= Categoria.objects.all())
     tarifa = forms.FloatField()
