@@ -23,7 +23,7 @@ class Categoria(models.Model):
     
     
 class Fichero(models.Model):
-    fecha_trabajada = models.DateTimeField()
+    fecha_trabajada = models.DateTimeField(null=True)
     dni = models.IntegerField(null=0)
     cantidad = models.IntegerField(null=0)
     categoria = models.CharField(max_length=25)
