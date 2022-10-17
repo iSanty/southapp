@@ -142,23 +142,23 @@ def fichero(request):
 def editar_fichero(request):
     
     ficheros = request.GET.get('dni')
-    
+    form = FormBusquedaFichero()
     
     if ficheros:
         form = FormBusquedaFichero()
         ficheros_listado = Fichero.objects.filter(dni=ficheros)
         
         if ficheros_listado:
-            form = FormBusquedaFichero()
+            
             return render(request, 'empleados/editar_fichero.html', {'form':form,'ficheros_listado':ficheros_listado} )
         else:
             msj = 'Documento inexistente'
-            form = FormBusquedaFichero()
+            
             return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj} )
         
     else:
         msj = 'Ingrese el documento de la ficha a consultar'
-        form = FormBusquedaFichero()
+        
         return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj} )
     
     
@@ -173,9 +173,8 @@ def edicion_fichero(request, id):
             
             ficha.fecha_trabajada = form.cleaned_data.get('fecha_trabajada')
             ficha.dni = form.cleaned_data.get('dni')
-            ficha.categoria = form.cleaned_data.get('categoria')
+            ficha.categoria = str(form.cleaned_data.get('categoria'))
             ficha.tarifa = form.cleaned_data.get('tarifa')
-            
             
             
             ficha.save()
@@ -189,7 +188,7 @@ def edicion_fichero(request, id):
     form_ficha = FormEditarFicha(initial={
         'fecha_trabajada': ficha.fecha_trabajada,
         'dni': ficha.dni,
-        'categoria': ficha.categoria,
+        'categoria': '',
         'tarifa': ficha.tarifa, 
         
         })
