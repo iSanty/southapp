@@ -109,7 +109,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'dbsp',
         
-        'HOST':'',
+        'HOST':'localhost',
         'PORT':'3306',
         'USER':'root',
         'PASSWORD':'2355',

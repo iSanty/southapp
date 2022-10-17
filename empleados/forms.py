@@ -28,7 +28,7 @@ class FormBusquedaFichero(forms.Form):
     
     
 class FormEditarFicha(forms.Form):
-    fecha_trabajada = forms.DateTimeField()
+    fecha_trabajada = forms.DateTimeField(input_formats=['%d/%m/%Y'])
     dni = forms.IntegerField()
     categoria = forms.ModelChoiceField(queryset= Categoria.objects.all())
     tarifa = forms.FloatField()

@@ -26,15 +26,15 @@ def crear_parametros(request):
             datos_pack = FormPack(request.POST)
             if datos_pack.is_valid():
                 info = datos_pack.cleaned_data
-                pack_en_base = TipoPack.objects.filter(desc=info['desc'])
+                pack_en_base = TipoPack.objects.filter(descripcion=info['descripcion'])
                 if pack_en_base:
-                    pack_en_base = 'Pack ' + info['desc'] + ' ya se encuentra dado de alta'
+                    pack_en_base = 'Pack ' + info['descripcion'] + ' ya se encuentra dado de alta'
                     return render(request,'operaciones/parametros.html',{'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':pack_en_base})
                 pack = TipoPack(
-                    desc = info['desc']
+                    descripcion = info['descripcion']
                     )
                 pack.save()
-                grabado = 'Pack ' + pack.desc + ' creado exitosamente.'
+                grabado = 'Pack ' + pack.descripcion + ' creado exitosamente.'
                 return render(request,'operaciones/parametros.html',{'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':grabado})
             else:
                 grabado = 'Formulario invalido'
@@ -432,7 +432,7 @@ def editar_producto(request, id):
     if request.method == 'POST':
         form = FormEditarProducto(request.POST)
         if form.is_valid():
-            prod.cia = form.cleaned_data.get('cia')
+            prod.cia = str(form.cleaned_data.get('cia'))
             prod.codigo = form.cleaned_data.get('codigo')
             prod.descripcion = form.cleaned_data.get('descripcion')
             prod.peso_un = form.cleaned_data.get('peso_un')
@@ -444,9 +444,9 @@ def editar_producto(request, id):
             prod.ancho_cj = form.cleaned_data.get('ancho_cj')
             prod.alto_cj = form.cleaned_data.get('alto_cj')
             prod.unidad_pall = form.cleaned_data.get('unidad_pall')
-            prod.pack = form.cleaned_data.get('pack')
+            prod.pack = str(form.cleaned_data.get('pack'))
             prod.vd = form.cleaned_data.get('vd')
-            prod.tipo_alm = form.cleaned_data.get('tipo_alm')
+            prod.tipo_alm = str(form.cleaned_data.get('tipo_alm'))
             
             datos = form.cleaned_data
             if form.cleaned_data.get('peso_un') and form.cleaned_data.get('unidad_caja') and form.cleaned_data.get('unidad_pall'):

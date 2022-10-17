@@ -1,7 +1,9 @@
 from django import forms
 
+from operaciones.models import Cia, TipoPack, TipoAlm
+
 class FormCrearProducto(forms.Form):
-    cia =  forms.CharField(max_length=3)
+    cia =  forms.ModelChoiceField(queryset= Cia.objects.all())
     codigo = forms.CharField(max_length=15)
     descripcion = forms.CharField(max_length=180)
     peso_un = forms.FloatField()
@@ -13,9 +15,9 @@ class FormCrearProducto(forms.Form):
     ancho_cj = forms.FloatField()
     alto_cj = forms.FloatField()
     unidad_pall = forms.IntegerField()
-    pack = forms.CharField(max_length=15)
+    pack = forms.ModelChoiceField(queryset= TipoPack.objects.all())
     vd = forms.FloatField()
-    tipo_alm = forms.CharField(max_length=15)
+    tipo_alm = forms.ModelChoiceField(queryset= TipoAlm.objects.all())
     
     
     
@@ -29,7 +31,7 @@ class FormEliminarProducto(forms.Form):
     
     
 class FormEditarProducto(forms.Form):
-    cia =  forms.CharField(max_length=3)
+    cia =  forms.ModelChoiceField(queryset= Cia.objects.all())
     codigo = forms.CharField(max_length=15)
     descripcion = forms.CharField(max_length=180)
     peso_un = forms.FloatField()
@@ -41,9 +43,9 @@ class FormEditarProducto(forms.Form):
     ancho_cj = forms.FloatField()
     alto_cj = forms.FloatField()
     unidad_pall = forms.IntegerField()
-    pack = forms.CharField(max_length=15)
+    pack = forms.ModelChoiceField(queryset= TipoPack.objects.all())
     vd = forms.FloatField()
-    tipo_alm = forms.CharField(max_length=15)
+    tipo_alm = forms.ModelChoiceField(queryset= TipoAlm.objects.all())
     
     
 class FormCrearCia(forms.Form):
