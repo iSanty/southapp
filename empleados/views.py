@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
-from empleados.models import Categoria, EmpleadoMeli, Fichero
-from .forms import FormAltaPersonalMeli, FicharPersonalMeli, CrearCategoria, FormBusquedaFichero, FormEditarFicha
+from empleados.models import Categoria, EmpleadoMeli, Fichero, TipoTarifa
+from .forms import FormAltaPersonalMeli, FicharPersonalMeli, CrearCategoria, FormBusquedaFichero, FormEditarFicha, FormTipoTarifa
 # Create your views here.
 
 @login_required
@@ -48,36 +48,69 @@ def alta_personal_meli(request):
 @login_required
 def alta_categoria(request):
     form_cat = CrearCategoria()
+    form_tipo_tarifa = FormTipoTarifa()
+    
     msj = 'Ingrese los datos solicitados.'
     
     if request.method == 'POST':
-        form_cat = CrearCategoria(request.POST)
-        
-        if form_cat.is_valid():
-            informacion = form_cat.cleaned_data
+        if 'btn_cat' in request.POST:
             
             
-            categoria_en_base = Categoria.objects.filter(categoria=informacion['categoria'])
+            form_cat = CrearCategoria(request.POST)
             
-            if not categoria_en_base:
-                nueva_categoria = Categoria(
-                    categoria = informacion['categoria'],
-                    tarifa_por_dia = informacion['tarifa_por_dia'],
-                    
-                )
-                nueva_categoria.save()
-                msj = 'Categoria ' + informacion['categoria'] + ' creada exitosamente.'
-                return render(request, 'empleados/alta_categoria.html', {'msj':msj, 'form_cat':form_cat})
+            if form_cat.is_valid():
+                
+                informacion = form_cat.cleaned_data
+                
+                
+                categoria_en_base = Categoria.objects.filter(categoria=informacion['categoria'])
+                
+                if not categoria_en_base:
+                    nueva_categoria = Categoria(
+                        categoria = informacion['categoria'],
+                        tarifa_por_dia = informacion['tarifa_por_dia'],
+                        
+                    )
+                    nueva_categoria.save()
+                    msj = 'Categoria ' + informacion['categoria'] + ' creada exitosamente.'
+                    return render(request, 'empleados/alta_categoria.html', {'msj':msj, 'form_cat':form_cat, 'form_tipo_tarifa':form_tipo_tarifa})
+                else:
+                    msj = 'La categoria ' + informacion['categoria'] + ' ya se encuentra dada de alta.'
+                    return render(request, 'empleados/alta_categoria.html',{'msj':msj, 'form_cat': form_cat, 'form_tipo_tarifa':form_tipo_tarifa})
             else:
-                msj = 'La categoria ' + informacion['categoria'] + ' ya se encuentra dada de alta.'
-                return render(request, 'empleados/alta_categoria.html',{'msj':msj, 'form_cat': form_cat})
-        else:
-            msj = 'Formulario invalido, verifique'
-            return render(request, 'empleados/alta_categoria.html', {'form_cat':form_cat, 'msj':msj})
+                msj = 'Formulario invalido, verifique'
+                return render(request, 'empleados/alta_categoria.html', {'form_cat':form_cat, 'msj':msj, 'form_tipo_tarifa':form_tipo_tarifa})
+        elif 'btn_tipotarifa' in request.POST:
+            form_tipo_tarifa = FormTipoTarifa(request.POST)
+            
+            if form_tipo_tarifa.is_valid():
+                
+                informacion = form_tipo_tarifa.cleaned_data
+                
+                
+                tarifa_en_base = TipoTarifa.objects.filter(tipo=informacion['tipo'])
+                
+                if not tarifa_en_base:
+                    nueva_tarifa = TipoTarifa(
+                        tipo = informacion['tipo'],
+                        valor = informacion['valor'],
+                        
+                    )
+                    nueva_tarifa.save()
+                    msj = 'Tipo de tarifa ' + informacion['tipo'] + ' creada exitosamente.'
+                    return render(request, 'empleados/alta_categoria.html', {'msj':msj, 'form_cat':form_cat, 'form_tipo_tarifa':form_tipo_tarifa})
+                else:
+                    msj = 'El tipo de tarifa ' + informacion['tipo'] + ' ya se encuentra dado de alta.'
+                    return render(request, 'empleados/alta_categoria.html',{'msj':msj, 'form_cat': form_cat, 'form_tipo_tarifa':form_tipo_tarifa})
+            else:
+                msj = 'Formulario invalido, verifique'
+                return render(request, 'empleados/alta_categoria.html', {'form_cat':form_cat, 'msj':msj, 'form_tipo_tarifa':form_tipo_tarifa})
+            
+            
     else:
-        form_cat = CrearCategoria()
-        msj = 'Ingrese los datos solicitados. (Tarifa por dia).'
-        return render(request, 'empleados/alta_categoria.html', {'form_cat':form_cat, 'msj':msj})
+        
+        msj = 'Ingrese los datos solicitados.'
+        return render(request, 'empleados/alta_categoria.html', {'form_cat':form_cat, 'msj':msj, 'form_tipo_tarifa':form_tipo_tarifa})
         
         
         
@@ -101,8 +134,16 @@ def fichero(request):
                     if not validar_fecha:
                         
                         personal, _ = EmpleadoMeli.objects.get_or_create(dni=informacion['dni'])
-                        
                         costo, _ = Categoria.objects.get_or_create(categoria=informacion['categoria'])
+                        if informacion['tipo_tarifa']:
+                            aumento, _ = TipoTarifa.objects.get_or_create(tipo=informacion['tipo_tarifa'])
+                        else:
+                            aumento = 0
+                        
+                        if aumento:
+                            suma = aumento.valor + costo.tarifa_por_dia
+                        else:
+                            suma = aumento + costo.tarifa_por_dia
                         
                         fichar = Fichero(
                             dni = informacion['dni'],
@@ -112,9 +153,18 @@ def fichero(request):
                             
                             nombre = personal.nombre,
                             apellido = personal.apellido,
-                            tarifa = costo.tarifa_por_dia
-                        
+                            tarifa = costo.tarifa_por_dia,
+                            tipo_tarifa = str(informacion['tipo_tarifa']),
+                            
+                            total_dia = suma
+                            
                         )
+                        
+                        if aumento:
+                            fichar.suma_a_tarifa = aumento.valor
+                        else:
+                            fichar.suma_a_tarifa = 0
+                        
                         
                         fichar.save()
                         msj = 'Fichero grabado'
