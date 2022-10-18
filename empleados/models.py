@@ -33,7 +33,6 @@ class TipoTarifa(models.Model):
 class Fichero(models.Model):
     fecha_trabajada = models.DateTimeField(null=True)
     dni = models.IntegerField(null=0)
-    cantidad = models.IntegerField(null=0)
     categoria = models.CharField(max_length=25)
     tarifa = models.FloatField(null=0)
     tipo_tarifa = models.CharField(max_length=10)

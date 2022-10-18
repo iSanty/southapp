@@ -29,7 +29,11 @@ class FormTipoTarifa(forms.Form):
     
     
 class FormBusquedaFichero(forms.Form):
-    dni = forms.IntegerField()
+    dni = forms.IntegerField(required=False)
+    fecha_desde = forms.DateTimeField(input_formats=['%d/%m/%Y'], required=False)
+    fecha_hasta = forms.DateTimeField(input_formats=['%d/%m/%Y'], required=False)
+    
+    
     
     
 class FormEditarFicha(forms.Form):

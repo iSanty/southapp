@@ -1,9 +1,11 @@
+
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
 from empleados.models import Categoria, EmpleadoMeli, Fichero, TipoTarifa
 from .forms import FormAltaPersonalMeli, FicharPersonalMeli, CrearCategoria, FormBusquedaFichero, FormEditarFicha, FormTipoTarifa
 # Create your views here.
+from datetime import datetime
 
 @login_required
 def index_meli(request):
@@ -146,9 +148,10 @@ def fichero(request):
                             suma = aumento + costo.tarifa_por_dia
                         
                         fichar = Fichero(
+                            
                             dni = informacion['dni'],
                             fecha_trabajada = informacion['fecha_trabajada'],
-                            cantidad = 1,
+                            
                             categoria = informacion['categoria'],
                             
                             nombre = personal.nombre,
@@ -188,28 +191,130 @@ def fichero(request):
 
 
 
+
 @login_required
 def editar_fichero(request):
     
-    ficheros = request.GET.get('dni')
+    dni = request.GET.get('dni')
+    fecha_desde = request.GET.get('fecha_desde')
+    fecha_hasta = request.GET.get('fecha_hasta')
+
+
     form = FormBusquedaFichero()
     
-    if ficheros:
+    if dni and not fecha_desde and not fecha_hasta:
         form = FormBusquedaFichero()
-        ficheros_listado = Fichero.objects.filter(dni=ficheros)
-        
+        ficheros_listado = Fichero.objects.filter(dni=dni)
         if ficheros_listado:
             
             return render(request, 'empleados/editar_fichero.html', {'form':form,'ficheros_listado':ficheros_listado} )
         else:
             msj = 'Documento inexistente'
-            
             return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj} )
+    elif not dni and fecha_desde and not fecha_hasta:
+        fecha_hasta = datetime.now()
+        fecha_hasta_a = fecha_hasta.strftime("%d/%m/%Y")
+        dni = Fichero.objects.all()
+        resultado_busqueda = []
+        for valor in dni:
+            fecha_str = valor.fecha_trabajada.strftime("%d/%m/%Y")
+            if fecha_str >= fecha_desde and fecha_hasta_a >= fecha_str:
+                resultado_busqueda.append(valor)
+        if resultado_busqueda:
+            return render(request, 'empleados/editar_fichero.html', {'form':form,'ficheros_listado':resultado_busqueda})
+        else:
+            msj = 'Sin datos entre el rango ' + fecha_desde + ' hasta ' + fecha_hasta_a
+            return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj})
+            
         
+    elif not dni and not fecha_desde and fecha_hasta:
+        fecha_desde = '01/01/2020'
+        dni = Fichero.objects.all()
+        resultado_busqueda = []
+        for valor in dni:
+            fecha_str = valor.fecha_trabajada.strftime("%d/%m/%Y")
+            if fecha_str >= fecha_desde and fecha_hasta >= fecha_str:
+                resultado_busqueda.append(valor)
+        if resultado_busqueda:
+            return render(request, 'empleados/editar_fichero.html', {'form':form,'ficheros_listado':resultado_busqueda})
+        else:
+            msj = 'Sin datos entre el rango ' + fecha_desde + ' hasta ' + fecha_hasta
+            return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj})
+       
+    elif dni and fecha_desde and fecha_hasta:
+        ficha = Fichero.objects.filter(dni=dni)
+        resultado_busqueda = []
+        for valor in ficha:
+            fecha = valor.fecha_trabajada.strftime("%d/%m/%Y")
+            if fecha >= fecha_desde and fecha <= fecha_hasta:
+                resultado_busqueda.append(valor)
+        
+        if resultado_busqueda:
+            return render(request, 'empleados/editar_fichero.html', {'form':form,'ficheros_listado':resultado_busqueda})
+        else:
+            msj = 'Sin datos entre el rango ' + fecha_desde + ' hasta ' + fecha_hasta
+            return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj})
+    
+    elif not dni and fecha_desde and fecha_hasta:
+        dni = Fichero.objects.all()
+        resultado_busqueda = []
+        
+        for valor in dni:
+            fecha = valor.fecha_trabajada.strftime("%d/%m/%Y")
+            if fecha >= fecha_desde and fecha <= fecha_hasta:
+                resultado_busqueda.append(valor)
+                
+        if resultado_busqueda:
+            return render(request, 'empleados/editar_fichero.html', {'form':form,'ficheros_listado':resultado_busqueda})
+        else:
+            msj = 'Sin datos entre el rango ' + fecha_desde + ' hasta ' + fecha_hasta
+            return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj})
+    
+    elif dni and fecha_desde and not fecha_hasta:
+        
+        dni = Fichero.objects.filter(dni=dni)
+        fecha_hasta = datetime.now()
+        fecha_hasta_a = fecha_hasta.strftime("%d/%m/%Y")
+    
+        resultado_busqueda = []
+        for valor in dni:
+            fecha = valor.fecha_trabajada.strftime("%d/%m/%Y")
+            if fecha >= fecha_desde and fecha <= fecha_hasta_a:
+                resultado_busqueda.append(valor)
+        if resultado_busqueda:
+            return render(request, 'empleados/editar_fichero.html', {'form':form,'ficheros_listado':resultado_busqueda})
+        else:
+            msj = 'Sin datos entre el rango ' + fecha_desde + ' hasta ' + fecha_hasta_a
+            return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj})
+    
+    elif dni and not fecha_desde and fecha_hasta:
+        dni = Fichero.objects.filter(dni=dni)
+        fecha_desde = '01/01/2020'
+    
+        resultado_busqueda = []
+        for valor in dni:
+            fecha = valor.fecha_trabajada.strftime("%d/%m/%Y")
+            if fecha >= fecha_desde and fecha <= fecha_hasta:
+                resultado_busqueda.append(valor)
+        if resultado_busqueda:
+            return render(request, 'empleados/editar_fichero.html', {'form':form,'ficheros_listado':resultado_busqueda})
+        else:
+            msj = 'Sin datos entre el rango ' + fecha_desde + ' hasta ' + fecha_hasta
+            return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj})
+        
+    
+    
+    
+    
+    
+    
+    
     else:
-        msj = 'Ingrese el documento de la ficha a consultar'
-        
+        msj = 'Busqueda: llene 1 o mas campos'
         return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj} )
+    
+    
+    
     
     
 @login_required
@@ -244,3 +349,6 @@ def edicion_fichero(request, id):
         })
     msj = 'Edicion de ficha de ' + ficha.nombre + ' ,' + ficha.apellido + ' del dia '
     return render(request, 'empleados/edicion_ficha.html', {'form':form_ficha, 'msj':msj, 'ficha':ficha})
+
+
+
