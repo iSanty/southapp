@@ -234,7 +234,10 @@ def editar_fichero(request):
         for valor in dni:
             fecha_str = valor.fecha_trabajada.strftime("%d/%m/%Y")
             if fecha_str >= fecha_desde and fecha_hasta >= fecha_str:
+                
                 resultado_busqueda.append(valor)
+                resultado_busqueda.append(fecha_str)
+                
         if resultado_busqueda:
             return render(request, 'empleados/editar_fichero.html', {'form':form,'ficheros_listado':resultado_busqueda})
         else:

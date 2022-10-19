@@ -1,13 +1,16 @@
 from django import forms
 
 from empleados.models import Categoria, TipoTarifa
+from transportes.models import Sucursal
 
 
 class FormAltaPersonalMeli(forms.Form):
     dni = forms.IntegerField()
     nombre = forms.CharField(max_length=50)
     apellido = forms.CharField(max_length=50)
-    
+    banco = forms.CharField(max_length=50)
+    cbu = forms.IntegerField()
+    alias = forms.CharField(max_length=50)
     
     
 class FicharPersonalMeli(forms.Form):
@@ -15,6 +18,7 @@ class FicharPersonalMeli(forms.Form):
     fecha_trabajada = forms.DateTimeField(input_formats=['%d/%m/%Y'])
     categoria = forms.ModelChoiceField(queryset= Categoria.objects.all())
     tipo_tarifa = forms.ModelChoiceField(queryset= TipoTarifa.objects.all(), required=False)
+    sucursal = forms.ModelChoiceField(queryset= Sucursal.objects.all(), required=False)
     
     
     

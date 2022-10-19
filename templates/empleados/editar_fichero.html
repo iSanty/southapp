@@ -26,7 +26,7 @@
         <p>Resultado de la busqueda:</p>
             <ul>
                 {%for fichero in ficheros_listado%}
-                <li><a href={% url 'edicion_ficha' fichero.id %}>Editar - </a>Fecha: {{fichero.fecha_trabajada}}- Dni: {{fichero.dni}}- Nombre: {{fichero.nombre}}- Apellido: {{fichero.apellido}}</li>
+                <li><a href={% url 'edicion_ficha' fichero.id %}>Editar - </a>Fecha: {{fichero.fecha_str}}- Dni: {{fichero.dni}}- Apellido: {{fichero.apellido}}- Tarifa: {{fichero.tipo_tarifa}}- Total dia: {{fichero.total_dia}} </li>
                 {% endfor %}
             </ul>
 
