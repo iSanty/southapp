@@ -13,6 +13,7 @@ class FormAltaPersonalMeli(forms.Form):
     sucursal_por_defecto = forms.ModelChoiceField(queryset= Sucursal.objects.all(), required=False)
     
     
+    
 class FicharPersonalMeli(forms.Form):
     dni = forms.CharField(max_length=10)
     fecha_trabajada = forms.DateTimeField(input_formats=['%d/%m/%Y'])
