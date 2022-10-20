@@ -49,4 +49,4 @@ class FormEditarFicha(forms.Form):
 
 
 class FormSucursal(forms.Form):
-    sucursal = forms.CharField(max_length=10)
+    sucursal = forms.CharField(max_length=30)

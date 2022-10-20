@@ -12,8 +12,12 @@ class EmpleadoMeli(models.Model):
     alias = models.CharField(max_length=50)
     sucursal_por_defecto = models.CharField(max_length=50)
     
+    alta_por = models.CharField(max_length=50)
+    fecha_alta = models.DateTimeField(null=True)
+    
+    
     def __str__(self):
-        return f'{self.nombre}'
+        return f'{self.dni}'
     
     
     
@@ -45,11 +49,13 @@ class Fichero(models.Model):
     apellido = models.CharField(max_length=50)
     total_dia = models.FloatField(null=0)
     sucursal = models.CharField(max_length=50)
+    creado_por = models.CharField(max_length=50)
+    fecha_creacion = models.DateTimeField(null=True)
     
     
     
 class Sucursal(models.Model):
-    sucursal = models.CharField(max_length=10)
+    sucursal = models.CharField(max_length=30)
     
     def __str__(self):
         return f'{self.sucursal}'

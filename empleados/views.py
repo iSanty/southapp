@@ -13,7 +13,7 @@ formato_fecha = "%d/%m/%Y %H:%M:%S"
 formato_fecha2 = "%d/%m/%Y"
 hoy = datetime.today()
 
-
+   
 
 @login_required
 def index_meli(request):
@@ -29,6 +29,7 @@ def alta_personal_meli(request):
     if request.method == 'POST':
         
         form_alta = FormAltaPersonalMeli(request.POST)
+        user = request.user
         
         if form_alta.is_valid():
             informacion = form_alta.cleaned_data
@@ -42,7 +43,9 @@ def alta_personal_meli(request):
                     banco = informacion['banco'],
                     cbu = informacion['cbu'],
                     alias = informacion['alias'],
-                    sucursal_por_defecto = informacion['sucursal_por_defecto']
+                    sucursal_por_defecto = informacion['sucursal_por_defecto'],
+                    alta_por = user,
+                    fecha_alta = hoy
                     
                 )
                 empleado.save()
@@ -193,6 +196,7 @@ def fichero(request):
                         
                         personal, _ = EmpleadoMeli.objects.get_or_create(dni=informacion['dni'])
                         costo, _ = Categoria.objects.get_or_create(categoria=informacion['categoria'])
+                        
                         if informacion['tipo_tarifa']:
                             aumento, _ = TipoTarifa.objects.get_or_create(tipo=informacion['tipo_tarifa'])
                         else:
@@ -202,7 +206,14 @@ def fichero(request):
                             suma = aumento.valor + costo.tarifa_por_dia
                         else:
                             suma = aumento + costo.tarifa_por_dia
-                        
+                            
+                            
+                        if informacion['sucursal']:
+                            sucursal_trabajada = informacion['sucursal']
+                        else:
+                            sucursal_trabajada = personal.sucursal_por_defecto
+                            
+                                                    
                         fichar = Fichero(
                             
                             dni = informacion['dni'],
@@ -214,8 +225,12 @@ def fichero(request):
                             apellido = personal.apellido,
                             tarifa = costo.tarifa_por_dia,
                             tipo_tarifa = str(informacion['tipo_tarifa']), 
+                            total_dia = suma,
+                            creado_por = request.user,
+                            fecha_creacion = datetime.today(),
+                            sucursal = sucursal_trabajada
                             
-                            total_dia = suma
+                            
                             
                         )
                         
@@ -398,14 +413,14 @@ def editar_fichero(request):
             return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj})
         
     
-    elif not dni and not fecha_desde and not fecha_hasta:
-        form = FormBusquedaFichero()
-        ficheros_listado = Fichero.objects.all()
-        if ficheros_listado:
-            return render(request, 'empleados/editar_fichero.html', {'form':form,'ficheros_listado':ficheros_listado} )
-        else:
-            msj = 'Sin datos'
-            return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj} )
+    # elif not dni and not fecha_desde and not fecha_hasta:
+    #     form = FormBusquedaFichero()
+    #     ficheros_listado = Fichero.objects.all()
+    #     if ficheros_listado:
+    #         return render(request, 'empleados/editar_fichero.html', {'form':form,'ficheros_listado':ficheros_listado} )
+    #     else:
+    #         msj = 'Sin datos'
+    #         return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj} )
     
     
     
