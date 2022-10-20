@@ -2,8 +2,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
-from empleados.models import Categoria, EmpleadoMeli, Fichero, TipoTarifa
-from .forms import FormAltaPersonalMeli, FicharPersonalMeli, CrearCategoria, FormBusquedaFichero, FormEditarFicha, FormTipoTarifa
+from empleados.models import Categoria, EmpleadoMeli, Fichero, Sucursal, TipoTarifa
+from .forms import FormAltaPersonalMeli, FicharPersonalMeli, CrearCategoria, FormBusquedaFichero, FormEditarFicha, FormTipoTarifa, FormSucursal
 # Create your views here.
 from datetime import datetime
 
@@ -38,7 +38,12 @@ def alta_personal_meli(request):
                 empleado = EmpleadoMeli(
                     dni = informacion['dni'],
                     nombre = informacion['nombre'],
-                    apellido = informacion['apellido']
+                    apellido = informacion['apellido'],
+                    banco = informacion['banco'],
+                    cbu = informacion['cbu'],
+                    alias = informacion['alias'],
+                    sucursal_por_defecto = informacion['sucursal_por_defecto']
+                    
                 )
                 empleado.save()
                 msj = 'Nombre ' + informacion['nombre'] + ' ' + informacion['apellido'] + ' creado exitosamente.'
@@ -59,17 +64,19 @@ def alta_personal_meli(request):
 def alta_categoria(request):
     form_cat = CrearCategoria()
     form_tipo_tarifa = FormTipoTarifa()
+    form_sucursal = FormSucursal()
     
     msj = 'Ingrese los datos solicitados.'
     
     if request.method == 'POST':
+        
+        
+        
+        
         if 'btn_cat' in request.POST:
-            
-            
             form_cat = CrearCategoria(request.POST)
-            
             if form_cat.is_valid():
-                
+
                 informacion = form_cat.cleaned_data
                 
                 
@@ -83,13 +90,47 @@ def alta_categoria(request):
                     )
                     nueva_categoria.save()
                     msj = 'Categoria ' + informacion['categoria'] + ' creada exitosamente.'
-                    return render(request, 'empleados/alta_categoria.html', {'msj':msj, 'form_cat':form_cat, 'form_tipo_tarifa':form_tipo_tarifa})
+                    return render(request, 'empleados/alta_categoria.html', {'msj':msj, 'form_cat':form_cat, 'form_tipo_tarifa':form_tipo_tarifa, 'form_sucursal':form_sucursal})
                 else:
                     msj = 'La categoria ' + informacion['categoria'] + ' ya se encuentra dada de alta.'
-                    return render(request, 'empleados/alta_categoria.html',{'msj':msj, 'form_cat': form_cat, 'form_tipo_tarifa':form_tipo_tarifa})
+                    return render(request, 'empleados/alta_categoria.html',{'msj':msj, 'form_cat': form_cat, 'form_tipo_tarifa':form_tipo_tarifa, 'form_sucursal':form_sucursal})
             else:
                 msj = 'Formulario invalido, verifique'
-                return render(request, 'empleados/alta_categoria.html', {'form_cat':form_cat, 'msj':msj, 'form_tipo_tarifa':form_tipo_tarifa})
+                return render(request, 'empleados/alta_categoria.html', {'form_cat':form_cat, 'msj':msj, 'form_tipo_tarifa':form_tipo_tarifa, 'form_sucursal':form_sucursal})
+        
+        
+        
+        
+        elif 'btn_sucursal' in request.POST:
+            form_sucursal = FormSucursal(request.POST)
+            if form_sucursal.is_valid():
+
+                informacion = form_sucursal.cleaned_data
+                
+                
+                sucursal_en_base = Sucursal.objects.filter(sucursal=informacion['sucursal'])
+                
+                if not sucursal_en_base:
+                    nueva_sucursal = Sucursal(
+                        sucursal = informacion['sucursal'],
+                        
+                        
+                    )
+                    nueva_sucursal.save()
+                    msj = 'Sucursal ' + informacion['sucursal'] + ' creada exitosamente.'
+                    return render(request, 'empleados/alta_categoria.html', {'msj':msj, 'form_cat':form_cat, 'form_tipo_tarifa':form_tipo_tarifa, 'form_sucursal':form_sucursal})
+                else:
+                    msj = 'La sucursal ' + informacion['sucursal'] + ' ya se encuentra dada de alta.'
+                    return render(request, 'empleados/alta_categoria.html',{'msj':msj, 'form_cat': form_cat, 'form_tipo_tarifa':form_tipo_tarifa, 'form_sucursal':form_sucursal})
+            else:
+                msj = 'Formulario invalido, verifique'
+                return render(request, 'empleados/alta_categoria.html', {'form_cat':form_cat, 'msj':msj, 'form_tipo_tarifa':form_tipo_tarifa, 'form_sucursal':form_sucursal})
+        
+        
+        
+        
+        
+        
         elif 'btn_tipotarifa' in request.POST:
             form_tipo_tarifa = FormTipoTarifa(request.POST)
             
@@ -108,19 +149,19 @@ def alta_categoria(request):
                     )
                     nueva_tarifa.save()
                     msj = 'Tipo de tarifa ' + informacion['tipo'] + ' creada exitosamente.'
-                    return render(request, 'empleados/alta_categoria.html', {'msj':msj, 'form_cat':form_cat, 'form_tipo_tarifa':form_tipo_tarifa})
+                    return render(request, 'empleados/alta_categoria.html', {'msj':msj, 'form_cat':form_cat, 'form_tipo_tarifa':form_tipo_tarifa, 'form_sucursal':form_sucursal})
                 else:
                     msj = 'El tipo de tarifa ' + informacion['tipo'] + ' ya se encuentra dado de alta.'
-                    return render(request, 'empleados/alta_categoria.html',{'msj':msj, 'form_cat': form_cat, 'form_tipo_tarifa':form_tipo_tarifa})
+                    return render(request, 'empleados/alta_categoria.html',{'msj':msj, 'form_cat': form_cat, 'form_tipo_tarifa':form_tipo_tarifa, 'form_sucursal':form_sucursal})
             else:
                 msj = 'Formulario invalido, verifique'
-                return render(request, 'empleados/alta_categoria.html', {'form_cat':form_cat, 'msj':msj, 'form_tipo_tarifa':form_tipo_tarifa})
+                return render(request, 'empleados/alta_categoria.html', {'form_cat':form_cat, 'msj':msj, 'form_tipo_tarifa':form_tipo_tarifa, 'form_sucursal':form_sucursal})
             
             
     else:
         
         msj = 'Ingrese los datos solicitados.'
-        return render(request, 'empleados/alta_categoria.html', {'form_cat':form_cat, 'msj':msj, 'form_tipo_tarifa':form_tipo_tarifa})
+        return render(request, 'empleados/alta_categoria.html', {'form_cat':form_cat, 'msj':msj, 'form_tipo_tarifa':form_tipo_tarifa, 'form_sucursal':form_sucursal})
         
         
         
@@ -209,43 +250,48 @@ def fichero(request):
 
 @login_required
 def editar_fichero(request):
+    #esta es mi vista de busqueda :P
     
     dni = request.GET.get('dni')
     fecha_desde = request.GET.get('fecha_desde')
     fecha_hasta = request.GET.get('fecha_hasta')
-
-
     form = FormBusquedaFichero()
     
     if dni and not fecha_desde and not fecha_hasta:
         form = FormBusquedaFichero()
         ficheros_listado = Fichero.objects.filter(dni=dni)
         if ficheros_listado:
-            
             return render(request, 'empleados/editar_fichero.html', {'form':form,'ficheros_listado':ficheros_listado} )
         else:
             msj = 'Documento inexistente'
             return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj} )
+        
     elif not dni and fecha_desde and not fecha_hasta:
-        fecha_hasta = datetime.now()
-        fecha_hasta_a = fecha_hasta.strftime("%d/%m/%Y")
+        
+        fecha_hasta = datetime.today()
+        
+        
+        fecha_desde_formateada = datetime.strptime(fecha_desde + " 00:00:00", "%d/%m/%Y %H:%M:%S") #1
         dni = Fichero.objects.all()
         resultado_busqueda = []
         for valor in dni:
-            fecha_str = valor.fecha_trabajada.strftime("%d/%m/%Y")
-            if fecha_str >= fecha_desde and fecha_hasta_a >= fecha_str:
+            fecha_trabajada_formateada = valor.fecha_trabajada.strftime(formato_fecha)
+            fecha_trabajada_formateada_b = datetime.strptime(fecha_trabajada_formateada, "%d/%m/%Y %H:%M:%S")
+            
+            if fecha_trabajada_formateada_b >= fecha_desde_formateada and fecha_hasta >= fecha_trabajada_formateada_b:
                 resultado_busqueda.append(valor)
         if resultado_busqueda:
             return render(request, 'empleados/editar_fichero.html', {'form':form,'ficheros_listado':resultado_busqueda})
         else:
-            msj = 'Sin datos entre el rango ' + fecha_desde + ' hasta ' + fecha_hasta_a
+            msj = 'Sin datos entre el rango ' + fecha_desde + ' hasta ' + fecha_hasta.strftime(formato_fecha2)
             return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj})
             
         
     elif not dni and not fecha_desde and fecha_hasta:
         fecha_desde = '01/01/2020 00:00:00'
         fecha_desde_formateada = datetime.strptime(fecha_desde, "%d/%m/%Y %H:%M:%S")
-        fecha_hasta_formateada = datetime.strptime(fecha_hasta + " 00:00:00", "%d/%m/%Y %H:%M:%S")
+        
+        fecha_hasta_formateada = datetime.strptime(fecha_hasta + " 00:00:00", "%d/%m/%Y %H:%M:%S") #1
         
         dni = Fichero.objects.all()
         resultado_busqueda = []
@@ -264,12 +310,21 @@ def editar_fichero(request):
             msj = 'Sin datos hasta la fecha ' + fecha_hasta
             return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj})
        
+       
+       
     elif dni and fecha_desde and fecha_hasta:
+        
+        fecha_hasta_formateada = datetime.strptime(fecha_hasta + " 00:00:00", "%d/%m/%Y %H:%M:%S")
+        fecha_desde_formateada = datetime.strptime(fecha_desde + " 00:00:00", "%d/%m/%Y %H:%M:%S")
+        
         ficha = Fichero.objects.filter(dni=dni)
         resultado_busqueda = []
         for valor in ficha:
-            fecha = valor.fecha_trabajada.strftime("%d/%m/%Y")
-            if fecha >= fecha_desde and fecha <= fecha_hasta:
+            
+            fecha_trabajada_formateada = valor.fecha_trabajada.strftime(formato_fecha)
+            fecha_trabajada_formateada_b = datetime.strptime(fecha_trabajada_formateada, "%d/%m/%Y %H:%M:%S")
+            
+            if fecha_trabajada_formateada_b >= fecha_desde_formateada and fecha_trabajada_formateada_b <= fecha_hasta_formateada:
                 resultado_busqueda.append(valor)
         
         if resultado_busqueda:
@@ -279,14 +334,17 @@ def editar_fichero(request):
             return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj})
     
     elif not dni and fecha_desde and fecha_hasta:
+        fecha_hasta_formateada = datetime.strptime(fecha_hasta + " 00:00:00", "%d/%m/%Y %H:%M:%S")
+        fecha_desde_formateada = datetime.strptime(fecha_desde + " 00:00:00", "%d/%m/%Y %H:%M:%S")
         dni = Fichero.objects.all()
         resultado_busqueda = []
-        
+
+
         for valor in dni:
-            fecha = valor.fecha_trabajada.strftime("%d/%m/%Y")
-            if fecha >= fecha_desde and fecha <= fecha_hasta:
+            fecha_trabajada_formateada = valor.fecha_trabajada.strftime(formato_fecha)
+            fecha_trabajada_formateada_b = datetime.strptime(fecha_trabajada_formateada, "%d/%m/%Y %H:%M:%S")
+            if fecha_trabajada_formateada_b >= fecha_desde_formateada and fecha_trabajada_formateada_b <= fecha_hasta_formateada:
                 resultado_busqueda.append(valor)
-                
         if resultado_busqueda:
             return render(request, 'empleados/editar_fichero.html', {'form':form,'ficheros_listado':resultado_busqueda})
         else:
@@ -294,30 +352,44 @@ def editar_fichero(request):
             return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj})
     
     elif dni and fecha_desde and not fecha_hasta:
+        fecha_desde_formateada = datetime.strptime(fecha_desde + " 00:00:00", "%d/%m/%Y %H:%M:%S")
+        fecha_hasta = datetime.today()
         
         dni = Fichero.objects.filter(dni=dni)
-        fecha_hasta = datetime.now()
-        fecha_hasta_a = fecha_hasta.strftime("%d/%m/%Y")
+        
+        
     
         resultado_busqueda = []
+        
+        
         for valor in dni:
-            fecha = valor.fecha_trabajada.strftime("%d/%m/%Y")
-            if fecha >= fecha_desde and fecha <= fecha_hasta_a:
+            fecha_trabajada_formateada = valor.fecha_trabajada.strftime(formato_fecha)
+            fecha_trabajada_formateada_b = datetime.strptime(fecha_trabajada_formateada, "%d/%m/%Y %H:%M:%S")
+            
+            
+            if fecha_trabajada_formateada >= fecha_desde_formateada and fecha_trabajada_formateada <= fecha_hasta:
                 resultado_busqueda.append(valor)
         if resultado_busqueda:
             return render(request, 'empleados/editar_fichero.html', {'form':form,'ficheros_listado':resultado_busqueda})
         else:
-            msj = 'Sin datos entre el rango ' + fecha_desde + ' hasta ' + fecha_hasta_a
+            msj = 'Sin datos entre el rango ' + fecha_desde + ' hasta ' + fecha_hasta.strftime(formato_fecha)
             return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj})
     
     elif dni and not fecha_desde and fecha_hasta:
+        
         dni = Fichero.objects.filter(dni=dni)
-        fecha_desde = '01/01/2020'
+        fecha_desde = '01/01/2020 00:00:00'
+        fecha_desde_formateada = datetime.strptime(fecha_desde, "%d/%m/%Y %H:%M:%S")
+        fecha_hasta_formateada = datetime.strptime(fecha_hasta + " 00:00:00", "%d/%m/%Y %H:%M:%S")
+        
     
         resultado_busqueda = []
         for valor in dni:
-            fecha = valor.fecha_trabajada.strftime("%d/%m/%Y")
-            if fecha >= fecha_desde and fecha <= fecha_hasta:
+            
+            fecha_trabajada_formateada = valor.fecha_trabajada.strftime(formato_fecha)
+            fecha_trabajada_formateada_b = datetime.strptime(fecha_trabajada_formateada, "%d/%m/%Y %H:%M:%S")
+            
+            if fecha_trabajada_formateada_b >= fecha_desde_formateada and fecha_trabajada_formateada_b <= fecha_hasta_formateada:
                 resultado_busqueda.append(valor)
         if resultado_busqueda:
             return render(request, 'empleados/editar_fichero.html', {'form':form,'ficheros_listado':resultado_busqueda})
@@ -326,9 +398,14 @@ def editar_fichero(request):
             return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj})
         
     
-    
-    
-    
+    elif not dni and not fecha_desde and not fecha_hasta:
+        form = FormBusquedaFichero()
+        ficheros_listado = Fichero.objects.all()
+        if ficheros_listado:
+            return render(request, 'empleados/editar_fichero.html', {'form':form,'ficheros_listado':ficheros_listado} )
+        else:
+            msj = 'Sin datos'
+            return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj} )
     
     
     

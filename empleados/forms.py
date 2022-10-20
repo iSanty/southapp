@@ -1,7 +1,6 @@
 from django import forms
 
-from empleados.models import Categoria, TipoTarifa
-from transportes.models import Sucursal
+from empleados.models import Categoria, TipoTarifa, Sucursal
 
 
 class FormAltaPersonalMeli(forms.Form):
@@ -11,6 +10,7 @@ class FormAltaPersonalMeli(forms.Form):
     banco = forms.CharField(max_length=50)
     cbu = forms.IntegerField()
     alias = forms.CharField(max_length=50)
+    sucursal_por_defecto = forms.ModelChoiceField(queryset= Sucursal.objects.all(), required=False)
     
     
 class FicharPersonalMeli(forms.Form):
@@ -45,3 +45,8 @@ class FormEditarFicha(forms.Form):
     dni = forms.IntegerField()
     categoria = forms.ModelChoiceField(queryset= Categoria.objects.all())
     tarifa = forms.FloatField()
+
+
+
+class FormSucursal(forms.Form):
+    sucursal = forms.CharField(max_length=10)

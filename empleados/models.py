@@ -45,3 +45,11 @@ class Fichero(models.Model):
     apellido = models.CharField(max_length=50)
     total_dia = models.FloatField(null=0)
     sucursal = models.CharField(max_length=50)
+    
+    
+    
+class Sucursal(models.Model):
+    sucursal = models.CharField(max_length=10)
+    
+    def __str__(self):
+        return f'{self.sucursal}'
