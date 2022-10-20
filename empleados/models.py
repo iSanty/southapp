@@ -1,14 +1,15 @@
+from email.policy import default
 from django.db import models
 
 # Create your models here.
 
 
 class EmpleadoMeli(models.Model):
-    dni = models.IntegerField(null=0)
+    dni = models.BigIntegerField(default=0)
     nombre = models.CharField(max_length=50)
     apellido = models.CharField(max_length=50)
     banco = models.CharField(max_length=50)
-    cbu = models.IntegerField(null=0)
+    cbu = models.BigIntegerField(default=0)
     alias = models.CharField(max_length=50)
     sucursal_por_defecto = models.CharField(max_length=50)
     
