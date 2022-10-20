@@ -13,7 +13,7 @@
         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Altas</a>
         <div class="dropdown-menu bg-transparent border-0">
             <a href={% url 'alta_personal_meli' %} class="dropdown-item">Personal</a>
-            <a href={% url 'crear_categoria' %} class="dropdown-item">Categorias</a>
+            <a href={% url 'crear_categoria' %} class="dropdown-item">Parametros</a>
             {% comment %} <a href={% url 'index_meli' %} class="dropdown-item">Transportes</a> {% endcomment %}
         </div>
     </div>
@@ -25,8 +25,8 @@
         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-keyboard me-2"></i>Consultas</a>
         <div class="dropdown-menu bg-transparent border-0">
             <a href={% url 'editar_fichero' %} class="dropdown-item">Fichas</a>
-            <a href={% url '404' %} class="dropdown-item">Personal</a>
-            <a href={% url '404' %} class="dropdown-item">Categorias</a>
+            <a href={% url 'index_meli' %} class="dropdown-item">Personal</a>
+            <a href={% url 'index_meli' %} class="dropdown-item">Categorias</a>
 
             {% comment %} <a href={% url 'index_meli' %} class="dropdown-item">Transportes</a> {% endcomment %}
         </div>
@@ -42,10 +42,10 @@
     <div class="nav-item dropdown">
         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Links utiles</a>
         <div class="dropdown-menu bg-transparent border-0">
-            <a href={% url '404' %} class="dropdown-item">Sistema SAAD</a>
-            <a href={% url '404' %} class="dropdown-item">Sistema PRESIS</a>
-            <a href={% url '404' %} class="dropdown-item">Southapp</a>
-            <a href={% url '404' %} class="dropdown-item">Southpost</a>
+            <a href={% url 'index_meli' %} class="dropdown-item">Sistema SAAD</a>
+            <a href={% url 'index_meli' %} class="dropdown-item">Sistema PRESIS</a>
+            <a href={% url 'index_meli' %} class="dropdown-item">Southapp</a>
+            <a href={% url 'index_meli' %} class="dropdown-item">Southpost</a>
         </div>
     </div>
 </div>
