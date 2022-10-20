@@ -7,6 +7,14 @@ from .forms import FormAltaPersonalMeli, FicharPersonalMeli, CrearCategoria, For
 # Create your views here.
 from datetime import datetime
 
+
+
+formato_fecha = "%d/%m/%Y %H:%M:%S"
+formato_fecha2 = "%d/%m/%Y"
+hoy = datetime.today()
+
+
+
 @login_required
 def index_meli(request):
     return render(request, 'empleados/index_meli.html')
@@ -118,7 +126,14 @@ def alta_categoria(request):
         
 @login_required
 def fichero(request):
-    form_fichero = FicharPersonalMeli()
+    form_fichero = FicharPersonalMeli(initial={
+        'dni': '',
+        'fecha_trabajada': hoy.strftime(formato_fecha2),
+        'categoria': '',
+        'tipo_tarifa': '',
+        'sucursal': '',
+        
+    })
     
     msj = 'Ingrese los datos solicitados.'
     
@@ -157,7 +172,7 @@ def fichero(request):
                             nombre = personal.nombre,
                             apellido = personal.apellido,
                             tarifa = costo.tarifa_por_dia,
-                            tipo_tarifa = str(informacion['tipo_tarifa']),
+                            tipo_tarifa = str(informacion['tipo_tarifa']), 
                             
                             total_dia = suma
                             
@@ -228,20 +243,25 @@ def editar_fichero(request):
             
         
     elif not dni and not fecha_desde and fecha_hasta:
-        fecha_desde = '01/01/2020'
+        fecha_desde = '01/01/2020 00:00:00'
+        fecha_desde_formateada = datetime.strptime(fecha_desde, "%d/%m/%Y %H:%M:%S")
+        fecha_hasta_formateada = datetime.strptime(fecha_hasta + " 00:00:00", "%d/%m/%Y %H:%M:%S")
+        
         dni = Fichero.objects.all()
         resultado_busqueda = []
+       
         for valor in dni:
-            fecha_str = valor.fecha_trabajada.strftime("%d/%m/%Y")
-            if fecha_str >= fecha_desde and fecha_hasta >= fecha_str:
+            fecha_trabajada_formateada = valor.fecha_trabajada.strftime(formato_fecha)
+            fecha_trabajada_formateada_b = datetime.strptime(fecha_trabajada_formateada, "%d/%m/%Y %H:%M:%S")
+            if fecha_trabajada_formateada_b >= fecha_desde_formateada and fecha_hasta_formateada >= fecha_trabajada_formateada_b:
                 
                 resultado_busqueda.append(valor)
-                resultado_busqueda.append(fecha_str)
+                
                 
         if resultado_busqueda:
             return render(request, 'empleados/editar_fichero.html', {'form':form,'ficheros_listado':resultado_busqueda})
         else:
-            msj = 'Sin datos entre el rango ' + fecha_desde + ' hasta ' + fecha_hasta
+            msj = 'Sin datos hasta la fecha ' + fecha_hasta
             return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj})
        
     elif dni and fecha_desde and fecha_hasta:
@@ -343,14 +363,17 @@ def edicion_fichero(request, id):
             msj = 'Formulario incorrecto'
             return render(request, 'empleados/edicion_ficha.html', {'form': form, 'msj':msj, 'ficha':ficha})
 
+    
+    
+    
     form_ficha = FormEditarFicha(initial={
         'fecha_trabajada': ficha.fecha_trabajada,
         'dni': ficha.dni,
-        'categoria': '',
+        'categoria': ficha.categoria,
         'tarifa': ficha.tarifa, 
         
         })
-    msj = 'Edicion de ficha de ' + ficha.nombre + ' ,' + ficha.apellido + ' del dia '
+    msj = 'Edicion de ficha de ' + ficha.nombre + ' ,' + ficha.apellido
     return render(request, 'empleados/edicion_ficha.html', {'form':form_ficha, 'msj':msj, 'ficha':ficha})
 
 
