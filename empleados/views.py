@@ -14,7 +14,9 @@ formato_fecha = "%d/%m/%Y %H:%M:%S"
 formato_fecha2 = "%d/%m/%Y"
 hoy = datetime.today()
 
-   
+def ver_personal(request):
+    object_list = EmpleadoMeli.objects.all()
+    return render(request, 'empleados/ver_personal.html', {'object_list':object_list})
 
 @login_required
 def index_meli(request):
@@ -264,26 +266,13 @@ def fichero(request):
                             cbu = personal.cbu,
                             pago_realizado = 'No',
                             alias = personal.alias,
-                            
-                            
-                            
-                            
                         )
                         
-                            
-                        
-                        
-
-                            
-                        
-                            
-                            
                         if aumento:
                             fichar.suma_a_tarifa = aumento.valor
                         else:
                             fichar.suma_a_tarifa = 0
-                        
-                        
+
                         fichar.save()
                         msj = 'Fichero grabado'
                         return render(request, 'empleados/fichero.html', {'form_fichero':form_fichero, 'msj':msj})
@@ -314,9 +303,11 @@ def editar_fichero(request):
     dni = request.GET.get('dni')
     fecha_desde = request.GET.get('fecha_desde')
     fecha_hasta = request.GET.get('fecha_hasta')
+    sucursal = request.GET.get('sucursal')
+    
     form = FormBusquedaFichero()
     
-    if dni and not fecha_desde and not fecha_hasta:
+    if dni and not fecha_desde and not fecha_hasta and not sucursal:
         form = FormBusquedaFichero()
         ficheros_listado = Fichero.objects.filter(dni=dni)
         if ficheros_listado:
@@ -325,11 +316,11 @@ def editar_fichero(request):
             msj = 'Documento inexistente'
             return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj} )
         
-    elif not dni and fecha_desde and not fecha_hasta:
+    elif not dni and fecha_desde and not fecha_hasta and not sucursal:
         
         fecha_hasta = datetime.today()
-        
-        
+       
+       
         fecha_desde_formateada = datetime.strptime(fecha_desde + " 00:00:00", "%d/%m/%Y %H:%M:%S") #1
         dni = Fichero.objects.all()
         resultado_busqueda = []
@@ -346,7 +337,7 @@ def editar_fichero(request):
             return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj})
             
         
-    elif not dni and not fecha_desde and fecha_hasta:
+    elif not dni and not fecha_desde and fecha_hasta and not sucursal:
         fecha_desde = '01/01/2020 00:00:00'
         fecha_desde_formateada = datetime.strptime(fecha_desde, "%d/%m/%Y %H:%M:%S")
         
@@ -371,7 +362,7 @@ def editar_fichero(request):
        
        
        
-    elif dni and fecha_desde and fecha_hasta:
+    elif dni and fecha_desde and fecha_hasta and not sucursal:
         
         fecha_hasta_formateada = datetime.strptime(fecha_hasta + " 00:00:00", "%d/%m/%Y %H:%M:%S")
         fecha_desde_formateada = datetime.strptime(fecha_desde + " 00:00:00", "%d/%m/%Y %H:%M:%S")
@@ -392,7 +383,7 @@ def editar_fichero(request):
             msj = 'Sin datos entre el rango ' + fecha_desde + ' hasta ' + fecha_hasta
             return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj})
     
-    elif not dni and fecha_desde and fecha_hasta:
+    elif not dni and fecha_desde and fecha_hasta and not sucursal:
         fecha_hasta_formateada = datetime.strptime(fecha_hasta + " 00:00:00", "%d/%m/%Y %H:%M:%S")
         fecha_desde_formateada = datetime.strptime(fecha_desde + " 00:00:00", "%d/%m/%Y %H:%M:%S")
         dni = Fichero.objects.all()
@@ -410,7 +401,7 @@ def editar_fichero(request):
             msj = 'Sin datos entre el rango ' + fecha_desde + ' hasta ' + fecha_hasta
             return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj})
     
-    elif dni and fecha_desde and not fecha_hasta:
+    elif dni and fecha_desde and not fecha_hasta and not sucursal:
         fecha_desde_formateada = datetime.strptime(fecha_desde + " 00:00:00", "%d/%m/%Y %H:%M:%S")
         fecha_hasta = datetime.today()
         
@@ -434,7 +425,7 @@ def editar_fichero(request):
             msj = 'Sin datos entre el rango ' + fecha_desde + ' hasta ' + fecha_hasta.strftime(formato_fecha)
             return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj})
     
-    elif dni and not fecha_desde and fecha_hasta:
+    elif dni and not fecha_desde and fecha_hasta and not sucursal:
         
         dni = Fichero.objects.filter(dni=dni)
         fecha_desde = '01/01/2020 00:00:00'
@@ -467,15 +458,216 @@ def editar_fichero(request):
     #         return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj} )
     
     
+    #agrego condiciones para filtro por SUCURSAL
+    #Con DNI con Sucursal Sin fecha desde sin fecha hasta
+    elif dni and sucursal and not fecha_desde and not fecha_hasta:
+        dni = Fichero.objects.filter(dni=dni)
+        
+        resultado_busqueda = []
+        sucursal, _ = Sucursal.objects.get_or_create(id=sucursal)
+        
+        for valor in dni:
+            
+            if valor.sucursal == sucursal.sucursal:
+                resultado_busqueda.append(valor)
+                
+        if resultado_busqueda:
+            return render(request, 'empleados/editar_fichero.html', {'form':form,'ficheros_listado':resultado_busqueda})
+        else:
+            msj = 'Sin datos'
+            return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj})
     
+    
+    #Con DNI con Sucursal con fecha desde con fecha hasta
+    elif dni and fecha_desde and fecha_hasta and sucursal:
+        
+        fecha_hasta_formateada = datetime.strptime(fecha_hasta + " 00:00:00", "%d/%m/%Y %H:%M:%S")
+        fecha_desde_formateada = datetime.strptime(fecha_desde + " 00:00:00", "%d/%m/%Y %H:%M:%S")
+        ficha = Fichero.objects.filter(dni=dni)
+
+        resultado_busqueda = []
+        sucursal, _ = Sucursal.objects.get_or_create(id=sucursal)
+        
+        for valor in ficha:
+            if valor.sucursal == sucursal.sucursal:
+
+                fecha_trabajada_formateada = valor.fecha_trabajada.strftime(formato_fecha)
+                fecha_trabajada_formateada_b = datetime.strptime(fecha_trabajada_formateada, "%d/%m/%Y %H:%M:%S")
+                
+                if fecha_trabajada_formateada_b >= fecha_desde_formateada and fecha_trabajada_formateada_b <= fecha_hasta_formateada:
+                    resultado_busqueda.append(valor)
+                    
+        if resultado_busqueda:
+            
+            return render(request, 'empleados/editar_fichero.html', {'form':form,'ficheros_listado':resultado_busqueda})
+        else:
+            msj = 'Sin datos'
+            return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj})
+    
+    #Con DNI con Sucursal Sin fecha desde con fecha hasta
+    
+    
+    elif dni and sucursal and not fecha_desde and fecha_hasta:
+        
+        dni = Fichero.objects.filter(dni=dni)
+        
+        fecha_desde = '01/01/2020 00:00:00'
+        fecha_desde_formateada = datetime.strptime(fecha_desde, "%d/%m/%Y %H:%M:%S")
+        
+        fecha_hasta_formateada = datetime.strptime(fecha_hasta + " 00:00:00", "%d/%m/%Y %H:%M:%S")
+        sucursal, _ = Sucursal.objects.get_or_create(id=sucursal)
+        
+        resultado_busqueda = []
+        
+        for valor in dni:
+            if valor.sucursal == sucursal.sucursal:
+                
+                fecha_trabajada_formateada = valor.fecha_trabajada.strftime(formato_fecha)
+                fecha_trabajada_formateada_b = datetime.strptime(fecha_trabajada_formateada, "%d/%m/%Y %H:%M:%S")
+                
+                if fecha_trabajada_formateada_b >= fecha_desde_formateada and fecha_trabajada_formateada_b <= fecha_hasta_formateada:
+                    resultado_busqueda.append(valor)
+        
+                    
+        if resultado_busqueda:
+                
+            return render(request, 'empleados/editar_fichero.html', {'form':form,'ficheros_listado':resultado_busqueda})
+        else:
+            msj = 'Sin datos'
+            return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj})
+                
+                
+    #Con DNI con Sucursal con fecha desde sin fecha hasta
+    elif dni and sucursal and fecha_desde and not fecha_hasta:
+        
+        fecha_desde_formateada = datetime.strptime(fecha_desde + " 00:00:00", "%d/%m/%Y %H:%M:%S")
+        fecha_hasta = datetime.today()
+        dni = Fichero.objects.filter(dni=dni)
+        resultado_busqueda = []
+        sucursal, _ = Sucursal.objects.get_or_create(id=sucursal)
+        
+        for valor in dni:
+
+            if valor.sucursal == sucursal.sucursal:
+                fecha_trabajada_formateada = valor.fecha_trabajada.strftime(formato_fecha)
+                fecha_trabajada_formateada_b = datetime.strptime(fecha_trabajada_formateada, "%d/%m/%Y %H:%M:%S")
+            
+                if fecha_trabajada_formateada >= fecha_desde_formateada and fecha_trabajada_formateada <= fecha_hasta:
+                    resultado_busqueda.append(valor)
+                
+                
+                
+        if resultado_busqueda:
+            return render(request, 'empleados/editar_fichero.html', {'form':form,'ficheros_listado':resultado_busqueda})
+        else:
+            msj = 'Sin datos entre el rango ' + fecha_desde + ' hasta ' + fecha_hasta.strftime(formato_fecha)
+            return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj})
+        
+    
+    #Sin DNI con Sucursal Sin fecha desde sin fecha hasta
+    elif not dni and sucursal and not fecha_desde and not fecha_hasta:
+        
+        dni = Fichero.objects.all()
+        
+        sucursal, _ = Sucursal.objects.get_or_create(id=sucursal)
+        resultado_busqueda = []
+        
+        
+        for valor in dni:
+            if valor.sucursal == sucursal.sucursal:
+                resultado_busqueda.append(valor)
+                
+        if resultado_busqueda:
+                return render(request, 'empleados/editar_fichero.html', {'form':form,'ficheros_listado':resultado_busqueda})
+        else:
+            msj = 'Sin datos en esta sucursal'
+            return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj})
+    
+    #Sin DNI con Sucursal con fecha desde con fecha hasta
+    elif not dni and sucursal and fecha_desde and fecha_hasta:
+        
+        fecha_hasta_formateada = datetime.strptime(fecha_hasta + " 00:00:00", "%d/%m/%Y %H:%M:%S")
+        fecha_desde_formateada = datetime.strptime(fecha_desde + " 00:00:00", "%d/%m/%Y %H:%M:%S")
+        dni = Fichero.objects.all()
+        
+        resultado_busqueda = []
+        sucursal, _ = Sucursal.objects.get_or_create(id=sucursal)
+        
+        for valor in dni:
+            if valor.sucursal == sucursal.sucursal:
+
+                fecha_trabajada_formateada = valor.fecha_trabajada.strftime(formato_fecha)
+                fecha_trabajada_formateada_b = datetime.strptime(fecha_trabajada_formateada, "%d/%m/%Y %H:%M:%S")
+                
+                if fecha_trabajada_formateada_b >= fecha_desde_formateada and fecha_trabajada_formateada_b <= fecha_hasta_formateada:
+                    resultado_busqueda.append(valor)
+                    
+        if resultado_busqueda:
+            
+            return render(request, 'empleados/editar_fichero.html', {'form':form,'ficheros_listado':resultado_busqueda})
+        else:
+            msj = 'Sin datos en la sucursal: ' + sucursal.sucursal + 'entre las fechas ' + fecha_desde + ' y ' + fecha_hasta
+            return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj})
+        
+        
+    #Sin DNI con Sucursal Sin fecha desde con fecha hasta
+    elif not dni and sucursal and not fecha_desde and fecha_hasta:
+        
+        dni = Fichero.objects.all()
+        fecha_desde = '01/01/2020 00:00:00'
+        fecha_desde_formateada = datetime.strptime(fecha_desde, "%d/%m/%Y %H:%M:%S")
+        
+        fecha_hasta_formateada = datetime.strptime(fecha_hasta + " 00:00:00", "%d/%m/%Y %H:%M:%S")
+        sucursal, _ = Sucursal.objects.get_or_create(id=sucursal)
+        
+        resultado_busqueda = []
+        
+        for valor in dni:
+            if valor.sucursal == sucursal.sucursal:
+                fecha_trabajada_formateada = valor.fecha_trabajada.strftime(formato_fecha)
+                fecha_trabajada_formateada_b = datetime.strptime(fecha_trabajada_formateada, "%d/%m/%Y %H:%M:%S")
+                if fecha_trabajada_formateada_b >= fecha_desde_formateada and fecha_trabajada_formateada_b <= fecha_hasta_formateada:
+                    resultado_busqueda.append(valor)
+        if resultado_busqueda:
+                
+            return render(request, 'empleados/editar_fichero.html', {'form':form,'ficheros_listado':resultado_busqueda})
+        else:
+            msj = 'Sin datos'
+            return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj})
+    
+    #Sin DNI con Sucursal con fecha desde sin fecha hasta
+    
+    elif not dni and sucursal and fecha_desde and not fecha_hasta:
+        
+        fecha_desde_formateada = datetime.strptime(fecha_desde + " 00:00:00", "%d/%m/%Y %H:%M:%S")
+        fecha_hasta = datetime.today()
+        dni = Fichero.objects.all()
+        resultado_busqueda = []
+        sucursal, _ = Sucursal.objects.get_or_create(id=sucursal)
+        
+        for valor in dni:
+
+            if valor.sucursal == sucursal.sucursal:
+                fecha_trabajada_formateada = valor.fecha_trabajada.strftime(formato_fecha)
+                fecha_trabajada_formateada_b = datetime.strptime(fecha_trabajada_formateada, "%d/%m/%Y %H:%M:%S")
+            
+                if fecha_trabajada_formateada >= fecha_desde_formateada and fecha_trabajada_formateada <= fecha_hasta:
+                    resultado_busqueda.append(valor)
+                
+                
+                
+        if resultado_busqueda:
+            return render(request, 'empleados/editar_fichero.html', {'form':form,'ficheros_listado':resultado_busqueda})
+        else:
+            msj = 'Sin datos entre el rango ' + fecha_desde + ' hasta ' + fecha_hasta.strftime(formato_fecha) + 'en la sucursal ' + sucursal.sucursal
+            return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj})
+        
     else:
         msj = 'Busqueda: llene 1 o mas campos'
         return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj} )
     
     
-    
-    
-    
+
 @login_required
 def edicion_fichero(request, id):
     
@@ -489,6 +681,9 @@ def edicion_fichero(request, id):
             ficha.dni = form.cleaned_data.get('dni')
             ficha.categoria = str(form.cleaned_data.get('categoria'))
             ficha.tarifa = form.cleaned_data.get('tarifa')
+            ficha.editado = 'Si'
+            ficha.fecha_de_edicion = datetime.today()
+            
             
             
             ficha.save()
@@ -506,7 +701,8 @@ def edicion_fichero(request, id):
         'fecha_trabajada': ficha.fecha_trabajada,
         'dni': ficha.dni,
         'categoria': ficha.categoria,
-        'tarifa': ficha.tarifa, 
+        'tarifa': ficha.tarifa,
+        'sucursal': ficha.sucursal,
         
         })
     msj = 'Edicion de ficha de ' + ficha.nombre + ' ,' + ficha.apellido

@@ -1,0 +1,18 @@
+{% extends 'empleados/index_meli.html' %}
+
+
+
+
+    {% comment %} <form action= {% url 'busqueda_transporte' %}>
+        {{form}}
+        <button>Buscar</button>
+    </form> {% endcomment %}
+
+    {% block graficos_tablas %}
+    <p>Personal: </p>
+    <ul>
+        {%for personal in object_list %}
+        <li>DNI: {{personal.dni}}- Nombre: {{personal.nombre}}- Apellido: {{personal.apellido}}- Sucursal: {{personal.sucursal_por_defecto}} - </li>{% comment %} <a href={% url 'editar_personal' personal.id %}>Editar</a> {% endcomment %}
+        {% endfor %}
+    </ul>
+    {% endblock graficos_tablas %}
