@@ -533,7 +533,7 @@ def editar_fichero(request):
                 
             return render(request, 'empleados/editar_fichero.html', {'form':form,'ficheros_listado':resultado_busqueda})
         else:
-            msj = 'Sin datos'
+            msj = 'Sin datos '
             return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj})
                 
                 
