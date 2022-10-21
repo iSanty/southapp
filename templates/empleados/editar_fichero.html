@@ -20,15 +20,62 @@
         {{msj}}
         {% else %}
         
+        <div class="col-12">
+            <div class="bg-secondary rounded h-100 p-4">
+                <h6 class="mb-4">Resultado de la busqueda</h6>
+                <a href={% url 'editar_fichero' %}><button class="btn btn-info">Exportar reporte</a></button>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">DNI</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Apellido</th>
+                            <th scope="col">Sucursal</th>
+                            <th scope="col">Categoria</th>
+                            <th scope="col">Tipo tarifa</th>
+                            <th scope="col">Dia trabajado</th>
+                            <th scope="col">Pago realizado</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for fichero in ficheros_listado %}
+                        <tr>
+                            <th scope="row">id: {{fichero.id}}</th>
+                            <td>{{fichero.dni}}</td>
+                            <td>{{fichero.nombre}}</td>
+                            <td>{{fichero.apellido}}</td>
+                            <td>{{fichero.sucursal}}</td>
+                            <td>{{fichero.categoria}}</td>
+                            <td>{{fichero.tipo_tarifa}}</td>
+                            <td>{{fichero.fecha_trabajada}}</td>
+                            <td>{{fichero.pago_realizado}}</td>
+                            <td><a href={% url 'edicion_ficha' fichero.id %}>Editar</a></td>
 
 
 
-        <p>Resultado de la busqueda:</p>
-            <ul>
-                {%for fichero in ficheros_listado%}
-                <li><a href={% url 'edicion_ficha' fichero.id %}>Editar - </a>Fecha: {{fichero.fecha_trabajada}}- Dni: {{fichero.dni}}- Apellido: {{fichero.apellido}}- Tarifa: {{fichero.tipo_tarifa}}- Total dia: {{fichero.total_dia}} </li>
-                {% endfor %}
-            </ul>
+                        </tr>
+                        {% endfor %}
+                        
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         {% endif %}
