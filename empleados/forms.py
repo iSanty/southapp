@@ -8,8 +8,8 @@ class FormAltaPersonalMeli(forms.Form):
     nombre = forms.CharField(max_length=50)
     apellido = forms.CharField(max_length=50)
     banco = forms.CharField(max_length=50)
-    cbu = forms.IntegerField()
-    alias = forms.CharField(max_length=50)
+    cbu = forms.CharField(max_length=22, required=False)
+    alias = forms.CharField(max_length=50, required=False)
     sucursal_por_defecto = forms.ModelChoiceField(queryset= Sucursal.objects.all(), required=False)
     
     
@@ -37,6 +37,7 @@ class FormBusquedaFichero(forms.Form):
     dni = forms.IntegerField(required=False)
     fecha_desde = forms.DateTimeField(input_formats=['%d/%m/%Y'], required=False)
     fecha_hasta = forms.DateTimeField(input_formats=['%d/%m/%Y'], required=False)
+    sucursal = forms.ModelChoiceField(queryset=Sucursal.objects.all())
     
     
     
@@ -44,8 +45,9 @@ class FormBusquedaFichero(forms.Form):
 class FormEditarFicha(forms.Form):
     fecha_trabajada = forms.DateTimeField(input_formats=['%d/%m/%Y'])
     dni = forms.IntegerField()
-    categoria = forms.ModelChoiceField(queryset= Categoria.objects.all())
+    categoria = forms.ModelChoiceField(queryset=Categoria.objects.all())
     tarifa = forms.FloatField()
+    sucursal = forms.CharField(max_length=30)
 
 
 

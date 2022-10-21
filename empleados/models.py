@@ -9,7 +9,7 @@ class EmpleadoMeli(models.Model):
     nombre = models.CharField(max_length=50)
     apellido = models.CharField(max_length=50)
     banco = models.CharField(max_length=50)
-    cbu = models.BigIntegerField(default=0)
+    cbu = models.CharField(max_length=22)
     alias = models.CharField(max_length=50)
     sucursal_por_defecto = models.CharField(max_length=50)
     
@@ -52,6 +52,13 @@ class Fichero(models.Model):
     sucursal = models.CharField(max_length=50)
     creado_por = models.CharField(max_length=50)
     fecha_creacion = models.DateTimeField(null=True)
+    cbu = models.CharField(max_length=22)
+    alias = models.CharField(max_length=50)
+    responsable = models.CharField(max_length=50)
+    editado = models.CharField(max_length=50)
+    fecha_de_edicion = models.DateTimeField(null=True)
+    pago_realizado = models.CharField(max_length=50)
+    fecha_pago = models.DateTimeField(null=True)
     
     
     

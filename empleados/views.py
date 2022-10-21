@@ -1,11 +1,12 @@
-
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from accounts.models import MasDatosUsuario
 
 from empleados.models import Categoria, EmpleadoMeli, Fichero, Sucursal, TipoTarifa
 from .forms import FormAltaPersonalMeli, FicharPersonalMeli, CrearCategoria, FormBusquedaFichero, FormEditarFicha, FormTipoTarifa, FormSucursal
 # Create your views here.
 from datetime import datetime
+from .funciones import validar_dato
 
 
 
@@ -41,13 +42,37 @@ def alta_personal_meli(request):
                     nombre = informacion['nombre'],
                     apellido = informacion['apellido'],
                     banco = informacion['banco'],
-                    cbu = informacion['cbu'],
                     alias = informacion['alias'],
                     sucursal_por_defecto = informacion['sucursal_por_defecto'],
                     alta_por = user,
                     fecha_alta = hoy
                     
                 )
+                
+                if informacion['cbu']:
+                    if len(informacion['cbu'])==22:
+                        consulta = informacion['cbu']
+                        validacion = validar_dato(consulta=consulta)
+                        if validacion:
+                            empleado.cbu = consulta
+                        else:
+                            msj = 'El CBU contiene caracteres invalidos'
+                            return render(request, 'empleados/alta_personal_meli.html', {'msj':msj, 'form_alta':form_alta})
+                    else: 
+                        msj = 'Debe ingresar un CBU con 22 dígitos'
+                        return render(request, 'empleados/alta_personal_meli.html', {'msj':msj, 'form_alta':form_alta})
+                        
+                else:
+                    empleado.cbu = 0
+                            
+                            
+                if informacion['alias']:
+                    empleado.cbu = consulta
+                else:
+                    empleado.alias = ''
+
+                
+                
                 empleado.save()
                 msj = 'Nombre ' + informacion['nombre'] + ' ' + informacion['apellido'] + ' creado exitosamente.'
                 return render(request, 'empleados/alta_personal_meli.html', {'msj':msj, 'form_alta':form_alta})
@@ -170,12 +195,15 @@ def alta_categoria(request):
         
 @login_required
 def fichero(request):
+    user = request.user
+    mi_sucursal, _ = MasDatosUsuario.objects.get_or_create(user=user)
+    
     form_fichero = FicharPersonalMeli(initial={
         'dni': '',
         'fecha_trabajada': hoy.strftime(formato_fecha2),
         'categoria': '',
         'tipo_tarifa': '',
-        'sucursal': '',
+        'sucursal': mi_sucursal,
         
     })
     
@@ -212,7 +240,9 @@ def fichero(request):
                             sucursal_trabajada = informacion['sucursal']
                         else:
                             sucursal_trabajada = personal.sucursal_por_defecto
-                            
+
+                        
+                                
                                                     
                         fichar = Fichero(
                             
@@ -228,12 +258,26 @@ def fichero(request):
                             total_dia = suma,
                             creado_por = request.user,
                             fecha_creacion = datetime.today(),
-                            sucursal = sucursal_trabajada
+                            sucursal = sucursal_trabajada,
+                            responsable = personal.alta_por,
+                            editado = 'No',
+                            cbu = personal.cbu,
+                            pago_realizado = 'No',
+                            alias = personal.alias,
+                            
                             
                             
                             
                         )
                         
+                            
+                        
+                        
+
+                            
+                        
+                            
+                            
                         if aumento:
                             fichar.suma_a_tarifa = aumento.valor
                         else:
