@@ -27,7 +27,7 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
+                            <th scope="col">N° Control</th>
                             <th scope="col">DNI</th>
                             <th scope="col">Nombre</th>
                             <th scope="col">Apellido</th>
@@ -42,7 +42,7 @@
                     <tbody>
                         {% for fichero in ficheros_listado %}
                         <tr>
-                            <th scope="row">id: {{fichero.id}}</th>
+                            <th scope="row">{{fichero.id}}</th>
                             <td>{{fichero.dni}}</td>
                             <td>{{fichero.nombre}}</td>
                             <td>{{fichero.apellido}}</td>
