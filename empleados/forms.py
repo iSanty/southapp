@@ -37,7 +37,7 @@ class FormBusquedaFichero(forms.Form):
     dni = forms.IntegerField(required=False)
     fecha_desde = forms.DateTimeField(input_formats=['%d/%m/%Y'], required=False)
     fecha_hasta = forms.DateTimeField(input_formats=['%d/%m/%Y'], required=False)
-    sucursal = forms.ModelChoiceField(queryset=Sucursal.objects.all())
+    sucursal = forms.ModelChoiceField(queryset=Sucursal.objects.all(), required=False)
     
     
     
