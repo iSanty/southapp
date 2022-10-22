@@ -27,7 +27,7 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            {% comment %} <th scope="col">N° Control</th> {% endcomment %}
+                            
                             <th scope="col">DNI</th>
                             <th scope="col">Nombre</th>
                             <th scope="col">Apellido</th>
@@ -42,16 +42,20 @@
                     <tbody>
                         {% for fichero in ficheros_listado %}
                         <tr>
-                            {% comment %} <th scope="row">{{fichero.id}}</th> {% endcomment %}
-                            <td>{{fichero.dni}}</td>
+                            <th>{{fichero.dni}}</th>
+                            
                             <td>{{fichero.nombre}}</td>
                             <td>{{fichero.apellido}}</td>
                             <td>{{fichero.sucursal}}</td>
                             <td>{{fichero.categoria}}</td>
                             <td>{{fichero.tipo_tarifa}}</td>
                             <td>{{fichero.fecha_trabajada}}</td>
+                            {% if fichero.pago_realizado == 'Si' %}
                             <td>{{fichero.pago_realizado}}</td>
-                            <td><a href={% url 'edicion_ficha' fichero.id %}>Editar</a></td>
+                            {% else %}
+                            <td>{{fichero.pago_realizado}}  -<a href={% url 'editar_fichero' %}><button class="btn btn-info">Pagar</a></button></td>
+                            {% endif %}
+                            <td><a href={% url 'edicion_ficha' fichero.id %}><button class="btn btn-info">Editar</a></td>
 
 
 
