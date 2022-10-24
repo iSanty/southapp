@@ -46,7 +46,6 @@ def alta_personal_meli(request):
                     nombre = informacion['nombre'],
                     apellido = informacion['apellido'],
                     banco = informacion['banco'],
-                    alias = informacion['alias'],
                     sucursal_por_defecto = informacion['sucursal_por_defecto'],
                     alta_por = user,
                     fecha_alta = hoy
@@ -71,7 +70,7 @@ def alta_personal_meli(request):
                             
                             
                 if informacion['alias']:
-                    empleado.cbu = consulta
+                    empleado.alias = informacion['alias']
                 else:
                     empleado.alias = ''
 
