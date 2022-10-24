@@ -1,0 +1,150 @@
+{% extends 'empleados/index_meli.html' %}
+
+{% block graficos_tablas %}
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <form action= {% url 'ver_parametros' %}>
+            <table>
+            {{msj_sucursal}}
+            {{form_sucursal.as_table}}
+            </table>
+            <button name="btn_busqueda_sucursal" type="submit" class="btn btn-success">Buscar</button>
+            <button name="btn_todos_s" type="submit" class="btn btn-warning">Ver todos</button>
+            
+        </form>
+
+        <form action= {% url 'ver_parametros' %}>
+            <table>
+                {{msj_categoria}}
+            {{form_categoria.as_table}}
+            </table>
+            <button name="btn_busqueda_categoria" type="submit" class="btn btn-success">Buscar</button>
+            <button name="btn_todos_c" type="submit" class="btn btn-warning">Ver todos</button>
+            
+        </form>
+
+        <form action= {% url 'ver_parametros' %}>
+            <table>
+            {{msj_tarifa}}
+            {{form_tipo_tarifa.as_table}}
+            </table>
+            <button name="btn_busqueda_tarifa" type="submit" class="btn btn-success">Buscar</button>
+            <button name="btn_todos_t" type="submit" class="btn btn-warning">Ver todos</button>
+            
+        </form>
+        
+
+    {{msj}}
+    {% if sucursales %}
+    <div class="col-12">
+
+        <div class="bg-secondary rounded h-100 p-4">
+            <h6 class="mb-4">Resultado de la busqueda</h6>
+            <a href={% url 'ver_parametros' %}><button class="btn btn-info">Exportar reporte</a></button>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        
+                        <th scope="col">Sucursal</th>
+                        <th scope="col">Accion</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for sucursal in sucursales %}
+                    <tr>
+                        <th>{{sucursal.sucursal}}</th>
+                        <td><a {% comment %} href={% url 'editar_personal' personal.id %}{% endcomment %}href="#"><button class="btn btn-warning">Editar</a></td>
+
+
+
+                    </tr>
+                    {% endfor %}
+                    
+
+
+                </tbody>
+            </table>
+        </div>
+
+    
+    {% endif %}
+
+
+    {% if categorias %}
+        <div class="bg-secondary rounded h-100 p-4">
+            <h6 class="mb-4">Resultado de la busqueda</h6>
+            <a href={% url 'ver_parametros' %}><button class="btn btn-info">Exportar reporte</a></button>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        
+                        <th scope="col">Categoria</th>
+                        <th scope="col">Tarifa por dia</th>
+                        <th scope="col">Accion</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for categoria in categorias %}
+                    <tr>
+                        <th>{{categoria.categoria}}</th>
+                        <th>{{categoria.tarifa_por_dia}}</th>
+
+                        <td><a {% comment %} href={% url 'editar_personal' personal.id %}{% endcomment %}href="#"><button class="btn btn-warning">Editar</a></td>
+
+
+
+                    </tr>
+                    {% endfor %}
+                    
+
+
+                </tbody>
+            </table>
+        </div>
+    
+    {% endif %}
+
+    {% if tipo_tarifa %}
+        <div class="bg-secondary rounded h-100 p-4">
+            <h6 class="mb-4">Resultado de la busqueda</h6>
+            <a href={% url 'ver_parametros' %}><button class="btn btn-info">Exportar reporte</a></button>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Valor</th>
+                        <th scope="col">Accion</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tipo in tipo_tarifa %}
+                    <tr>
+                        <th>{{tipo.tipo}}</th>
+                        <th>{{tipo.valor}}</th>
+
+                        <td><a {% comment %} href={% url 'editar_personal' personal.id %}{% endcomment %}href="#"><button class="btn btn-warning">Editar</a></td>
+
+
+
+                    </tr>
+                    {% endfor %}
+                    
+
+
+                </tbody>
+            </table>
+        </div>
+
+    
+    
+    {% endif %}
+    {% if msj_vacio %}
+    <div class="bg-secondary rounded h-100 p-4">
+        <h6 class="mb-4">{{msj_vacio}}</h6>
+    </div>
+    {% endif %}
+    {% endblock graficos_tablas %}

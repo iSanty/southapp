@@ -4,7 +4,7 @@ from django.urls import is_valid_path
 from accounts.models import MasDatosUsuario
 
 from empleados.models import Categoria, EmpleadoMeli, Fichero, Sucursal, TipoTarifa
-from .forms import FormAltaPersonalMeli, FicharPersonalMeli, CrearCategoria, FormBusquedaFichero, FormEditarFicha, FormTipoTarifa, FormSucursal, FormVerPersonal
+from .forms import FormAltaPersonalMeli, FicharPersonalMeli, CrearCategoria, FormBuscarCategoria, FormBuscarSucursal, FormBuscarTarifa, FormBusquedaFichero, FormEditarFicha, FormTipoTarifa, FormSucursal, FormVerPersonal
 # Create your views here.
 from datetime import datetime
 from .funciones import validar_dato
@@ -296,7 +296,67 @@ def fichero(request):
     return render(request, 'empleados/fichero.html', {'form_fichero':form_fichero, 'msj':msj})
 
 
+@login_required
+def ver_parametros(request):
+    msj_sucursal = 'Busqueda de sucursal'
+    msj_categoria = 'Busqueda de categoria'
+    msj_tarifa = 'Busqueda de tipo de tarifa'
+    msj_vacio = 'Sin resultados de busqueda'
+    
+    form_categoria = FormBuscarCategoria()
+    form_tipo_tarifa = FormBuscarTarifa()
+    form_sucursal = FormBuscarSucursal()
+    
+    
+    if 'btn_busqueda_sucursal' in request.GET:
+        sucursal = request.GET.get('sucursal')
+        sucursales = Sucursal.objects.filter(sucursal=sucursal)
+        if sucursales:
+            return render(request, 'empleados/ver_parametros.html',{'msj_sucursal': msj_sucursal, 'msj_categoria':msj_categoria, 'msj_tarifa':msj_tarifa, 'form_categoria':form_categoria,
+                                                                'form_tipo_tarifa':form_tipo_tarifa, 'form_sucursal':form_sucursal, 'sucursales':sucursales})
+        else:
+            return render(request, 'empleados/ver_parametros.html',{'msj_sucursal': msj_sucursal, 'msj_categoria':msj_categoria, 'msj_tarifa':msj_tarifa, 'form_categoria':form_categoria,
+                                                                'form_tipo_tarifa':form_tipo_tarifa, 'form_sucursal':form_sucursal, 'msj_vacio':msj_vacio})
+    
+    elif 'btn_todos_s' in request.GET:
+        sucursales = Sucursal.objects.all()
+        return render(request, 'empleados/ver_parametros.html',{'msj_sucursal': msj_sucursal, 'msj_categoria':msj_categoria, 'msj_tarifa':msj_tarifa, 'form_categoria':form_categoria,
+                                                            'form_tipo_tarifa':form_tipo_tarifa, 'form_sucursal':form_sucursal, 'sucursales':sucursales})
+    
+    elif 'btn_busqueda_categoria' in request.GET:
+        categoria = request.GET.get('categoria')
+        categorias = Categoria.objects.filter(categoria=categoria)
+        if categorias:
+            return render(request, 'empleados/ver_parametros.html',{'msj_sucursal': msj_sucursal, 'msj_categoria':msj_categoria, 'msj_tarifa':msj_tarifa, 'form_categoria':form_categoria,
+                                                                    'form_tipo_tarifa':form_tipo_tarifa, 'form_sucursal':form_sucursal, 'categorias':categorias})
+        else:
+            return render(request, 'empleados/ver_parametros.html',{'msj_sucursal': msj_sucursal, 'msj_categoria':msj_categoria, 'msj_tarifa':msj_tarifa, 'form_categoria':form_categoria,
+                                                                'form_tipo_tarifa':form_tipo_tarifa, 'form_sucursal':form_sucursal, 'msj_vacio':msj_vacio})
+        
+    elif 'btn_todos_c' in request.GET:
+        categorias = Categoria.objects.all()
+        return render(request, 'empleados/ver_parametros.html',{'msj_sucursal': msj_sucursal, 'msj_categoria':msj_categoria, 'msj_tarifa':msj_tarifa, 'form_categoria':form_categoria,
+                                                                'form_tipo_tarifa':form_tipo_tarifa, 'form_sucursal':form_sucursal, 'categorias':categorias})
+       
+    elif 'btn_busqueda_tarifa' in request.GET:
+        tipo = request.GET.get('tipo')
+        tipo_tarifa = TipoTarifa.objects.filter(tipo=tipo)
+        if tipo_tarifa:
+            return render(request, 'empleados/ver_parametros.html',{'msj_sucursal': msj_sucursal, 'msj_categoria':msj_categoria, 'msj_tarifa':msj_tarifa, 'form_categoria':form_categoria,
+                                                                    'form_tipo_tarifa':form_tipo_tarifa, 'form_sucursal':form_sucursal, 'tipo_tarifa':tipo_tarifa})
+        else:
+            return render(request, 'empleados/ver_parametros.html',{'msj_sucursal': msj_sucursal, 'msj_categoria':msj_categoria, 'msj_tarifa':msj_tarifa, 'form_categoria':form_categoria,
+                                                                'form_tipo_tarifa':form_tipo_tarifa, 'form_sucursal':form_sucursal, 'msj_vacio':msj_vacio})
+        
+    elif 'btn_todos_t' in request.GET:
+        tipo_tarifa = TipoTarifa.objects.all()
+        return render(request, 'empleados/ver_parametros.html',{'msj_sucursal': msj_sucursal, 'msj_categoria':msj_categoria, 'msj_tarifa':msj_tarifa, 'form_categoria':form_categoria,
+                                                                'form_tipo_tarifa':form_tipo_tarifa, 'form_sucursal':form_sucursal, 'tipo_tarifa':tipo_tarifa})
+    
+    return render(request, 'empleados/ver_parametros.html',{'msj_sucursal': msj_sucursal, 'msj_categoria':msj_categoria, 'msj_tarifa':msj_tarifa, 'form_categoria':form_categoria,
+                                                            'form_tipo_tarifa':form_tipo_tarifa, 'form_sucursal':form_sucursal})
 
+@login_required
 def ver_personal(request):
     personas = EmpleadoMeli.objects.all()
     dni = request.GET.get('dni')
@@ -504,6 +564,7 @@ def busqueda_fichero(request):
     #     else:
     #         msj = 'Sin datos'
     #         return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj} )
+    
     
     
     #agrego condiciones para filtro por SUCURSAL
@@ -779,9 +840,9 @@ def edicion_fichero(request, id):
             msj = 'Formulario incorrecto'
             return render(request, 'empleados/edicion_ficha.html', {'form': form, 'msj':msj, 'ficha':ficha})
 
-    
-    
-    
+
+
+
     form_ficha = FormEditarFicha(initial={
         'fecha_trabajada': ficha.fecha_trabajada,
         'dni': ficha.dni,
