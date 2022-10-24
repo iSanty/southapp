@@ -1,18 +1,73 @@
 {% extends 'empleados/index_meli.html' %}
 
 
+{% block graficos_tablas %}
+
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <form action= {% url 'ver_personal' %}>
+            <table>
+            {{form.as_table}}
+            </table>
+            <button name="btn_busqueda" type="submit" class="btn btn-success">Buscar</button>
+            <button name="btn_todos" type="submit" class="btn btn-warning">Ver todos</button>
+            
+        </form>
+        
+
+    {{msj}}
+    {% if personas %}
+    
+    
+
+    
+
+    <div class="col-12">
+        <div class="bg-secondary rounded h-100 p-4">
+            <h6 class="mb-4">Resultado de la busqueda</h6>
+            <a href={% url 'ver_personal' %}><button class="btn btn-info">Exportar reporte</a></button>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        
+                        <th scope="col">DNI</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Apellido</th>
+                        <th scope="col">Banco</th>
+                        <th scope="col">CBU</th>
+                        <th scope="col">Alias</th>
+                        <th scope="col">Sucursal</th>
+                        <th scope="col">Alta por</th>
+                        <th scope="col">Fecha Alta</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for personal in personas %}
+                    <tr>
+                        <th>{{personal.dni}}</th>
+                        <td>{{personal.nombre}}</td>
+                        <td>{{personal.apellido}}</td>
+                        <td>{{personal.banco}}</td>
+                        <td>{{personal.cbu}}</td>
+                        <td>{{personal.alias}}</td>
+                        <td>{{personal.sucursal_por_defecto}}</td>
+                        <td>{{personal.alta_por}}</td>
+                        <td>{{personal.fecha_alta}}</td>
+                        <td><a href={% url 'editar_personal' personal.id %}><button class="btn btn-warning">Editar</a></td>
 
 
-    {% comment %} <form action= {% url 'busqueda_transporte' %}>
-        {{form}}
-        <button>Buscar</button>
-    </form> {% endcomment %}
 
-    {% block graficos_tablas %}
-    <p>Personal: </p>
-    <ul>
-        {%for personal in object_list %}
-        <li>DNI: {{personal.dni}}- Nombre: {{personal.nombre}}- Apellido: {{personal.apellido}}- Sucursal: {{personal.sucursal_por_defecto}} - </li>{% comment %} <a href={% url 'editar_personal' personal.id %}>Editar</a> {% endcomment %}
-        {% endfor %}
-    </ul>
+                    </tr>
+                    {% endfor %}
+                    
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    {% endif %}
     {% endblock graficos_tablas %}

@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.urls import is_valid_path
 from accounts.models import MasDatosUsuario
 
 from empleados.models import Categoria, EmpleadoMeli, Fichero, Sucursal, TipoTarifa
-from .forms import FormAltaPersonalMeli, FicharPersonalMeli, CrearCategoria, FormBusquedaFichero, FormEditarFicha, FormTipoTarifa, FormSucursal
+from .forms import FormAltaPersonalMeli, FicharPersonalMeli, CrearCategoria, FormBusquedaFichero, FormEditarFicha, FormTipoTarifa, FormSucursal, FormVerPersonal
 # Create your views here.
 from datetime import datetime
 from .funciones import validar_dato
@@ -17,6 +18,7 @@ hoy = datetime.today()
 def ver_personal(request):
     object_list = EmpleadoMeli.objects.all()
     return render(request, 'empleados/ver_personal.html', {'object_list':object_list})
+
 
 @login_required
 def index_meli(request):
@@ -295,9 +297,55 @@ def fichero(request):
 
 
 
+def ver_personal(request):
+    personas = EmpleadoMeli.objects.all()
+    dni = request.GET.get('dni')
+    sucursal = request.GET.get('sucursal')
+    form = FormVerPersonal()
+    msj = 'Busqueda y edicion de personal MELI'
+    
+    if 'btn_todos' in request.GET:
+        personas = EmpleadoMeli.objects.all()
+        msj = 'Personal completo: '
+        return render(request, 'empleados/ver_personal.html', {'personas':personas, 'msj':msj, 'form':form})
+    
+    if dni and not sucursal or dni and sucursal:
+        personas = EmpleadoMeli.objects.filter(dni=dni)
+        
+        if sucursal:
+            msj = 'Resultado de la busqueda: (Busqueda por DNI ignora sucursal)'
+        else:
+            msj = 'Resultado de la busqueda: '
+            
+        
+        return render(request, 'empleados/ver_personal.html', {'personas':personas, 'msj':msj, 'form':form})
+    
+    elif not dni and sucursal:
+        
+        dni = EmpleadoMeli.objects.all()
+        sucursal, _ = Sucursal.objects.get_or_create(id=sucursal)
+        personas = []
+        for valor in dni:
+            if valor.sucursal_por_defecto == sucursal.sucursal:
+                personas.append(valor)
+                
+        
+        if personas:
+
+        
+            msj = 'Resultado de la busqueda: '
+            return render(request, 'empleados/ver_personal.html', {'personas':personas, 'msj':msj, 'form':form})
+        else:
+            msj = 'Sin personas en sucursal'
+            return render(request, 'empleados/ver_personal.html', {'msj':msj, 'form':form})
+    else:
+    
+    
+        return render(request, 'empleados/ver_personal.html', {'msj':msj, 'form':form})
+
 
 @login_required
-def editar_fichero(request):
+def busqueda_fichero(request):
     #esta es mi vista de busqueda :P
     
     dni = request.GET.get('dni')
@@ -666,7 +714,44 @@ def editar_fichero(request):
         msj = 'Busqueda: llene 1 o mas campos'
         return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj} )
     
+@login_required
+def editar_personal(request, id):
     
+    personal = EmpleadoMeli.objects.get(id=id)
+    
+    if request.method == 'POST':
+        form = FormAltaPersonalMeli(request.POST)
+        if form.is_valid():
+            personal.dni = form.cleaned_data.get('dni')
+            personal.nombre = form.cleaned_data.get('nombre')
+            personal.apellido = form.cleaned_data.get('apellido')
+            personal.banco = form.cleaned_data.get('banco')
+            personal.cbu = form.cleaned_data.get('cbu')
+            personal.alias = form.cleaned_data.get('alias')
+            personal.sucursal_por_defecto = str(form.cleaned_data.get('sucursal'))
+            personal.save()
+            msj = 'Personal editado correctamente.'
+            return render(request, 'empleados/editar_personal.html', {'form':form, 'personal':personal, 'msj':msj})
+        else:
+            msj = 'Formulario inválido'
+            return render(request, 'empleados/editar_personal.html', {'form':form, 'personal':personal, 'msj':msj})
+    
+    sucursal = str(personal.sucursal_por_defecto)
+    form = FormAltaPersonalMeli(initial={
+        'dni': personal.dni,
+        'nombre': personal.nombre,
+        'apellido': personal.apellido,
+        'banco': personal.banco,
+        'cbu': personal.cbu,
+        'alias': personal.alias,
+        'sucursal': sucursal
+        
+        })
+    msj = 'Edicion de ficha de ' + personal.nombre + ' ,' + personal.apellido
+    return render(request, 'empleados/editar_personal.html', {'form':form, 'msj':msj, 'personal':personal})
+
+
+
 
 @login_required
 def edicion_fichero(request, id):

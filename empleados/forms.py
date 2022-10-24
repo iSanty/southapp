@@ -3,6 +3,11 @@ from django import forms
 from empleados.models import Categoria, TipoTarifa, Sucursal
 
 
+class FormVerPersonal(forms.Form):
+    dni = forms.IntegerField(required=False)
+    sucursal = forms.ModelChoiceField(queryset=Sucursal.objects.all(), required=False)
+
+
 class FormAltaPersonalMeli(forms.Form):
     dni = forms.IntegerField()
     nombre = forms.CharField(max_length=50)

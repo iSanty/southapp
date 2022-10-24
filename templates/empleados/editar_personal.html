@@ -1,7 +1,12 @@
 {% extends 'empleados/index_meli.html' %}
 
 
+
+
+
 {% block graficos_tablas %}
+
+
 
 
 <div class="container-fluid pt-4 px-4">
@@ -10,20 +15,34 @@
     </div>
 </div>
 
-
-
 <div class="container-fluid pt-4 px-4">
     <div class="row g-4">
-        <form action={% url 'alta_personal_meli' %} method = "POST"> 
+        <form action={% url 'editar_personal' personal.id %} method = "POST"> 
             {% csrf_token %}
             <table>
-                {{form_alta.as_table}}
+                {{form.as_table}}
             </table>
 
-            <button type="submit" class="btn btn-success">Crear</button>
+            <button type="submit" class="btn btn-warning">Editar</button>
         </form>
     </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
