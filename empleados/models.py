@@ -32,7 +32,7 @@ class Categoria(models.Model):
     
     
 class TipoTarifa(models.Model):
-    tipo = models.CharField(max_length=10)
+    tipo = models.CharField(max_length=30)
     valor = models.FloatField(null=0)
     
     def __str__(self):

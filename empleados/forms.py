@@ -58,3 +58,14 @@ class FormEditarFicha(forms.Form):
 
 class FormSucursal(forms.Form):
     sucursal = forms.CharField(max_length=30)
+    
+    
+    
+class FormBuscarCategoria(forms.Form):
+    categoria = forms.CharField(max_length=30, required=False)
+    
+class FormBuscarTarifa(forms.Form):
+    tipo = forms.CharField(max_length=30, required=False)
+    
+class FormBuscarSucursal(forms.Form):
+    sucursal = forms.CharField(max_length=30, required=False)
