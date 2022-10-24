@@ -7,11 +7,11 @@
 
 <div class="container-fluid pt-4 px-4">
     <div class="row g-4">
-        <form action= {% url 'editar_fichero' %}>
+        <form action= {% url 'busqueda_fichero' %}>
             <table>
             {{form.as_table}}
             </table>
-            <button type="submit" class="btn btn-info">Buscar</button>
+            <button type="submit" class="btn btn-success">Buscar</button>
             
         </form>
 
@@ -23,7 +23,7 @@
         <div class="col-12">
             <div class="bg-secondary rounded h-100 p-4">
                 <h6 class="mb-4">Resultado de la busqueda</h6>
-                <a href={% url 'editar_fichero' %}><button class="btn btn-info">Exportar reporte</a></button>
+                <a href={% url 'busqueda_fichero' %}><button class="btn btn-success">Exportar reporte</a></button>
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -53,9 +53,9 @@
                             {% if fichero.pago_realizado == 'Si' %}
                             <td>{{fichero.pago_realizado}}</td>
                             {% else %}
-                            <td>{{fichero.pago_realizado}}  -<a href={% url 'editar_fichero' %}><button class="btn btn-info">Pagar</a></button></td>
+                            <td>{{fichero.pago_realizado}}  -<a href={% url 'busqueda_fichero' %}><button class="btn btn-light">Pagar</a></button></td>
                             {% endif %}
-                            <td><a href={% url 'edicion_ficha' fichero.id %}><button class="btn btn-info">Editar</a></td>
+                            <td><a href={% url 'edicion_ficha' fichero.id %}><button class="btn btn-warning">Editar</a></td>
 
 
 
