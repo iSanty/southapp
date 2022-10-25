@@ -39,6 +39,8 @@
                         <th scope="col">Sucursal</th>
                         <th scope="col">Alta por</th>
                         <th scope="col">Fecha Alta</th>
+                        <th scope="col">Accion</th>
+                        <th scope="col">Accion</th>
 
                     </tr>
                 </thead>
@@ -55,6 +57,8 @@
                         <td>{{personal.alta_por}}</td>
                         <td>{{personal.fecha_alta}}</td>
                         <td><a href={% url 'editar_personal' personal.id %}><button class="btn btn-warning">Editar</a></td>
+                        <td><button type="button" class="btn btn-outline-danger m-2"><a href={% url 'eliminar_personal' personal.id %} >Eliminar</a></button></td>
+                            
 
 
 

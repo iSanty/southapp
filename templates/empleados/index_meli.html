@@ -22,8 +22,8 @@
     <div class="nav-item dropdown">
         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Bajas</a>
         <div class="dropdown-menu bg-transparent border-0">
-            <a href={% url 'index_meli' %} class="dropdown-item">Personal</a>
-            <a href={% url 'index_meli' %} class="dropdown-item">Fichas</a>
+            <a href={% url 'ver_personal' %} class="dropdown-item">Personal</a>
+            <a href={% url 'busqueda_fichero' %} class="dropdown-item">Fichas</a>
             {% comment %} <a href={% url 'index_meli' %} class="dropdown-item">Transportes</a> {% endcomment %}
         </div>
     </div>
@@ -31,7 +31,7 @@
     <div class="nav-item dropdown">
         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Pagos</a>
         <div class="dropdown-menu bg-transparent border-0">
-            <a href={% url 'index_meli' %} class="dropdown-item">Personal</a>
+            <a href={% url 'busqueda_fichero' %} class="dropdown-item">Personal</a>
   
         </div>
     </div>
