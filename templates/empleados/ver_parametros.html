@@ -47,6 +47,7 @@
                         
                         <th scope="col">Sucursal</th>
                         <th scope="col">Accion</th>
+                        <th scope="col">Accion</th>
 
                     </tr>
                 </thead>
@@ -54,7 +55,8 @@
                     {% for sucursal in sucursales %}
                     <tr>
                         <th>{{sucursal.sucursal}}</th>
-                        <td><a {% comment %} href={% url 'editar_personal' personal.id %}{% endcomment %}href="#"><button class="btn btn-warning">Editar</a></td>
+                        <td><button href="#" class="btn btn-warning"><a href={% url 'editar_sucursal' sucursal.id %}>Editar</a></button></td>
+                        <td><button type="button" class="btn btn-outline-danger m-2"><a href={% url 'eliminar_sucursal' sucursal.id %} >Eliminar</a></button></td>
 
 
 
@@ -82,6 +84,7 @@
                         <th scope="col">Categoria</th>
                         <th scope="col">Tarifa por dia</th>
                         <th scope="col">Accion</th>
+                        <th scope="col">Accion</th>
 
                     </tr>
                 </thead>
@@ -91,7 +94,8 @@
                         <th>{{categoria.categoria}}</th>
                         <th>{{categoria.tarifa_por_dia}}</th>
 
-                        <td><a {% comment %} href={% url 'editar_personal' personal.id %}{% endcomment %}href="#"><button class="btn btn-warning">Editar</a></td>
+                        <td><button href="#" class="btn btn-warning"><a href={% url 'editar_categoria' categoria.id %}>Editar</a></button></td>
+                        <td><button type="button" class="btn btn-outline-danger m-2"><a href={% url 'eliminar_categoria' categoria.id %} >Eliminar</a></button></td>
 
 
 
@@ -117,6 +121,7 @@
                         <th scope="col">Tipo</th>
                         <th scope="col">Valor</th>
                         <th scope="col">Accion</th>
+                        <th scope="col">Accion</th>
 
                     </tr>
                 </thead>
@@ -126,8 +131,8 @@
                         <th>{{tipo.tipo}}</th>
                         <th>{{tipo.valor}}</th>
 
-                        <td><a {% comment %} href={% url 'editar_personal' personal.id %}{% endcomment %}href="#"><button class="btn btn-warning">Editar</a></td>
-
+                        <td><button href="#" class="btn btn-warning"><a href={% url 'editar_tarifa' tipo.id %}>Editar</a></button></td>
+                        <td><button type="button" class="btn btn-outline-danger m-2"><a href={% url 'eliminar_tarifa' tipo.id %} >Eliminar</a></button></td>
 
 
                     </tr>

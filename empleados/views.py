@@ -8,12 +8,149 @@ from .forms import FormAltaPersonalMeli, FicharPersonalMeli, CrearCategoria, For
 # Create your views here.
 from datetime import datetime
 from .funciones import validar_dato
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.list import ListView
+from django.views.generic.edit import DeleteView, UpdateView, CreateView
 
 
 
 formato_fecha = "%d/%m/%Y %H:%M:%S"
 formato_fecha2 = "%d/%m/%Y"
 hoy = datetime.today()
+
+@login_required
+def editar_categoria(request, id):
+    msj_sucursal = 'Busqueda de sucursal'
+    msj_categoria = 'Busqueda de categoria'
+    msj_tarifa = 'Busqueda de tipo de tarifa'
+    
+    form_categoria = FormBuscarCategoria()
+    form_tipo_tarifa = FormBuscarTarifa()
+    form_sucursal = FormBuscarSucursal()
+        
+    categoria = Categoria.objects.get(id=id)
+    
+    if request.method == 'POST':
+        form = CrearCategoria(request.POST)
+        if form.is_valid():
+            
+            categoria.categoria = form.cleaned_data.get('categoria')
+            categoria.tarifa_por_dia = form.cleaned_data.get('tarifa_por_dia')           
+            
+    
+            categoria.save()
+            msj_vacio = 'Categoria editada correctamente'
+            return render(request, 'empleados/ver_parametros.html',{'msj_sucursal': msj_sucursal, 'msj_categoria':msj_categoria, 'msj_tarifa':msj_tarifa, 'form_categoria':form_categoria,
+                                                                'form_tipo_tarifa':form_tipo_tarifa, 'form_sucursal':form_sucursal, 'msj_vacio':msj_vacio})
+        
+        else:
+            form = CrearCategoria(request.POST)
+            msj = ''
+            return render(request, 'empleados/editar_categoria.html', {'form': form, 'msj':msj, 'categoria':categoria})
+
+    form = CrearCategoria(initial={
+        'categoria': categoria.categoria,
+        'tarifa_por_dia': categoria.tarifa_por_dia,
+    
+        })
+    
+    msj = 'Edicion de categoria: ' + categoria.categoria
+    return render(request, 'empleados/editar_categoria.html', {'form':form, 'msj':msj, 'categoria':categoria})
+
+@login_required
+def editar_tarifa(request, id):
+    msj_sucursal = 'Busqueda de sucursal'
+    msj_categoria = 'Busqueda de categoria'
+    msj_tarifa = 'Busqueda de tipo de tarifa'
+    
+    form_categoria = FormBuscarCategoria()
+    form_tipo_tarifa = FormBuscarTarifa()
+    form_sucursal = FormBuscarSucursal()
+        
+    tarifa = TipoTarifa.objects.get(id=id)
+    
+    if request.method == 'POST':
+        form = FormTipoTarifa(request.POST)
+        if form.is_valid():
+            
+            tarifa.tipo = form.cleaned_data.get('tipo')
+            tarifa.valor = form.cleaned_data.get('valor')           
+    
+            tarifa.save()
+            msj_vacio = 'Tarifa editada correctamente'
+            return render(request, 'empleados/ver_parametros.html',{'msj_sucursal': msj_sucursal, 'msj_categoria':msj_categoria, 'msj_tarifa':msj_tarifa, 'form_categoria':form_categoria,
+                                                                'form_tipo_tarifa':form_tipo_tarifa, 'form_sucursal':form_sucursal, 'msj_vacio':msj_vacio})
+        
+        else:
+            form = FormTipoTarifa(request.POST)
+            msj = ''
+            return render(request, 'empleados/editar_tarifa.html', {'form': form, 'msj':msj, 'tarifa':tarifa})
+
+    form = FormTipoTarifa(initial={
+        'tipo': tarifa.tipo,
+        'valor': tarifa.valor,
+    
+        })
+    
+    msj = 'Edicion de tarifa: ' + tarifa.tipo
+    return render(request, 'empleados/editar_tarifa.html', {'form':form, 'msj':msj, 'tarifa':tarifa})
+
+
+@login_required
+def editar_sucursal(request, id):
+    msj_sucursal = 'Busqueda de sucursal'
+    msj_categoria = 'Busqueda de categoria'
+    msj_tarifa = 'Busqueda de tipo de tarifa'
+    
+    form_categoria = FormBuscarCategoria()
+    form_tipo_tarifa = FormBuscarTarifa()
+    form_sucursal = FormBuscarSucursal()
+        
+    sucursal = Sucursal.objects.get(id=id)
+    
+    if request.method == 'POST':
+        form = FormSucursal(request.POST)
+        if form.is_valid():
+            
+            sucursal.sucursal = form.cleaned_data.get('sucursal')
+                       
+            sucursal.save()
+            msj_vacio = 'Sucursal editada correctamente'
+            return render(request, 'empleados/ver_parametros.html',{'msj_sucursal': msj_sucursal, 'msj_categoria':msj_categoria, 'msj_tarifa':msj_tarifa, 'form_categoria':form_categoria,
+                                                                'form_tipo_tarifa':form_tipo_tarifa, 'form_sucursal':form_sucursal, 'msj_vacio':msj_vacio})
+        
+        else:
+            form = FormSucursal(request.POST)
+            msj = ''
+            return render(request, 'empleados/editar_sucursal.html', {'form': form, 'msj':msj, 'sucursal':sucursal})
+
+    form = FormSucursal(initial={
+        'sucursal': sucursal.sucursal,
+        })
+    
+    msj = 'Edicion de sucursal: ' + sucursal.sucursal
+    return render(request, 'empleados/editar_sucursal.html', {'form':form, 'msj':msj, 'sucursal':sucursal})
+
+
+
+class EliminarSucursal(LoginRequiredMixin ,DeleteView):
+    model = Sucursal
+    template_name = 'empleados/eliminar_sucursal.html'
+    success_url = '/empleados/ver_parametros'
+    
+    
+class EliminarCategoria(LoginRequiredMixin ,DeleteView):
+    model = Categoria
+    template_name = 'empleados/eliminar_categoria.html'
+    success_url = '/empleados/ver_parametros'
+    
+    
+class EliminarTarifa(LoginRequiredMixin ,DeleteView):
+    model = TipoTarifa
+    template_name = 'empleados/eliminar_tarifa.html'
+    success_url = '/empleados/ver_parametros'
+
+
 
 def ver_personal(request):
     object_list = EmpleadoMeli.objects.all()
