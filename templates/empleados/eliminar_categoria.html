@@ -1,0 +1,21 @@
+{% extends 'empleados/index_meli.html' %}
+
+
+
+{% block graficos_tablas %}
+
+
+
+
+<form action={% url 'eliminar_categoria' categoria.id %} method="post">
+    {% csrf_token %}
+    Estas seguro que deseas eliminar este parametro?
+    <button>Confirmar</button>
+</form>
+
+
+
+
+
+{% endblock graficos_tablas %}
+

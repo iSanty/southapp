@@ -1,0 +1,16 @@
+{% extends 'empleados/index_meli.html' %}
+
+
+{% block graficos_tablas %}
+
+
+<form action={% url 'editar_tarifa' tarifa.id %} method="POST">
+    {% csrf_token %}
+    <table>
+        {{form.as_table}}
+    </table>
+    <button>Guardar Cambios</button>
+</form>
+
+{{msj}}
+{% endblock graficos_tablas %}
