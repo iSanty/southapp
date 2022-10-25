@@ -1,16 +1,13 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from django.urls import is_valid_path
 from accounts.models import MasDatosUsuario
 
 from empleados.models import Categoria, EmpleadoMeli, Fichero, Sucursal, TipoTarifa
 from .forms import FormAltaPersonalMeli, FicharPersonalMeli, CrearCategoria, FormBuscarCategoria, FormBuscarSucursal, FormBuscarTarifa, FormBusquedaFichero, FormEditarFicha, FormTipoTarifa, FormSucursal, FormVerPersonal
-# Create your views here.
 from datetime import datetime
 from .funciones import validar_dato
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic.list import ListView
-from django.views.generic.edit import DeleteView, UpdateView, CreateView
+from django.views.generic.edit import DeleteView
 
 
 
@@ -149,7 +146,22 @@ class EliminarTarifa(LoginRequiredMixin ,DeleteView):
     model = TipoTarifa
     template_name = 'empleados/eliminar_tarifa.html'
     success_url = '/empleados/ver_parametros'
-
+    
+    
+class EliminarFicha(LoginRequiredMixin ,DeleteView):
+    model = Fichero
+    template_name = 'empleados/eliminar_ficha.html'
+    success_url = '/empleados/busqueda_fichero'
+    
+    
+    
+class EliminarPersonal(LoginRequiredMixin ,DeleteView):
+    model = EmpleadoMeli
+    template_name = 'empleados/eliminar_personal.html'
+    success_url = '/empleados/ver_personal'
+    
+    
+    
 
 
 def ver_personal(request):
@@ -380,10 +392,10 @@ def fichero(request):
                             sucursal_trabajada = informacion['sucursal']
                         else:
                             sucursal_trabajada = personal.sucursal_por_defecto
-
-                        
-                                
-                                                    
+                            
+                            
+                            
+                            
                         fichar = Fichero(
                             
                             dni = informacion['dni'],
@@ -549,10 +561,10 @@ def busqueda_fichero(request):
     fecha_hasta = request.GET.get('fecha_hasta')
     sucursal = request.GET.get('sucursal')
     
-    form = FormBusquedaFichero()
+    form = FormBusquedaFichero(initial={'dni':dni, 'fecha_desde':fecha_desde, 'fecha_hasta':fecha_hasta})
     
     if dni and not fecha_desde and not fecha_hasta and not sucursal:
-        form = FormBusquedaFichero()
+        form = FormBusquedaFichero(initial={'dni':dni, 'fecha_desde':fecha_desde, 'fecha_hasta':fecha_hasta})
         ficheros_listado = Fichero.objects.filter(dni=dni)
         if ficheros_listado:
             return render(request, 'empleados/editar_fichero.html', {'form':form,'ficheros_listado':ficheros_listado} )
@@ -691,17 +703,8 @@ def busqueda_fichero(request):
             msj = 'Sin datos entre el rango ' + fecha_desde + ' hasta ' + fecha_hasta
             return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj})
         
-    
-    # elif not dni and not fecha_desde and not fecha_hasta:
-    #     form = FormBusquedaFichero()
-    #     ficheros_listado = Fichero.objects.all()
-    #     if ficheros_listado:
-    #         return render(request, 'empleados/editar_fichero.html', {'form':form,'ficheros_listado':ficheros_listado} )
-    #     else:
-    #         msj = 'Sin datos'
-    #         return render(request, 'empleados/editar_fichero.html', {'form':form,'msj':msj} )
-    
-    
+
+
     
     #agrego condiciones para filtro por SUCURSAL
     #Con DNI con Sucursal Sin fecha desde sin fecha hasta
@@ -989,6 +992,23 @@ def edicion_fichero(request, id):
         })
     msj = 'Edicion de ficha de ' + ficha.nombre + ' ,' + ficha.apellido
     return render(request, 'empleados/edicion_ficha.html', {'form':form_ficha, 'msj':msj, 'ficha':ficha})
+
+
+
+def pagar_ficha(request, id):
+    ficha = Fichero.objects.get(id=id)
+    form = FormBusquedaFichero()
+    
+    ficha.pago_realizado = 'Si'
+    
+    ficha.fecha_de_edicion = datetime.today()
+    
+        
+        
+        
+    ficha.save()
+    msj = 'Pago computado'
+    return render(request, 'empleados/editar_fichero.html', {'msj':msj, 'form':form})
 
 
 

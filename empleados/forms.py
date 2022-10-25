@@ -69,3 +69,6 @@ class FormBuscarTarifa(forms.Form):
     
 class FormBuscarSucursal(forms.Form):
     sucursal = forms.CharField(max_length=30, required=False)
+    
+    
+    

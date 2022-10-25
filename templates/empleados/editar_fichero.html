@@ -35,7 +35,9 @@
                             <th scope="col">Categoria</th>
                             <th scope="col">Tipo tarifa</th>
                             <th scope="col">Dia trabajado</th>
+                            <th scope="col">Nro Ficha</th>
                             <th scope="col">Pago realizado</th>
+                            <th scope="col">Accion</th>
 
                         </tr>
                     </thead>
@@ -50,12 +52,14 @@
                             <td>{{fichero.categoria}}</td>
                             <td>{{fichero.tipo_tarifa}}</td>
                             <td>{{fichero.fecha_trabajada}}</td>
+                            <td>{{fichero.id}}</td>
                             {% if fichero.pago_realizado == 'Si' %}
                             <td>{{fichero.pago_realizado}}</td>
                             {% else %}
-                            <td>{{fichero.pago_realizado}}  -<a href={% url 'busqueda_fichero' %}><button class="btn btn-light">Pagar</a></button></td>
+                            <td>{{fichero.pago_realizado}}  -<a href={% url 'pagar_ficha' fichero.id %}><button class="btn btn-light">Pagar</a></button></td>
                             {% endif %}
                             <td><a href={% url 'edicion_ficha' fichero.id %}><button class="btn btn-warning">Editar</a></td>
+                            <td><button type="button" class="btn btn-outline-danger m-2"><a href={% url 'eliminar_ficha' fichero.id %} >Eliminar</a></button></td>
 
 
 
