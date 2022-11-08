@@ -53,6 +53,14 @@ class Cia(models.Model):
     
     
 class CatUbicacion(models.Model):
+    cia_asociada = models.CharField(max_length=3)
+    cod = models.CharField(max_length=3)
+    descripcion = models.CharField(max_length=180)
+    def __str__(self):
+        return f'{self.cod}'
+
+class CatUbicacionValor(models.Model):
+    cia_asociada = models.CharField(max_length=3)
     cod = models.CharField(max_length=3)
     descripcion = models.CharField(max_length=180)
     def __str__(self):
@@ -60,6 +68,7 @@ class CatUbicacion(models.Model):
     
     
 class CatPicking(models.Model):
+    cia_asociada = models.CharField(max_length=3)
     cod = models.CharField(max_length=3)
     descripcion = models.CharField(max_length=180)
     def __str__(self):
@@ -67,6 +76,7 @@ class CatPicking(models.Model):
     
     
 class CatRepo(models.Model):
+    cia_asociada = models.CharField(max_length=3)
     cod = models.CharField(max_length=3)
     descripcion = models.CharField(max_length=180)
     def __str__(self):

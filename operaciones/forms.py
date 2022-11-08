@@ -53,14 +53,22 @@ class FormCrearCia(forms.Form):
     descripcion = forms.CharField(max_length=180)
     
 class FormCrearCatUb(forms.Form):
+    cia_asociada = forms.ModelChoiceField(queryset=Cia.objects.all())
+    cod = forms.CharField(max_length=3)
+    descripcion = forms.CharField(max_length=180)
+
+class FormCrearCatUbVal(forms.Form):
+    cia_asociada = forms.ModelChoiceField(queryset=Cia.objects.all())
     cod = forms.CharField(max_length=3)
     descripcion = forms.CharField(max_length=180)
     
 class FormCatPk(forms.Form):
+    cia_asociada = forms.ModelChoiceField(queryset=Cia.objects.all())
     cod = forms.CharField(max_length=3)
     descripcion = forms.CharField(max_length=180)
     
 class FormCatRepo(forms.Form):
+    cia_asociada = forms.ModelChoiceField(queryset=Cia.objects.all())
     cod = forms.CharField(max_length=3)
     descripcion = forms.CharField(max_length=180)
     
