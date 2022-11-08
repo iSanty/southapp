@@ -97,17 +97,17 @@
     <div class="col-sm-12 col-xl-3">
         <div class="bg-secondary rounded h-100 p-4">
             <div class="container-fluid pt-4 px-4">
-                <h6>Nuevo tipo de almacenaje</h6>
+                <h6>Nueva categoria de ubicacion para VALORES</h6>
                 <div class="row g-4">
                     <form action={% url 'crear_parametros' %} method = "POST"> 
                         {% csrf_token %}
                         <table>
-                            {{formtipoalm.as_table}}
+                            {{formcatubvalor.as_table}}
                         </table>
-                        <button type="submit" class="btn btn-info" name="btn_tipoalm">Grabar</button>
+                        <button type="submit" class="btn btn-info" name="btn_catubval">Grabar</button>
                     </form>
                 </div>
-            </div> 
+            </div>
         </div>
     </div>
 </div>
@@ -136,8 +136,24 @@
 
 
 
-
-
+<div class="container-fluid pt-4 px-4">
+    <div class="col-sm-12 col-xl-3">
+        <div class="bg-secondary rounded h-100 p-4">
+            <div class="container-fluid pt-4 px-4">
+                <h6>Nuevo tipo de almacenaje</h6>
+                <div class="row g-4">
+                    <form action={% url 'crear_parametros' %} method = "POST"> 
+                        {% csrf_token %}
+                        <table>
+                            {{formtipoalm.as_table}}
+                        </table>
+                        <button type="submit" class="btn btn-info" name="btn_tipoalm">Grabar</button>
+                    </form>
+                </div>
+            </div> 
+        </div>
+    </div>
+</div>
 
 
 {% endblock graficos_tablas %}
