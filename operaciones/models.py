@@ -40,7 +40,7 @@ class Producto(models.Model):
     importado_presis = models.CharField(max_length=2, null='No') #si o no 'para importar solo lo que hace falta en saad
     
     def __str__(self):
-        return f'{self.codigo}'
+        return f'{self.codigo} - {self.descripcion}'
     
     
     
@@ -49,7 +49,7 @@ class Cia(models.Model):
     cod = models.CharField(max_length=3)
     descripcion = models.CharField(max_length=180)
     def __str__(self):
-        return f'{self.cod}'
+        return f'{self.cod} - {self.descripcion}'
     
     
 class CatUbicacion(models.Model):
