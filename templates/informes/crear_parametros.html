@@ -1,0 +1,76 @@
+{% extends 'informes/index_informes.html' %}
+
+
+
+
+{% block graficos_tablas %}
+<div class="container-fluid pt-4 px-4">
+{{msj}}
+</div>
+
+
+<div class="container-fluid pt-4 px-4">
+    <div class="col-sm-12 col-xl-3">
+        <div class="bg-secondary rounded h-100 p-4">
+            <div class="container-fluid pt-4 px-4">
+                <h6>Crear sub cliente</h6>
+                <div class="row g-4">
+                    <form action={% url 'parametros'%} method = "POST"> 
+                        {% csrf_token %}
+                        <table>
+                            {{form_sub_cliente.as_table}}
+                        </table>
+                        <button type="submit" class="btn btn-info" name="btn_sub_cliente">Crear</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="container-fluid pt-4 px-4">
+    <div class="col-sm-12 col-xl-3">
+        <div class="bg-secondary rounded h-100 p-4">
+            <div class="container-fluid pt-4 px-4">
+                <h6>Crear personal de deposito</h6>
+                <div class="row g-4">
+                    <form action={% url 'crear_parametros'%} method = "POST"> 
+                        {% csrf_token %}
+                        <table>
+                            {{form_personal_deposito.as_table}}
+                        </table>
+                        <button type="submit" class="btn btn-info" name="btn_personal_deposito">Crear</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="container-fluid pt-4 px-4">
+    <div class="col-sm-12 col-xl-3">
+        <div class="bg-secondary rounded h-100 p-4">
+            <div class="container-fluid pt-4 px-4">
+                <h6>Crear sector de deposito</h6>
+                <div class="row g-4">
+                    <form action={% url 'crear_parametros'%} method = "POST"> 
+                        {% csrf_token %}
+                        <table>
+                            {{form_sector.as_table}}
+                        </table>
+                        <button type="submit" class="btn btn-info" name="btn_sector">Crear</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock graficos_tablas %}
