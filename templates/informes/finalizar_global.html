@@ -1,0 +1,20 @@
+{% extends 'informes/index_informes.html' %}
+
+
+{% block graficos_tablas %}
+
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <form action={% url 'nuevo_global' %} method = "POST"> 
+            {% csrf_token %}
+            <table>
+                {{form.as_table}}
+            </table>
+
+            <button type="submit" class="btn btn-info">Finalizar</button>
+        </form>
+    </div>
+</div>
+
+
+{% endblock graficos_tablas %}

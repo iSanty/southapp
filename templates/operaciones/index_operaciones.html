@@ -15,9 +15,25 @@
             <a href={% url 'nuevo_aforo' %} class="dropdown-item">Altas producto</a>
             <a href={% url 'ver_productos' %} class="dropdown-item">Consultas</a>
             <a href={% url 'crear_parametros' %} class="dropdown-item">Parametros</a>
+            
             {% comment %} <a href={% url 'index_meli' %} class="dropdown-item">Transportes</a> {% endcomment %}
         </div>
     </div>
+
+    <div class="nav-item dropdown">
+        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Globales de PK</a>
+        <div class="dropdown-menu bg-transparent border-0">
+            <a href={% url 'nuevo_global' %} class="dropdown-item">Nuevo global</a>
+            <a href={% url 'finalizar_global' %} class="dropdown-item">Finalizar picking</a>
+            <a href={% url 'finalizar_armado' %} class="dropdown-item">Finalizar armado</a>
+            <a href={% url 'informe_global' %} class="dropdown-item">Informe Global</a>
+            <a href={% url 'parametros' %} class="dropdown-item">Parametros</a>
+            
+            {% comment %} <a href={% url 'index_meli' %} class="dropdown-item">Transportes</a> {% endcomment %}
+        </div>
+    </div>
+
+
     <div class="nav-item dropdown">
         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Migrador</a>
         <div class="dropdown-menu bg-transparent border-0">
@@ -69,7 +85,7 @@
             <div class="border rounded p-4 pb-0 mb-4">
                 <figure>
                     <blockquote class="blockquote">
-                        <p>Sistema de control de operaciones de almacenaje</p>
+                        <p>Sistema de control de operaciones de SouthPost S.A.</p>
                     </blockquote>
                     <figcaption class="blockquote-footer">
                          {% comment %} <cite title="Source Title">Source Title</cite> {% endcomment %}
