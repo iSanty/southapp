@@ -1,110 +1,132 @@
-{% extends 'index_new.html' %}
+{% extends 'index.html' %}
+
+
+
 
 
 
 
 {% block barra_lateral %}
+  <aside id="sidebar" class="sidebar">
 
+    <ul class="sidebar-nav" id="sidebar-nav">
 
+      <li class="nav-item">
+        <a class="nav-link " href={% url 'index_meli' %}>
+          <i class="bi bi-grid"></i>
+          <span>Sistema MELI</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
 
-<div class="navbar-nav w-100">
-    <a href={% url 'index_meli' %} class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard MELI</a>
-    <div class="nav-item dropdown">
-        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Altas</a>
-        <div class="dropdown-menu bg-transparent border-0">
-            <a href={% url 'alta_personal_meli' %} class="dropdown-item">Personal</a>
-            <a href={% url 'crear_categoria' %} class="dropdown-item">Parametros</a>
-            {% comment %} <a href={% url 'index_meli' %} class="dropdown-item">Transportes</a> {% endcomment %}
-        </div>
-    </div>
-    <a href={% url 'fichero' %} class="nav-item nav-link"><i class="fa fa-th me-2"></i>Fichero</a>
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-menu-button-wide"></i><span>Altas</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href={% url 'alta_personal_meli' %}>
+              <i class="bi bi-circle"></i><span>Personal</span>
+            </a>
+          </li>
+          <li>
+            <a href={% url 'crear_categoria' %}>
+              <i class="bi bi-circle"></i><span>Parametros</span>
+            </a>
+          </li>
+          
+          
+        </ul>
+      </li><!-- End Components Nav -->
 
-    <div class="nav-item dropdown">
-        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Bajas</a>
-        <div class="dropdown-menu bg-transparent border-0">
-            <a href={% url 'ver_personal' %} class="dropdown-item">Personal</a>
-            <a href={% url 'busqueda_fichero' %} class="dropdown-item">Fichas</a>
-            {% comment %} <a href={% url 'index_meli' %} class="dropdown-item">Transportes</a> {% endcomment %}
-        </div>
-    </div>
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-journal-text"></i><span>Fichero</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href={% url 'fichero' %}>
+              <i class="bi bi-circle"></i><span>Fichar</span>
+            </a>
+          </li>
+          
+        </ul>
+      </li><!-- End Forms Nav -->
 
-    <div class="nav-item dropdown">
-        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Pagos</a>
-        <div class="dropdown-menu bg-transparent border-0">
-            <a href={% url 'busqueda_fichero' %} class="dropdown-item">Personal</a>
-  
-        </div>
-    </div>
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-layout-text-window-reverse"></i><span>Bajas</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href={% url 'ver_personal' %}>
+              <i class="bi bi-circle"></i><span>Personal</span>
+            </a>
+          </li>
+          <li>
+            <a href={% url 'busqueda_fichero' %}>
+              <i class="bi bi-circle"></i><span>Fichas</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End Tables Nav -->
 
-    <div class="nav-item dropdown">
-        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-keyboard me-2"></i>Consultas</a>
-        <div class="dropdown-menu bg-transparent border-0">
-            <a href={% url 'busqueda_fichero' %} class="dropdown-item">Fichas</a>
-            <a href={% url 'ver_personal' %} class="dropdown-item">Personal</a>
-            <a href={% url 'ver_parametros' %} class="dropdown-item">Parametros</a>
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-bar-chart"></i><span>Pagos</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href={% url 'busqueda_fichero' %}>
+              <i class="bi bi-circle"></i><span>Personal</span>
+            </a>
+          </li>
+          
+        </ul>
+      </li><!-- End Charts Nav -->
 
-            {% comment %} <a href={% url 'index_meli' %} class="dropdown-item">Transportes</a> {% endcomment %}
-        </div>
-    </div>
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-gem"></i><span>Consultas</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="icons-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href={% url 'busqueda_fichero' %}>
+              <i class="bi bi-circle"></i><span>Fichas</span>
+            </a>
+          </li>
+          <li>
+            <a href={% url 'ver_personal' %}>
+              <i class="bi bi-circle"></i><span>Personal</span>
+            </a>
+          </li>
+          <li>
+            <a href={% url 'ver_parametros' %}>
+              <i class="bi bi-circle"></i><span>Parametros</span>
+            </a>
+          </li>
 
+        </ul>
+      </li><!-- End Icons Nav -->
 
+      <li class="nav-heading">Links utiles</li>
 
-    
-    {% comment %} <a href={% url 'ver_productos' %} class="nav-item nav-link"><i class="fa fa-table me-2"></i>Migrador</a>
-    <a href={% url 'ver_productos' %} class="nav-item nav-link"><i class="fa fa-table me-2"></i>Empresa</a>
-    <a href={% url 'ver_productos' %} class="nav-item nav-link"><i class="fa fa-table me-2"></i>Api</a>
-    <a href={% url 'index' %} class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>inf. tatan</a> {% endcomment %}
-    <div class="nav-item dropdown">
-        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Links utiles</a>
-        <div class="dropdown-menu bg-transparent border-0">
-            <a href={% url 'index_meli' %} class="dropdown-item">Sistema SAAD</a>
-            <a href={% url 'index_meli' %} class="dropdown-item">Sistema PRESIS</a>
-            <a href={% url 'index_meli' %} class="dropdown-item">Southapp</a>
-            <a href={% url 'index_meli' %} class="dropdown-item">Southpost</a>
-        </div>
-    </div>
-</div>
+      <li class="nav-item">
+        <a class="nav-link collapsed" href={% url '404' %}>
+          <i class="bi bi-grid"></i>
+          <span>Sistema SAAD</span>
+        </a>
+      </li><!-- End Profile Page Nav -->
 
+      <li class="nav-item">
+        <a class="nav-link collapsed" href={% url '404' %}>
+          <i class="bi bi-grid"></i>
+          <span>Sistema Presis</span>
+        </a>
+      </li><!-- End F.A.Q Page Nav -->
 
+      
 
+    </ul>
 
-{% endblock barra_lateral %}
-
-
-
-
-
-
-{% block graficos_tablas %}
-
-
-<div class="container-fluid pt-4 px-4">
-    <div class="col-sm-12 col-xl-6">
-        <div class="bg-secondary rounded h-100 p-4">
-            <h6 class="mb-4">South Post S.A.</h6>
-            <div class="border rounded p-4 pb-0 mb-4">
-                <figure>
-                    <blockquote class="blockquote">
-                        <p>Sistema de control de MELI</p>
-                    </blockquote>
-                    <figcaption class="blockquote-footer">
-                         {% comment %} <cite title="Source Title">Source Title</cite> {% endcomment %}
-                    </figcaption>
-                </figure>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-{% endblock graficos_tablas %}
-
-
-
-
-
-
-
-{% block barra_mensaje %}
-{% endblock barra_mensaje %}
+  </aside><!-- End Sidebar-->
+  {% endblock barra_lateral %}
