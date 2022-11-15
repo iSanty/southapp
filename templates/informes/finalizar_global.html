@@ -4,8 +4,9 @@
 {% block graficos_tablas %}
 
 <div class="container-fluid pt-4 px-4">
+    {{msj}}
     <div class="row g-4">
-        <form action={% url 'nuevo_global' %} method = "POST"> 
+        <form action={% url 'finalizar_global' %} method = "POST"> 
             {% csrf_token %}
             <table>
                 {{form.as_table}}

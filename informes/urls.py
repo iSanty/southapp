@@ -12,6 +12,7 @@ urlpatterns = [
     path('finalizar_global/', finalizar_global, name='finalizar_global'),
     path('finalizar_armado/', finalizar_armado, name='finalizar_armado'),
     
+    
 
 
 

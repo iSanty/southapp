@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import FormNuevoPK, FormSubCliente, FormPersonalDeposito, FormSector, FormFinalizarPK, FormFinalizarArm
 from .models import GlobalPK, SectorDepo, SubClientes, PersonalDeposito
 from datetime import datetime
+import calendar
 
 
 
@@ -21,25 +22,32 @@ def finalizar_armado(request):
         form = FormFinalizarArm(request.POST)
         if form.is_valid():
             informacion = form.cleaned_data
-            pk_finalizado = GlobalPK.objects.get(numero=informacion['numero'])
             
-            if pk_finalizado.estado_picking == 'Pendiente':
-                msj = 'El global nro ' + informacion['numero'] + ' no se encuentra con el picking finalizado'
+            pk_finalizado_a = GlobalPK.objects.all()
+            pk_finalizado = pk_finalizado_a.filter(numero=informacion['numero'])
+            if not pk_finalizado:
+                msj = 'Nro de global inexistente'
+                return render(request, 'informes/finalizar_armado.html', {'msj':msj, 'form':form})
+            
+            pk_finalizado_b = GlobalPK.objects.get(numero=informacion['numero'])
+            if pk_finalizado_b.estado_picking == 'Pendiente':
+                msj = 'El global nro ' + str(informacion['numero']) + ' no se encuentra con el picking finalizado'
                 return render(request, 'informes/finalizar_armado.html', {'msj':msj, 'form':form})
             
             
                 
-            pk_finalizado.estado_armado = 'Finalizado'
-            pk_finalizado.fecha_armado = informacion['fecha_armado']
+            pk_finalizado_b.estado_armado = 'Finalizado'
+            
+            pk_finalizado_b.fecha_armado = informacion['fecha_armado']
             
             if informacion['hora_fin_armado']:
-                pk_finalizado.hora_fin_armado = informacion['hora_fin_armado']
+                pk_finalizado_b.hora_fin_armado = informacion['hora_fin_armado']
             else:
-                pk_finalizado.hora_fin_armado = '00:00:00'
+                pk_finalizado_b.hora_fin_armado = '00:00:00'
                 
             
-            pk_finalizado.save()
-            msj = 'Globlal ' + informacion['numero'] + ': Armado finalizado.'
+            pk_finalizado_b.save()
+            msj = 'Globlal ' + str(informacion['numero']) + ': Armado finalizado.'
             return render(request, 'informes/finalizar_armado.html', {'msj':msj, 'form':form})
                 
         msj = 'Formulario inválido'
@@ -50,6 +58,7 @@ def finalizar_armado(request):
 
 @login_required
 def finalizar_global(request):
+    
     form = FormFinalizarPK()
     if request.method == 'POST':
         
@@ -57,34 +66,37 @@ def finalizar_global(request):
         
         if form.is_valid():
             informacion = form.cleaned_data
-            global_en_base = GlobalPK.objects.filter(numero=informacion['numero'])
+            global_en_base_b = GlobalPK.objects.all()
+            global_en_base = global_en_base_b.filter(numero=informacion['numero'])
             
             if not global_en_base:
                 msj = 'No existe el numero de global ' + str(informacion['numero'])
                 return render(request, 'informes/finalizar_global.html',{'form':form, 'msj':msj})
             
-            global_finalizado = GlobalPK.objects.get(numero=informacion['numero'])
             
-            global_finalizado.estado_picking = 'Finalizado'
-            global_finalizado.operario = informacion['operario']
-            global_finalizado.fecha_picking = informacion['fecha_picking']
-            global_finalizado.hora_inicio_picking = informacion['hora_inicio_picking']
-            global_finalizado.hora_fin_picking = informacion['hora_fin_picking']
+            global_en_base_a = GlobalPK.objects.get(numero=informacion['numero'])
+            global_en_base_a.estado_picking = 'Finalizado'
+            global_en_base_a.operario = str(informacion['operario'])
+            global_en_base_a.fecha_picking = informacion['fecha_picking']
+            global_en_base_a.hora_inicio_picking = informacion['hora_inicio_picking']
+            global_en_base_a.hora_fin_picking = informacion['hora_fin_picking']
             
-            global_finalizado.save()
-            msj = 'Global numero ' + informacion['numero'] + ' finalizado correctamente'
+            global_en_base_a.save()
+            msj = 'Global numero ' + str(informacion['numero']) + ' finalizado correctamente'
             return render(request, 'informes/finalizar_global.html',{'msj':msj, 'form':form})
         else:
+            form = FormFinalizarPK(request.POST)
             msj = 'Formulario invalido'
             return render(request, 'informes/finalizar_global.html',{'msj':msj, 'form':form})
         
-    msj = 'Llene los datos solicitados'
+    msj = 'Llene los datos solicitados. Para editar, finalizar con nuevos datos'
     return render(request, 'informes/finalizar_global.html',{'msj':msj, 'form':form})
 
 
 
 @login_required
 def index_informes(request):
+    
     return render(request, 'informes/index_informes.html')
 
 
@@ -98,8 +110,10 @@ def nuevo_global(request):
             
             informacion = form.cleaned_data
             validar_global = informacion['numero']
+            
             global_en_base = GlobalPK.objects.filter(numero=validar_global)
-            if global_en_base:
+            
+            if not global_en_base:
                 picking = GlobalPK(
                     numero = informacion['numero'],
                     cliente = informacion['cliente'],
@@ -107,21 +121,26 @@ def nuevo_global(request):
                     unidades = informacion['unidades'],
                     fecha_procesado = informacion['fecha_procesado'],
                     hora_procesado = informacion['hora_procesado'],
-                    operario = informacion['operario'],
-                    fecha_picking = informacion['fecha_picking'],
-                    hora_inicio_picking = informacion['hora_inicio_picking'],
-                    hora_fin_picking = informacion['hora_fin_picking'],
+                    # operario = '',
+                    # fecha_picking = '',
+                    # hora_inicio_picking = informacion['hora_inicio_picking'],
+                    # hora_fin_picking = informacion['hora_fin_picking'],
                     estado_picking = 'Pendiente',
                     estado_armado = 'Pendiente',
-                    
+                    # fecha_armado = '',
+                    # hora_fin_armado = '',
                     
                 )
 
                 picking.save()
-                msj = 'Global ' + informacion['numero'] + ' creado exitosamente'
-                return render(request, 'informes/nuevo_global.html',{'form':form, 'msj':msj})
+                global_grabado_b = GlobalPK.objects.all()
+                
+                global_grabado = global_grabado_b.filter(estado_picking='Pendiente')
+                
+                msj = 'Global ' + str(informacion['numero']) + ' creado exitosamente'
+                return render(request, 'informes/nuevo_global.html',{'form':form, 'msj':msj,'global_grabado':global_grabado})
             else:
-                msj = 'El numero' + informacion['numero'] + ' ya existe en la base de datos'
+                msj = 'El numero' + str(informacion['numero']) + ' ya existe en la base de datos'
                 return render(request, 'informes/nuevo_global.html',{'form':form, 'msj':msj})
             
         msj = 'Formulario inválido'
@@ -137,7 +156,70 @@ def nuevo_global(request):
 
 @login_required
 def informe_global(request):
-    return render(request, 'informes/informe_global.html')
+       
+    
+    hoy = datetime.today()
+    dia = hoy.day
+    mes = hoy.month
+    anio = hoy.year
+    validar_lunes = calendar.weekday(anio, mes, dia)
+    
+    
+    if validar_lunes == 0:
+        ayer = dia -3
+        antes_de_ayer = dia -4
+    elif validar_lunes == 1:
+        ayer = dia -1
+        antes_de_ayer = dia -4
+    else:
+        ayer = dia -1
+        antes_de_ayer = dia -2
+        
+    fecha_hoy = str(dia) + '/' + str(mes) + '/' + str(anio)
+    fecha_ayer = str(ayer) + '/' + str(mes) + '/' + str(anio)
+    fecha_antes_ayer = str(antes_de_ayer) + '/' + str(mes) + '/' + str(anio)
+    fecha_hoy_f = datetime.strptime(fecha_hoy, formato_fecha2)
+    fecha_ayer_f = datetime.strptime(fecha_ayer, formato_fecha2)
+    fecha_antes_ayer_f = datetime.strptime(fecha_antes_ayer, formato_fecha2)
+    
+    global_pk = GlobalPK.objects.all()
+    
+    
+    lista_globales = []
+    lista_canal = []
+    for valor in global_pk:
+        if not valor in lista_canal:
+            lista_canal.append(valor.sub_cliente)
+        
+        
+    
+    
+    print(fecha_hoy_f)
+    print(fecha_ayer_f)
+    print(fecha_antes_ayer_f)
+    
+    mas_de_2_dias_pendientes = ''
+    mañana = ''
+    
+    
+    pend_anteriores_a = ''
+    pendiente_1 = ''
+    pendiente_2 = ''
+    
+    canal = ''
+      
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    return render(request, 'informes/informe_global.html',{'lista_canal':lista_canal})
 
 @login_required
 def parametros(request):
@@ -168,7 +250,7 @@ def parametros(request):
                 msj = 'Formulario inválido'
                 return render(request, 'informes/crear_parametros.html', {'form_sub_cliente':form_sub_cliente, 'form_personal_deposito':form_personal_deposito, 'form_sector':form_sector, 'msj':msj})    
         
-        elif 'btn_sector_deposito' in request.POST:
+        elif 'btn_sector' in request.POST:
             form_sector = FormSector(request.POST)
             if form_sector.is_valid():
                 informacion = form_sector.cleaned_data
@@ -194,7 +276,7 @@ def parametros(request):
                 informacion = form_personal_deposito.cleaned_data
                 personal_en_base = PersonalDeposito.objects.filter(dni=informacion['dni'])
                 if personal_en_base:
-                    msj = 'El empleado ' + informacion['nombre'] + ' ' + informacion['apellido'] +' con dni' + informacion['dni'] + ' ya se encuentra dado de alta.'
+                    msj = 'El empleado ' + informacion['nombre'] + ' ' + informacion['apellido'] +' con dni' + str(informacion['dni']) + ' ya se encuentra dado de alta.'
                     return render(request, 'informes/crear_parametros.html', {'form_sub_cliente':form_sub_cliente, 'form_personal_deposito':form_personal_deposito, 'form_sector':form_sector, 'msj':msj})    
 
                 empleado = PersonalDeposito(
@@ -205,7 +287,7 @@ def parametros(request):
                     
                 )
                 empleado.save()
-                msj = 'Empleado con dni ' + informacion['dni'] + ' creado exitosamente'
+                msj = 'Empleado con dni ' + str(informacion['dni']) + ' creado exitosamente'
                 return render(request, 'informes/crear_parametros.html', {'form_sub_cliente':form_sub_cliente, 'form_personal_deposito':form_personal_deposito, 'form_sector':form_sector, 'msj':msj})    
             else:
                 msj = 'Formulario inválido'

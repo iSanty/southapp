@@ -37,7 +37,7 @@
             <div class="container-fluid pt-4 px-4">
                 <h6>Crear personal de deposito</h6>
                 <div class="row g-4">
-                    <form action={% url 'crear_parametros'%} method = "POST"> 
+                    <form action={% url 'parametros'%} method = "POST"> 
                         {% csrf_token %}
                         <table>
                             {{form_personal_deposito.as_table}}
@@ -59,7 +59,7 @@
             <div class="container-fluid pt-4 px-4">
                 <h6>Crear sector de deposito</h6>
                 <div class="row g-4">
-                    <form action={% url 'crear_parametros'%} method = "POST"> 
+                    <form action={% url 'parametros'%} method = "POST"> 
                         {% csrf_token %}
                         <table>
                             {{form_sector.as_table}}
