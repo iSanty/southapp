@@ -5,6 +5,7 @@
 {% block graficos_tablas %}
 
 <div class="container-fluid pt-4 px-4">
+    {{msj}}
     <div class="row g-4">
         <form action={% url 'finalizar_armado' %} method = "POST"> 
             {% csrf_token %}

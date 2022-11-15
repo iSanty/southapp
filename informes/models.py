@@ -9,14 +9,14 @@ class GlobalPK(models.Model):
     cliente = models.CharField(max_length=50) #agarro de operaciones
     sub_cliente = models.CharField(max_length=50)
     unidades = models.IntegerField()
-    fecha_procesado = models.DateTimeField()
-    hora_procesado = models.CharField(max_length=8)
+    fecha_procesado = models.DateTimeField(null=True)
+    hora_procesado = models.CharField(max_length=8, null=0)
     operario = models.CharField(max_length=20)
-    fecha_picking = models.DateTimeField()
-    fecha_armado = models.DateTimeField()
-    hora_inicio_picking = models.CharField(max_length=8)
-    hora_fin_picking = models.CharField(max_length=8)
-    hora_fin_armado = models.CharField(max_length=8)
+    fecha_picking = models.DateTimeField(null=True)
+    fecha_armado = models.DateTimeField(null=True)
+    hora_inicio_picking = models.CharField(max_length=8, null=0)
+    hora_fin_picking = models.CharField(max_length=8, null=0)
+    hora_fin_armado = models.CharField(max_length=8, null=0)
     estado_picking = models.CharField(max_length=20)
     estado_armado = models.CharField(max_length=20)
     
@@ -25,6 +25,7 @@ class GlobalPK(models.Model):
     
     def __str__(self):
         return f'{self.numero} - {self.sub_cliente}'
+    
     
     
     
@@ -43,7 +44,7 @@ class PersonalDeposito(models.Model):
     sector = models.CharField(max_length=30)
     
     def __str__(self):
-        return f'{self.nombre} - {self.apellido}'
+        return f'{self.nombre} {self.apellido}'
     
     
 class SectorDepo(models.Model):

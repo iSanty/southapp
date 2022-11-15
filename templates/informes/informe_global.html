@@ -1,1 +1,84 @@
 {% extends 'informes/index_informes.html' %}
+
+
+{% block graficos_tablas %}
+
+
+
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        {% comment %} <form action= {% url 'informe_global' %}>
+            <table>
+            {{form.as_table}}
+            </table>
+            <button type="submit" class="btn btn-success">Buscar</button>
+            
+        </form> {% endcomment %}
+        
+        <div class="col-12">
+            <div class="bg-secondary rounded h-100 p-4">
+                <h6 class="mb-4">Informe diario picking pendiente</h6>
+                <a href={% url 'informe_global' %}><button class="btn btn-success">Actualizar</a></button>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            
+                            <th scope="col">Canal</th>
+                            <th scope="col">Pendientes anteriores a </th>
+                            <th scope="col">Pendiente</th>
+                            <th scope="col">Pendiente</th>
+                            <th scope="col">Base del dia </th>
+                            <th scope="col">Finalizado</th>
+                            <th scope="col">Pendiente para el siguiente dia</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for valor in lista_canal %}
+                        <tr>
+                            <th>{{valor.sub_cliente}}</th>
+                            
+                            <td>{{fichero.nombre}}</td>
+                            <td>{{fichero.apellido}}</td>
+                            <td>{{fichero.sucursal}}</td>
+                            <td>{{fichero.categoria}}</td>
+                            <td>{{fichero.tipo_tarifa}}</td>
+                            <td>{{fichero.fecha_trabajada}}</td>
+                            <td>{{fichero.id}}</td>
+                            {% if fichero.pago_realizado == 'Si' %}
+                            <td>{{fichero.pago_realizado}}</td>
+                            {% else %}
+                            <td>{{fichero.pago_realizado}}  -<a href={% url 'pagar_ficha' fichero.id %}><button class="btn btn-light">Pagar</a></button></td>
+                            {% endif %}
+                            <td><a href={% url 'edicion_ficha' fichero.id %}><button class="btn btn-warning">Editar</a></td>
+                            <td><button type="button" class="btn btn-outline-danger m-2"><a href={% url 'eliminar_ficha' fichero.id %} >Eliminar</a></button></td>
+
+
+
+                        </tr>
+                        {% endfor %}
+                        
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+    </div>
+</div>        
+{% endblock graficos_tablas %}

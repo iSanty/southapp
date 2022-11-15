@@ -3,7 +3,9 @@
 
 {% block graficos_tablas %}
 
+
 <div class="container-fluid pt-4 px-4">
+    {{msj}}
     <div class="row g-4">
         <form action={% url 'nuevo_global' %} method = "POST"> 
             {% csrf_token %}
@@ -17,4 +19,78 @@
 </div>
 
 
+
+{% if global_grabado %}
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        {% comment %} <form action= {% url 'informe_global' %}>
+            <table>
+            {{form.as_table}}
+            </table>
+            <button type="submit" class="btn btn-success">Buscar</button>
+            
+        </form> {% endcomment %}
+        
+        <div class="col-12">
+            <div class="bg-secondary rounded h-100 p-4">
+                <h6 class="mb-4">Globales con estado de picking PENDIENTES: </h6>
+                {% comment %} <a href={% url 'informe_global' %}><button class="btn btn-success">Actualizar</a></button> {% endcomment %}
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            
+                            <th scope="col">Numero</th>
+                            <th scope="col">Cliente</th>
+                            <th scope="col">Sub Cliente</th>
+                            <th scope="col">Unidades</th>
+                            <th scope="col">Fecha Proceso</th>
+                            <th scope="col">Estado PK</th>
+                            <th scope="col">Estado Armado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for valor in global_grabado %}
+                        <tr>
+                            
+                            <th>{{valor.numero}}</th>
+                            <td>{{valor.cliente}}</td>
+                            <td>{{valor.sub_cliente}}</td>
+                            <td>{{valor.unidades}}</td>
+                            <td>{{valor.fecha_procesado}}</td>
+                            <td>{{valor.estado_picking}}</td>
+                            <td>{{valor.estado_armado}}</td>
+                            
+                            <td><a href='#'{% comment %} {% url 'edicion_ficha' fichero.id %} {% endcomment %}><button class="btn btn-warning">Editar</a></td>
+                            <td><button type="button" class="btn btn-outline-danger m-2"><a href='#'{% comment %} {% url 'edicion_ficha' fichero.id %} {% endcomment %} >Eliminar</a></button></td>
+
+                            
+
+                        </tr>
+                        
+                        {% endfor %}
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+    </div>
+</div>        
+{% endif %}
 {% endblock graficos_tablas %}

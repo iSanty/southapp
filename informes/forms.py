@@ -8,16 +8,16 @@ class FormNuevoPK(forms.Form):
     cliente = forms.ModelChoiceField(queryset=Cia.objects.all())
     sub_cliente = forms.ModelChoiceField(queryset=SubClientes.objects.all())
     unidades = forms.IntegerField()
-    fecha_procesado = forms.DateTimeField()
-    hora_procesado = forms.CharField()
+    fecha_procesado = forms.DateTimeField(input_formats=['%d/%m/%Y'])
+    hora_procesado = forms.CharField(required=False)
     
     
 class FormFinalizarPK(forms.Form):
     numero = forms.IntegerField()
     operario = forms.ModelChoiceField(queryset=PersonalDeposito.objects.all())
-    fecha_picking = forms.DateTimeField()
-    hora_inicio_picking = forms.CharField()
-    hora_fin_picking =forms.CharField()
+    fecha_picking = forms.DateTimeField(input_formats=['%d/%m/%Y'])
+    hora_inicio_picking = forms.CharField(required=False)
+    hora_fin_picking =forms.CharField(required=False)
     
     
 class FormSubCliente(forms.Form):
@@ -40,6 +40,6 @@ class FormSector(forms.Form):
     
 class FormFinalizarArm(forms.Form):
     numero = forms.IntegerField()
-    fecha_armado = forms.DateTimeField()
+    fecha_armado = forms.DateTimeField(input_formats=['%d/%m/%Y'])
     hora_fin_armado = forms.CharField(required=False)
     
