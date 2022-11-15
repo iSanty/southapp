@@ -1,0 +1,100 @@
+{% extends 'index.html' %}
+
+
+
+
+{% block barra_lateral %}
+
+
+
+<div class="navbar-nav w-100">
+    <a href={% url 'index_deposito' %} class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Deposito</a>
+    <div class="nav-item dropdown">
+        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Productos</a>
+        <div class="dropdown-menu bg-transparent border-0">
+            <a href={% url 'nuevo_aforo' %} class="dropdown-item">Altas producto</a>
+            <a href={% url 'ver_productos' %} class="dropdown-item">Consultas</a>
+            <a href={% url 'crear_parametros' %} class="dropdown-item">Parametros</a>
+            
+            {% comment %} <a href={% url 'index_meli' %} class="dropdown-item">Transportes</a> {% endcomment %}
+        </div>
+    </div>
+
+    <div class="nav-item dropdown">
+        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Globales de PK</a>
+        <div class="dropdown-menu bg-transparent border-0">
+            <a href={% url 'nuevo_global' %} class="dropdown-item">Nuevo global</a>
+            <a href={% url 'finalizar_global' %} class="dropdown-item">Finalizar picking</a>
+            <a href={% url 'finalizar_armado' %} class="dropdown-item">Finalizar armado</a>
+            <a href={% url 'informe_global' %} class="dropdown-item">Informe Global</a>
+            <a href={% url 'parametros' %} class="dropdown-item">Parametros</a>
+            
+            {% comment %} <a href={% url 'index_meli' %} class="dropdown-item">Transportes</a> {% endcomment %}
+        </div>
+    </div>
+
+
+    <div class="nav-item dropdown">
+        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Migrador</a>
+        <div class="dropdown-menu bg-transparent border-0">
+            <a href={% url 'exportar_saad' %} class="dropdown-item">Aforos SAAD</a>
+            <a href={% url 'exportar_presis' %} class="dropdown-item">Aforos PRESIS</a>
+        </div>
+    </div>
+    {% comment %} <a href={% url '404' %} class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Consultas</a> {% endcomment %}
+    {% comment %} <a href={% url 'ver_productos' %} class="nav-item nav-link"><i class="fa fa-table me-2"></i>Migrador</a>
+    <a href={% url 'ver_productos' %} class="nav-item nav-link"><i class="fa fa-table me-2"></i>Empresa</a>
+    <a href={% url 'ver_productos' %} class="nav-item nav-link"><i class="fa fa-table me-2"></i>Api</a>
+    <a href={% url 'index' %} class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>inf. tatan</a> {% endcomment %}
+    {% comment %} <div class="nav-item dropdown">
+        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Migrador</a>
+        <div class="dropdown-menu bg-transparent border-0">
+            <a href={% url 'exportar_saad' %} class="dropdown-item">Aforos SAAD</a>
+            <a href={% url 'exportar_presis' %} class="dropdown-item">Aforos PRESIS</a>
+        </div>
+    </div> {% endcomment %}
+    
+    <div class="nav-item dropdown">
+        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Links utiles</a>
+        <div class="dropdown-menu bg-transparent border-0">
+            <a href={% url '404' %} class="dropdown-item">Sistema SAAD</a>
+            <a href={% url '404' %} class="dropdown-item">Sistema PRESIS</a>
+            <a href={% url 'index' %} class="dropdown-item">Southapp</a>
+            <a href={% url '404' %} class="dropdown-item">Southpost</a>
+        </div>
+    </div>
+</div>
+
+
+
+
+{% endblock barra_lateral %}
+
+
+
+
+
+
+{% block graficos_tablas %}
+
+
+<div class="container-fluid pt-4 px-4">
+    <div class="col-sm-12 col-xl-6">
+        <div class="bg-secondary rounded h-100 p-4">
+            <h6 class="mb-4">South Post S.A.</h6>
+            <div class="border rounded p-4 pb-0 mb-4">
+                <figure>
+                    <blockquote class="blockquote">
+                        <p>Sistema de control de operaciones de SouthPost S.A.</p>
+                    </blockquote>
+                    <figcaption class="blockquote-footer">
+                         {% comment %} <cite title="Source Title">Source Title</cite> {% endcomment %}
+                    </figcaption>
+                </figure>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock graficos_tablas %}

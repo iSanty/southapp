@@ -602,3 +602,5 @@ def editar_producto(request, id):
 @login_required
 def index_deposito(request):
     return render(request, 'operaciones/index_operaciones.html')
+
+
