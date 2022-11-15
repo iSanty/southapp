@@ -135,7 +135,7 @@ def nuevo_global(request):
                 picking.save()
                 global_grabado_b = GlobalPK.objects.all()
                 
-                global_grabado = global_grabado_b.filter(estado_picking='Pendiente')
+                global_grabado = global_grabado_b.filter(estado_picking='Pendiente').order_by('-id')
                 
                 msj = 'Global ' + str(informacion['numero']) + ' creado exitosamente'
                 return render(request, 'informes/nuevo_global.html',{'form':form, 'msj':msj,'global_grabado':global_grabado})
@@ -168,28 +168,41 @@ def informe_global(request):
     if validar_lunes == 0:
         ayer = dia -3
         antes_de_ayer = dia -4
+        anterior_a = dia - 5
     elif validar_lunes == 1:
         ayer = dia -1
         antes_de_ayer = dia -4
+        anterior_a = dia - 5
     else:
         ayer = dia -1
         antes_de_ayer = dia -2
+        anterior_a = dia - 3
         
     fecha_hoy = str(dia) + '/' + str(mes) + '/' + str(anio)
     fecha_ayer = str(ayer) + '/' + str(mes) + '/' + str(anio)
     fecha_antes_ayer = str(antes_de_ayer) + '/' + str(mes) + '/' + str(anio)
+    fecha_anterior = str(anterior_a) + '/' + str(mes) + '/' + str(anio)
     fecha_hoy_f = datetime.strptime(fecha_hoy, formato_fecha2)
     fecha_ayer_f = datetime.strptime(fecha_ayer, formato_fecha2)
     fecha_antes_ayer_f = datetime.strptime(fecha_antes_ayer, formato_fecha2)
+    fecha_anterior_f = datetime.strptime(fecha_anterior, formato_fecha2)
     
-    global_pk = GlobalPK.objects.all()
+    todos_los_globales = GlobalPK.objects.all()
     
     
-    lista_globales = []
-    lista_canal = []
-    for valor in global_pk:
-        if not valor in lista_canal:
-            lista_canal.append(valor.sub_cliente)
+    lista_canales = []
+    
+    for valor in todos_los_globales:
+        if valor in lista_canales:
+            sub_cliente = ""
+        
+        lista_canales.append(valor)
+        
+        
+    
+    
+    print(lista_canales)
+    
         
         
     
@@ -219,7 +232,7 @@ def informe_global(request):
     
     
     
-    return render(request, 'informes/informe_global.html',{'lista_canal':lista_canal})
+    return render(request, 'informes/informe_global.html',{'lista_canales':lista_canales, 'anterior_a':fecha_anterior,'antes_ayer':fecha_antes_ayer,'ayer':fecha_ayer,'hoy':fecha_hoy})
 
 @login_required
 def parametros(request):
