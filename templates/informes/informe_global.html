@@ -23,21 +23,24 @@
                     <thead>
                         <tr>
                             
-                            <th scope="col">Canal</th>
-                            <th scope="col">Pendientes anteriores a </th>
-                            <th scope="col">Pendiente</th>
-                            <th scope="col">Pendiente</th>
-                            <th scope="col">Base del dia </th>
-                            <th scope="col">Finalizado</th>
-                            <th scope="col">Pendiente para el siguiente dia</th>
+                            <th scope="col">Cia</th>
+                            <th scope="col">Canal </th>
+                            <th scope="col">Pendientes anteriores a {{anterior_a}}</th>
+                            <th scope="col">Pendiente {{antes_ayer}}</th>
+                            <th scope="col">Pendiente {{ayer}}</th>
+                            <th scope="col">Base del dia {{hoy}}</th>
+                            <th scope="col">Finalizado {{hoy}}</th>
+                            <th scope="col">Pendiente para el siguiente dia {{siguiente}}</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for valor in lista_canal %}
+                        {% for valor in lista_canales %}
                         <tr>
+                            <th>{{valor.cliente}}</th>
                             <th>{{valor.sub_cliente}}</th>
+                            <th>{{valor.unidades}}</th>
                             
-                            <td>{{fichero.nombre}}</td>
+                            {% comment %} <td>{{fichero.nombre}}</td>
                             <td>{{fichero.apellido}}</td>
                             <td>{{fichero.sucursal}}</td>
                             <td>{{fichero.categoria}}</td>
@@ -50,13 +53,13 @@
                             <td>{{fichero.pago_realizado}}  -<a href={% url 'pagar_ficha' fichero.id %}><button class="btn btn-light">Pagar</a></button></td>
                             {% endif %}
                             <td><a href={% url 'edicion_ficha' fichero.id %}><button class="btn btn-warning">Editar</a></td>
-                            <td><button type="button" class="btn btn-outline-danger m-2"><a href={% url 'eliminar_ficha' fichero.id %} >Eliminar</a></button></td>
+                            <td><button type="button" class="btn btn-outline-danger m-2"><a href={% url 'eliminar_ficha' fichero.id %} >Eliminar</a></button></td> {% endcomment %}
 
 
 
                         </tr>
                         {% endfor %}
-                        
+                       
 
 
                     </tbody>
