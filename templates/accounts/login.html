@@ -64,7 +64,7 @@
                     <p class="text-center small">ingrese su usuario y contraseña</p>
                   </div>
 
-                  <form class="row g-3 needs-validation" novalidate action={% url 'login' method='POST' %}>
+                  <form class="row g-3 needs-validation" novalidate action={% url 'login' %} method='POST' >
 
                     {% comment %} <div class="col-12">
                       <label for="yourUsername" class="form-label">Username</label>
