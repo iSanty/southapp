@@ -105,8 +105,8 @@ WSGI_APPLICATION = 'SouthApp.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        #'ENGINE': 'django.db.backends.mysql',
+        #'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': 'dbsp',
         
         'HOST':'localhost',
@@ -166,4 +166,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 #Poner online
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-django_heroku.settings(locals())
+# django_heroku.settings(locals())

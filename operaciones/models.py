@@ -49,7 +49,7 @@ class Cia(models.Model):
     cod = models.CharField(max_length=3)
     descripcion = models.CharField(max_length=180)
     def __str__(self):
-        return f'{self.cod} - {self.descripcion}'
+        return f'{self.descripcion}'
     
     
 class CatUbicacion(models.Model):

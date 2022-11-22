@@ -19,12 +19,18 @@ class GlobalPK(models.Model):
     hora_fin_armado = models.CharField(max_length=8, null=0)
     estado_picking = models.CharField(max_length=20)
     estado_armado = models.CharField(max_length=20)
+    nombre_planilla = models.CharField(max_length=50)
     
     
     
     
     def __str__(self):
-        return f'{self.numero} - {self.sub_cliente}'
+        return f'{self.nombre_planilla}'
+    
+    
+    # def calcular_dias(self, fecha_proceso):
+    #     pendiente_armado = self.fecha_armado - fecha_proceso
+    #     print(pendiente_armado)
     
     
     
@@ -35,7 +41,7 @@ class SubClientes(models.Model):
     razon_social = models.CharField(max_length=30)
     
     def __str__(self):
-        return f'{self.codigo} - {self.razon_social}'
+        return f'{self.razon_social}'
     
 class PersonalDeposito(models.Model):
     dni = models.IntegerField()

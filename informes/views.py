@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from .forms import FormNuevoPK, FormSubCliente, FormPersonalDeposito, FormSector, FormFinalizarPK, FormFinalizarArm
 from .models import GlobalPK, SectorDepo, SubClientes, PersonalDeposito
-from datetime import datetime
+from datetime import datetime, date
 import calendar
 
 
@@ -127,6 +127,7 @@ def nuevo_global(request):
                     # hora_fin_picking = informacion['hora_fin_picking'],
                     estado_picking = 'Pendiente',
                     estado_armado = 'Pendiente',
+                    nombre_planilla = str(informacion['cliente'])+'('+str(informacion['sub_cliente'])+')'
                     # fecha_armado = '',
                     # hora_fin_armado = '',
                     
@@ -187,52 +188,43 @@ def informe_global(request):
     fecha_antes_ayer_f = datetime.strptime(fecha_antes_ayer, formato_fecha2)
     fecha_anterior_f = datetime.strptime(fecha_anterior, formato_fecha2)
     
-    todos_los_globales = GlobalPK.objects.all()
+    pend_picking = GlobalPK.objects.filter(estado_picking='Pendiente')
     
+    lista = []
     
-    lista_canales = []
-    
-    for valor in todos_los_globales:
-        if valor in lista_canales:
-            sub_cliente = ""
+    for valor in pend_picking:
+        hoy = date.today()
         
-        lista_canales.append(valor)
+        fecha_proceso = valor.fecha_procesado
+        dia_proceso = fecha_proceso.day
+        mes_proceso = fecha_proceso.month
+        anio_proceso = fecha_proceso.year
+        fecha_proceso_f = date(anio_proceso, mes_proceso, dia_proceso)
+        
+        dias_pend = (hoy - fecha_proceso_f).days
+        unidades, _ = GlobalPK.objects.get_or_create(nombre_planilla=valor.nombre_planilla)
+                
+        if valor.nombre_planilla in lista:
+            
+            pass
         
         
-    
-    
-    print(lista_canales)
-    
+        if not valor.nombre_planilla in lista:
+            lista.append([valor.nombre_planilla, valor.unidades])
+            
+    print(lista)
         
+            
+   
         
     
     
-    print(fecha_hoy_f)
-    print(fecha_ayer_f)
-    print(fecha_antes_ayer_f)
-    
-    mas_de_2_dias_pendientes = ''
-    mañana = ''
-    
-    
-    pend_anteriores_a = ''
-    pendiente_1 = ''
-    pendiente_2 = ''
-    
-    canal = ''
-      
     
     
     
     
     
-    
-    
-    
-    
-    
-    
-    return render(request, 'informes/informe_global.html',{'lista_canales':lista_canales, 'anterior_a':fecha_anterior,'antes_ayer':fecha_antes_ayer,'ayer':fecha_ayer,'hoy':fecha_hoy})
+    return render(request, 'informes/informe_global.html',{'anterior_a':fecha_anterior,'antes_ayer':fecha_antes_ayer,'ayer':fecha_ayer,'hoy':fecha_hoy})
 
 @login_required
 def parametros(request):
