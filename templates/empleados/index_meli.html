@@ -76,7 +76,8 @@
         </a>
         <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href={% url 'busqueda_fichero' %}>
+            <a href={% url '404' %}>
+            {% comment %} <a href={% url 'busqueda_fichero' %}> {% endcomment %}
               <i class="bi bi-circle"></i><span>Personal</span>
             </a>
           </li>
@@ -130,3 +131,7 @@
 
   </aside><!-- End Sidebar-->
   {% endblock barra_lateral %}
+
+{% block dashboard %}
+<h1>Dashboard > MELI</h1>
+{% endblock dashboard %}
