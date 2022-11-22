@@ -321,7 +321,53 @@ def nuevo_aforo(request):
                 producto.importado_saad = 'No'
                 producto.importado_presis = 'No'
                 
+                
+                
+                
                 producto.save()
+                
+                cat_ub_sp = CatUbicacion.objects.get(cia_asociada='022')
+                cat_pk_sp = CatPicking.objects.get(cia_asociada='022')
+                cat_repo_sp = CatRepo.objects.get(cia_asociada='022')
+                
+                linea_022 = Producto(
+                    cia = producto.cia,
+                    codigo = producto.codigo,
+                    descripcion = producto.descripcion,
+                    peso_un = producto.peso_un,
+                    largo_un = producto.largo_un,
+                    ancho_un = producto.ancho_un,
+                    alto_un = producto.alto_un,
+                    unidad_caja = producto.unidad_caja,
+                    largo_cj = producto.largo_cj,
+                    ancho_cj = producto.ancho_cj,
+                    unidad_pall = producto.unidad_pall,
+                    pack = producto.pack,
+                    vd = producto.vd,
+                    tipo_alm = producto.tipo_alm,
+                    fecha_creacion = datetime.now(),
+                    usuario = user,
+
+                    cat_ub = cat_ub_sp.cod,
+                    cat_pk = cat_pk_sp.cod,
+                    cat_repo = cat_repo_sp.cod,
+                    cat_emb = '001',
+                    clase = 'B', #siempre B
+                    unidad_minima = '1', #siempre 1
+                    unidad_medida = '01', #siempre 01
+                    peso_cj = producto.peso_cj, #multiplicacion de peso * unidad_caja
+                    peso_pall = producto.peso_pall, #multiplicacion de peso * unidad_pall
+                    
+
+                    
+                    importado_saad = 'No', #si o no 'para importar solo lo que hace falta en saad
+                    importado_presis = 'No', #si o no 'para importar solo lo que hace falta en saad
+    
+                    
+                    
+                )
+                linea_022.save()
+                
                 
                 form_crear_producto = FormCrearProducto(informacion)
                 form_creado = 'Cod ' + producto.codigo + ' creado exitosamente'

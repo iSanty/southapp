@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from .forms import FormNuevoPK, FormSubCliente, FormPersonalDeposito, FormSector, FormFinalizarPK, FormFinalizarArm
-from .models import GlobalPK, SectorDepo, SubClientes, PersonalDeposito
+from .models import GlobalPK, SectorDepo, SubClientes, PersonalDeposito, Pendientes
 from datetime import datetime, date
 import calendar
 
@@ -190,9 +190,10 @@ def informe_global(request):
     
     pend_picking = GlobalPK.objects.filter(estado_picking='Pendiente')
     
-    lista = []
+    canales = Pendientes.objects.all()
     
     for valor in pend_picking:
+        
         hoy = date.today()
         
         fecha_proceso = valor.fecha_procesado
@@ -202,28 +203,77 @@ def informe_global(request):
         fecha_proceso_f = date(anio_proceso, mes_proceso, dia_proceso)
         
         dias_pend = (hoy - fecha_proceso_f).days
-        unidades, _ = GlobalPK.objects.get_or_create(nombre_planilla=valor.nombre_planilla)
+        #unidades, _ = GlobalPK.objects.get_or_create(nombre_planilla=valor.nombre_planilla)
+        print(valor.nombre_planilla)
+        print(dias_pend)
+        
+        filtro_canal = canales.filter(canal=valor.nombre_planilla)
+        
+        
+        if not filtro_canal:
+            nuevo_pendiente = Pendientes(
+                canal = valor.nombre_planilla
                 
-        if valor.nombre_planilla in lista:
+            )
             
-            pass
-        
-        
-        if not valor.nombre_planilla in lista:
-            lista.append([valor.nombre_planilla, valor.unidades])
+            if dias_pend >= 3:
+                nuevo_pendiente.pend_tres_o_mas = valor.unidades
+                nuevo_pendiente.pend_dos = 0
+                nuevo_pendiente.pend_uno = 0
+                nuevo_pendiente.base_del_dia = 0
+                nuevo_pendiente.finalizado = 0
+                nuevo_pendiente.pendiente_para_sig_dia = 0
+            elif dias_pend == 2:
+                nuevo_pendiente.pend_tres_o_mas = 0
+                nuevo_pendiente.pend_dos = valor.unidades
+                nuevo_pendiente.pend_uno = 0
+                nuevo_pendiente.base_del_dia = 0
+                nuevo_pendiente.finalizado = 0
+                nuevo_pendiente.pendiente_para_sig_dia = 0
+            elif dias_pend == 1:
+                nuevo_pendiente.pend_tres_o_mas = 0
+                nuevo_pendiente.pend_dos = 0
+                nuevo_pendiente.pend_uno = valor.unidades
+                nuevo_pendiente.base_del_dia = 0
+                nuevo_pendiente.finalizado = 0
+                nuevo_pendiente.pendiente_para_sig_dia = 0
+            else:
+                nuevo_pendiente.pend_tres_o_mas = 0
+                nuevo_pendiente.pend_dos = 0
+                nuevo_pendiente.pend_uno = 0
+                nuevo_pendiente.base_del_dia = valor.unidades
+                nuevo_pendiente.finalizado = 0
+                nuevo_pendiente.pendiente_para_sig_dia = 0
             
-    print(lista)
+            nuevo_pendiente.save()       
         
+        
+        else:
+            canal = Pendientes.objects.get(canal=valor.nombre_planilla)
             
-   
+            if dias_pend >= 3:
+                canal.pend_tres_o_mas += valor.unidades
+            elif dias_pend == 2:
+                canal.pend_dos += valor.unidades
+            elif dias_pend == 1:
+                canal.pend_uno += valor.unidades
+            else:
+                canal.base_del_dia += valor.unidades
+            
+            canal.save()
+    
+    
+    for valor in canales:
+        canal = canales.get(canal=valor.canal)
+        canal.canal = valor.canal
+        canal.pend_tres_o_mas = 0
+        canal.pend_dos = 0
+        canal.pend_uno = 0
+        canal.base_del_dia = 0
+        canal.finalizado = 0
+        canal.pendiente_para_sig_dia = 0
+        canal.save()
         
-    
-    
-    
-    
-    
-    
-    
     return render(request, 'informes/informe_global.html',{'anterior_a':fecha_anterior,'antes_ayer':fecha_antes_ayer,'ayer':fecha_ayer,'hoy':fecha_hoy})
 
 @login_required
