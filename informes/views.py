@@ -189,8 +189,15 @@ def informe_global(request):
     fecha_anterior_f = datetime.strptime(fecha_anterior, formato_fecha2)
     
     pend_picking = GlobalPK.objects.filter(estado_picking='Pendiente')
+    finalizados = GlobalPK.objects.filter(estado_picking='Finalizado')
+    finalizado_hoy = finalizados.filter(fecha_picking=fecha_hoy_f)
+    
+    
     
     canales = Pendientes.objects.all()
+    
+    
+        
     
     for valor in pend_picking:
         
@@ -204,8 +211,7 @@ def informe_global(request):
         
         dias_pend = (hoy - fecha_proceso_f).days
         #unidades, _ = GlobalPK.objects.get_or_create(nombre_planilla=valor.nombre_planilla)
-        print(valor.nombre_planilla)
-        print(dias_pend)
+        
         
         filtro_canal = canales.filter(canal=valor.nombre_planilla)
         
@@ -222,30 +228,31 @@ def informe_global(request):
                 nuevo_pendiente.pend_uno = 0
                 nuevo_pendiente.base_del_dia = 0
                 nuevo_pendiente.finalizado = 0
-                nuevo_pendiente.pendiente_para_sig_dia = 0
+                nuevo_pendiente.pendiente_para_sig_dia = valor.unidades
             elif dias_pend == 2:
                 nuevo_pendiente.pend_tres_o_mas = 0
                 nuevo_pendiente.pend_dos = valor.unidades
                 nuevo_pendiente.pend_uno = 0
                 nuevo_pendiente.base_del_dia = 0
                 nuevo_pendiente.finalizado = 0
-                nuevo_pendiente.pendiente_para_sig_dia = 0
+                nuevo_pendiente.pendiente_para_sig_dia = valor.unidades
             elif dias_pend == 1:
                 nuevo_pendiente.pend_tres_o_mas = 0
                 nuevo_pendiente.pend_dos = 0
                 nuevo_pendiente.pend_uno = valor.unidades
                 nuevo_pendiente.base_del_dia = 0
                 nuevo_pendiente.finalizado = 0
-                nuevo_pendiente.pendiente_para_sig_dia = 0
+                nuevo_pendiente.pendiente_para_sig_dia = valor.unidades
             else:
                 nuevo_pendiente.pend_tres_o_mas = 0
                 nuevo_pendiente.pend_dos = 0
                 nuevo_pendiente.pend_uno = 0
                 nuevo_pendiente.base_del_dia = valor.unidades
                 nuevo_pendiente.finalizado = 0
-                nuevo_pendiente.pendiente_para_sig_dia = 0
+                nuevo_pendiente.pendiente_para_sig_dia = valor.unidades
             
-            nuevo_pendiente.save()       
+            nuevo_pendiente.save()
+                   
         
         
         else:
@@ -253,15 +260,32 @@ def informe_global(request):
             
             if dias_pend >= 3:
                 canal.pend_tres_o_mas += valor.unidades
+                canal.pendiente_para_sig_dia += valor.unidades
             elif dias_pend == 2:
                 canal.pend_dos += valor.unidades
+                canal.pendiente_para_sig_dia += valor.unidades
             elif dias_pend == 1:
                 canal.pend_uno += valor.unidades
+                canal.pendiente_para_sig_dia += valor.unidades
             else:
                 canal.base_del_dia += valor.unidades
+                canal.pendiente_para_sig_dia += valor.unidades
+            
             
             canal.save()
+            
     
+    for finalizado in finalizado_hoy:
+        
+        if finalizado:
+            filtro = canales.get(canal=finalizado.nombre_planilla)
+        
+            filtro.finalizado += finalizado.unidades
+            filtro.save()
+            
+    
+    
+    informacion = set(Pendientes.objects.all())
     
     for valor in canales:
         canal = canales.get(canal=valor.canal)
@@ -274,7 +298,8 @@ def informe_global(request):
         canal.pendiente_para_sig_dia = 0
         canal.save()
         
-    return render(request, 'informes/informe_global.html',{'anterior_a':fecha_anterior,'antes_ayer':fecha_antes_ayer,'ayer':fecha_ayer,'hoy':fecha_hoy})
+    
+    return render(request, 'informes/informe_global.html',{'anterior_a':fecha_anterior,'antes_ayer':fecha_antes_ayer,'ayer':fecha_ayer,'hoy':fecha_hoy, 'informacion':informacion})
 
 @login_required
 def parametros(request):

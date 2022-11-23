@@ -18,15 +18,15 @@
             
         </form> {% endcomment %}
         
-        <div class="col-12">
-            <div class="bg-secondary rounded h-100 p-4">
+        <div class="col-sm-12">
+            <div class="bg-white rounded h-100 p-4">
                 <h6 class="mb-4">Informe diario picking pendiente</h6>
-                <a href={% url 'informe_global' %}><button class="btn btn-success">Actualizar</a></button>
-                <table class="table table-bordered">
+                <a href={% url 'informe_global' %}><button class="btn btn-black" >Actualizar</a></button>
+                <table class="table table-bordered border-primary">
                     <thead>
                         <tr>
                             
-                            <th scope="col">Cia</th>
+                            
                             <th scope="col">Canal </th>
                             <th scope="col">Pendientes anteriores a {{anterior_a}}</th>
                             <th scope="col">Pendiente {{antes_ayer}}</th>
@@ -37,11 +37,16 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for valor in lista_canales %}
+                        {% for valor in informacion %}
                         <tr>
-                            <th>{{valor.cliente}}</th>
-                            <th>{{valor.sub_cliente}}</th>
-                            <th>{{valor.unidades}}</th>
+                            <th>{{valor.canal}}</th>
+                            <th>{{valor.pend_tres_o_mas}}</th>
+                            <th>{{valor.pend_dos}}</th>
+                            <th>{{valor.pend_uno}}</th>
+                            <th>{{valor.base_del_dia}}</th>
+                            <th>{{valor.finalizado}}</th>
+                            <th>{{valor.pendiente_para_sig_dia}}</th>
+
                             
                             {% comment %} <td>{{fichero.nombre}}</td>
                             <td>{{fichero.apellido}}</td>
