@@ -59,3 +59,16 @@ class SectorDepo(models.Model):
     def __str__(self):
         return f'{self.descripcion}'
     
+    
+    
+class Pendientes(models.Model):
+    canal = models.CharField(max_length=100)
+    pend_tres_o_mas = models.IntegerField(null=0)
+    pend_dos = models.IntegerField(null=0)
+    pend_uno = models.IntegerField(null=0)
+    base_del_dia = models.IntegerField(null=0)
+    finalizado = models.IntegerField(null=0)
+    pendiente_para_sig_dia = models.IntegerField(null=0)
+    
+    def __str__(self):
+        return f'{self.canal}, {self.pend_tres_o_mas}, {self.pend_dos}, {self.pend_uno}, {self.base_del_dia}, {self.finalizado}, {self.pendiente_para_sig_dia}'
