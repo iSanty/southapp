@@ -97,7 +97,28 @@ def finalizar_global(request):
 @login_required
 def index_informes(request):
     
-    return render(request, 'informes/index_informes.html')
+    informacion_pk_pend = GlobalPK.objects.filter(estado_picking='Pendiente').order_by('-numero')
+    informacion_arm_pend = GlobalPK.objects.filter(estado_armado='Pendiente').order_by('-numero')
+    
+    informacion_pk_finalizado = GlobalPK.objects.filter(estado_picking='Finalizado')
+    informacion_arm_finalizado = GlobalPK.objects.filter(estado_picking='Finalizado')
+    
+    hoy = datetime.today()
+    dia = hoy.day
+    mes = hoy.month
+    anio = hoy.year
+    fecha_hoy = str(dia) + '/' + str(mes) + '/' + str(anio)
+    fecha_hoy_f = datetime.strptime(fecha_hoy, formato_fecha2)
+    
+    
+    
+    
+    inf_pk_fin = informacion_pk_finalizado.filter(fecha_picking=fecha_hoy_f).order_by('-numero')
+    inf_arm_fin = informacion_arm_finalizado.filter(fecha_armado=fecha_hoy_f).order_by('-numero')
+    
+    
+    
+    return render(request, 'informes/index_informes.html', {'informacion_pk_pend':informacion_pk_pend, 'informacion_arm_pend':informacion_arm_pend, 'inf_pk_fin':inf_pk_fin, 'inf_arm_fin':inf_arm_fin})
 
 
 def nuevo_global(request):
