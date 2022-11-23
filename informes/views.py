@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from .forms import FormNuevoPK, FormSubCliente, FormPersonalDeposito, FormSector, FormFinalizarPK, FormFinalizarArm
-from .models import GlobalPK, SectorDepo, SubClientes, PersonalDeposito, Pendientes
+from .models import GlobalPK, SectorDepo, SubClientes, PersonalDeposito, Pendientes, PendientesArm
 from datetime import datetime, date
 import calendar
 
@@ -213,12 +213,174 @@ def informe_global(request):
     finalizados = GlobalPK.objects.filter(estado_picking='Finalizado')
     finalizado_hoy = finalizados.filter(fecha_picking=fecha_hoy_f)
     
+    pend_armado = GlobalPK.objects.filter(estado_armado='Pendiente')
+    finalizados_armado = GlobalPK.objects.filter(estado_armado='Finalizado')
+    finalizado_armado_hoy = finalizados_armado.filter(fecha_armado=fecha_hoy_f)
     
     
     canales = Pendientes.objects.all()
+    canales_arm = PendientesArm.objects.all()
     
     
+    
+    for valor in pend_armado:
         
+        hoy = date.today()
+        
+        fecha_proceso = valor.fecha_procesado
+        dia_proceso = fecha_proceso.day
+        mes_proceso = fecha_proceso.month
+        anio_proceso = fecha_proceso.year
+        fecha_proceso_f = date(anio_proceso, mes_proceso, dia_proceso)
+        
+        dias_pend = (hoy - fecha_proceso_f).days
+        #unidades, _ = GlobalPK.objects.get_or_create(nombre_planilla=valor.nombre_planilla)
+        
+        
+        filtro_canal_arm = canales_arm.filter(canal=valor.nombre_planilla)
+        
+        
+        if not filtro_canal_arm:
+            nuevo_pendiente_arm = PendientesArm(
+                canal = valor.nombre_planilla
+                
+            )
+            
+            if dias_pend >= 3:
+                nuevo_pendiente_arm.pend_tres_o_mas = valor.unidades
+                nuevo_pendiente_arm.pend_dos = 0
+                nuevo_pendiente_arm.pend_uno = 0
+                nuevo_pendiente_arm.base_del_dia = 0
+                nuevo_pendiente_arm.finalizado = 0
+                nuevo_pendiente_arm.pendiente_para_sig_dia = valor.unidades
+            elif dias_pend == 2:
+                nuevo_pendiente_arm.pend_tres_o_mas = 0
+                nuevo_pendiente_arm.pend_dos = valor.unidades
+                nuevo_pendiente_arm.pend_uno = 0
+                nuevo_pendiente_arm.base_del_dia = 0
+                nuevo_pendiente_arm.finalizado = 0
+                nuevo_pendiente_arm.pendiente_para_sig_dia = valor.unidades
+            elif dias_pend == 1:
+                nuevo_pendiente_arm.pend_tres_o_mas = 0
+                nuevo_pendiente_arm.pend_dos = 0
+                nuevo_pendiente_arm.pend_uno = valor.unidades
+                nuevo_pendiente_arm.base_del_dia = 0
+                nuevo_pendiente_arm.finalizado = 0
+                nuevo_pendiente_arm.pendiente_para_sig_dia = valor.unidades
+            else:
+                nuevo_pendiente_arm.pend_tres_o_mas = 0
+                nuevo_pendiente_arm.pend_dos = 0
+                nuevo_pendiente_arm.pend_uno = 0
+                nuevo_pendiente_arm.base_del_dia = valor.unidades
+                nuevo_pendiente_arm.finalizado = 0
+                nuevo_pendiente_arm.pendiente_para_sig_dia = valor.unidades
+            
+            nuevo_pendiente_arm.save()
+                   
+        
+        
+        else:
+            canal_arm = PendientesArm.objects.get(canal=valor.nombre_planilla)
+            
+            if dias_pend >= 3:
+                canal_arm.pend_tres_o_mas += valor.unidades
+                canal_arm.pendiente_para_sig_dia += valor.unidades
+            elif dias_pend == 2:
+                canal_arm.pend_dos += valor.unidades
+                canal_arm.pendiente_para_sig_dia += valor.unidades
+            elif dias_pend == 1:
+                canal_arm.pend_uno += valor.unidades
+                canal_arm.pendiente_para_sig_dia += valor.unidades
+            else:
+                canal_arm.base_del_dia += valor.unidades
+                canal_arm.pendiente_para_sig_dia += valor.unidades
+            
+            
+            canal_arm.save()
+            
+    
+    for finalizado_arm in finalizado_armado_hoy:
+        
+        if finalizado_arm:
+            filtro_arm = canales_arm.get(canal=finalizado_arm.nombre_planilla)
+        
+            filtro_arm.finalizado += finalizado_arm.unidades
+            filtro_arm.save()
+            
+    
+    
+    informacion_arm = set(PendientesArm.objects.all())
+    
+    for valor in canales_arm:
+        canal = canales_arm.get(canal=valor.canal)
+        canal.canal = valor.canal
+        canal.pend_tres_o_mas = 0
+        canal.pend_dos = 0
+        canal.pend_uno = 0
+        canal.base_del_dia = 0
+        canal.finalizado = 0
+        canal.pendiente_para_sig_dia = 0
+        canal.save()
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     for valor in pend_picking:
         
@@ -320,7 +482,7 @@ def informe_global(request):
         canal.save()
         
     
-    return render(request, 'informes/informe_global.html',{'anterior_a':fecha_anterior,'antes_ayer':fecha_antes_ayer,'ayer':fecha_ayer,'hoy':fecha_hoy, 'informacion':informacion})
+    return render(request, 'informes/informe_global.html',{'anterior_a':fecha_anterior,'antes_ayer':fecha_antes_ayer,'ayer':fecha_ayer,'hoy':fecha_hoy, 'informacion':informacion, 'informacion_arm':informacion_arm})
 
 @login_required
 def parametros(request):
