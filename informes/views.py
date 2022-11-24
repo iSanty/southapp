@@ -205,12 +205,12 @@ def informe_global(request):
     fecha_antes_ayer = str(antes_de_ayer) + '/' + str(mes) + '/' + str(anio)
     fecha_anterior = str(anterior_a) + '/' + str(mes) + '/' + str(anio)
     fecha_hoy_f = datetime.strptime(fecha_hoy, formato_fecha2)
-    fecha_ayer_f = datetime.strptime(fecha_ayer, formato_fecha2)
-    fecha_antes_ayer_f = datetime.strptime(fecha_antes_ayer, formato_fecha2)
-    fecha_anterior_f = datetime.strptime(fecha_anterior, formato_fecha2)
-    
-    pend_picking = GlobalPK.objects.filter(estado_picking='Pendiente')
-    finalizados = GlobalPK.objects.filter(estado_picking='Finalizado')
+    # fecha_ayer_f = datetime.strptime(fecha_ayer, formato_fecha2)
+    # fecha_antes_ayer_f = datetime.strptime(fecha_antes_ayer, formato_fecha2)
+    # fecha_anterior_f = datetime.strptime(fecha_anterior, formato_fecha2)
+    todos_globales = GlobalPK.objects.all()
+    pend_picking = todos_globales.filter(estado_picking='Pendiente')
+    finalizados = todos_globales.filter(estado_picking='Finalizado')
     finalizado_hoy = finalizados.filter(fecha_picking=fecha_hoy_f)
     
     pend_armado = GlobalPK.objects.filter(estado_armado='Pendiente')
@@ -220,7 +220,6 @@ def informe_global(request):
     
     canales = Pendientes.objects.all()
     canales_arm = PendientesArm.objects.all()
-    
     
     
     for valor in pend_armado:
@@ -234,7 +233,7 @@ def informe_global(request):
         fecha_proceso_f = date(anio_proceso, mes_proceso, dia_proceso)
         
         dias_pend = (hoy - fecha_proceso_f).days
-        #unidades, _ = GlobalPK.objects.get_or_create(nombre_planilla=valor.nombre_planilla)
+        
         
         
         filtro_canal_arm = canales_arm.filter(canal=valor.nombre_planilla)
@@ -285,15 +284,19 @@ def informe_global(request):
             if dias_pend >= 3:
                 canal_arm.pend_tres_o_mas += valor.unidades
                 canal_arm.pendiente_para_sig_dia += valor.unidades
+                
             elif dias_pend == 2:
                 canal_arm.pend_dos += valor.unidades
                 canal_arm.pendiente_para_sig_dia += valor.unidades
+                
             elif dias_pend == 1:
                 canal_arm.pend_uno += valor.unidades
                 canal_arm.pendiente_para_sig_dia += valor.unidades
+                
             else:
                 canal_arm.base_del_dia += valor.unidades
                 canal_arm.pendiente_para_sig_dia += valor.unidades
+                
             
             
             canal_arm.save()
@@ -321,67 +324,9 @@ def informe_global(request):
         canal.finalizado = 0
         canal.pendiente_para_sig_dia = 0
         canal.save()
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+        
+        
+        
     for valor in pend_picking:
         
         hoy = date.today()
@@ -444,15 +389,19 @@ def informe_global(request):
             if dias_pend >= 3:
                 canal.pend_tres_o_mas += valor.unidades
                 canal.pendiente_para_sig_dia += valor.unidades
+                
             elif dias_pend == 2:
                 canal.pend_dos += valor.unidades
                 canal.pendiente_para_sig_dia += valor.unidades
+                
             elif dias_pend == 1:
                 canal.pend_uno += valor.unidades
                 canal.pendiente_para_sig_dia += valor.unidades
+                
             else:
                 canal.base_del_dia += valor.unidades
                 canal.pendiente_para_sig_dia += valor.unidades
+                
             
             
             canal.save()
@@ -469,6 +418,7 @@ def informe_global(request):
     
     
     informacion = set(Pendientes.objects.all())
+    
     
     for valor in canales:
         canal = canales.get(canal=valor.canal)
