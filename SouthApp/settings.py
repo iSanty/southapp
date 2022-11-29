@@ -51,6 +51,9 @@ INSTALLED_APPS = [
     'informes',
     'operaciones',
     'api',
+    'rest_framework',
+    'rest_framework.authtoken',
+    
     
 ]
 
