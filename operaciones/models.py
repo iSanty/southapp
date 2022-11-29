@@ -95,3 +95,6 @@ class TipoPack(models.Model):
     def __str__(self):
         return f'{self.descripcion}'
     
+    
+    
+    
