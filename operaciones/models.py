@@ -21,6 +21,7 @@ class Producto(models.Model):
     tipo_alm = models.CharField(max_length=15)
     fecha_creacion = models.DateTimeField(null=True)
     usuario = models.CharField(max_length=180)
+    concesion = models.CharField(max_length=255, null=True)
 
     cat_ub = models.CharField(max_length=3)
     cat_pk = models.CharField(max_length=3)
@@ -48,6 +49,7 @@ class Producto(models.Model):
 class Cia(models.Model):
     cod = models.CharField(max_length=3)
     descripcion = models.CharField(max_length=180)
+    
     def __str__(self):
         return f'{self.descripcion}'
     
@@ -64,6 +66,7 @@ class CatUbicacionValor(models.Model):
     cia_asociada = models.CharField(max_length=3)
     cod = models.CharField(max_length=3)
     descripcion = models.CharField(max_length=180)
+    
     def __str__(self):
         return f'{self.cod}'
     

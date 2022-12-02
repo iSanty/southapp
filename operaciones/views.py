@@ -292,7 +292,11 @@ def nuevo_aforo(request):
                 
                 cia_grabar = Cia.objects.get(descripcion=informacion['cia'])
                 
-                
+                if informacion['concesion']:
+                    cons = Cia.objects.get(descripcion=informacion['concesion'])
+                else:
+                    cons = ''
+                    
                 producto = Producto(cia = cia_grabar.cod,
                                 codigo = informacion['codigo'],
                                 descripcion = informacion['descripcion'],
@@ -307,6 +311,7 @@ def nuevo_aforo(request):
                                 unidad_pall = informacion['unidad_pall'],
                                 usuario = user,
                                 pack = informacion['pack'],
+                                
                                 vd = informacion['vd'],
                                 cat_pk = pk.cod,
                                 cat_repo = repo.cod,
@@ -317,6 +322,10 @@ def nuevo_aforo(request):
                                 fecha_creacion = datetime.now(),
                                 tipo_alm = informacion['tipo_alm'],
                                 )
+                if cons != '':
+                    producto.concesion = cons.cod
+                else:
+                    producto.concesion = ''
                 
                 if str(informacion['tipo_alm']) == 'Stock':
                     
@@ -348,7 +357,7 @@ def nuevo_aforo(request):
                 
                 
                 
-                producto.save()
+                
                 
                 cat_ub_sp = CatUbicacion.objects.get(cia_asociada='022')
                 cat_pk_sp = CatPicking.objects.get(cia_asociada='022')
@@ -375,6 +384,7 @@ def nuevo_aforo(request):
                     tipo_alm = producto.tipo_alm,
                     fecha_creacion = datetime.now(),
                     usuario = user,
+                    concesion = '',
 
                     cat_ub = cat_ub_sp.cod,
                     cat_pk = cat_pk_sp.cod,
@@ -394,7 +404,71 @@ def nuevo_aforo(request):
                     
                     
                 )
+                
+                
+                
+                
+            
+            
+                cat_ub_rio = CatUbicacion.objects.get(cia_asociada='001')
+                cat_pk_rio = CatPicking.objects.get(cia_asociada='001')
+                cat_repo_rio = CatRepo.objects.get(cia_asociada='001')
+                
+                
+                print(informacion['concesion'])
+                if informacion['concesion']:
+                    concesion_de = Cia.objects.get(descripcion=informacion['concesion'])
+                
+                    linea_001 = Producto(
+                        cia = concesion_de.cod,
+                        codigo = producto.codigo,
+                        descripcion = producto.descripcion,
+                        largo_pall = '1,2',
+                        ancho_pall = '1',
+                        alto_pall = '1,4',
+                        peso_un = producto.peso_un,
+                        largo_un = producto.largo_un,
+                        ancho_un = producto.ancho_un,
+                        alto_un = producto.alto_un,
+                        unidad_caja = producto.unidad_caja,
+                        largo_cj = producto.largo_cj,
+                        alto_cj = producto.alto_cj,
+                        ancho_cj = producto.ancho_cj,
+                        unidad_pall = producto.unidad_pall,
+                        pack = producto.pack,
+                        vd = producto.vd,
+                        tipo_alm = producto.tipo_alm,
+                        fecha_creacion = datetime.now(),
+                        usuario = user,
+                        concesion = '',
+
+                        cat_ub = cat_ub_rio.cod,
+                        cat_pk = cat_pk_rio.cod,
+                        cat_repo = cat_repo_rio.cod,
+                        cat_emb = '001',
+                        clase = 'B', #siempre B
+                        unidad_minima = '1', #siempre 1
+                        unidad_medida = '01', #siempre 01
+                        peso_cj = producto.peso_cj, #multiplicacion de peso * unidad_caja
+                        peso_pall = producto.peso_pall, #multiplicacion de peso * unidad_pall
+                        
+
+                        
+                        importado_saad = 'No', #si o no 'para importar solo lo que hace falta en saad
+                        importado_presis = 'No', #si o no 'para importar solo lo que hace falta en saad
+        
+                        
+                        
+                    )
+                    linea_001.save()
                 linea_022.save()
+                producto.save()
+                
+                
+                
+                
+                
+                
                 
                 
                 form_crear_producto = FormCrearProducto(informacion)
@@ -415,6 +489,45 @@ def nuevo_aforo(request):
 def exportar_saad(request):
     export = []
     productos = Producto.objects.filter(importado_saad='No')
+    export.append([
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+    ])
     
     export.append([
         'Cia',

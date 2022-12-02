@@ -6,6 +6,7 @@ class FormCrearProducto(forms.Form):
     cia =  forms.ModelChoiceField(queryset= Cia.objects.all())
     codigo = forms.CharField(max_length=15)
     descripcion = forms.CharField(max_length=180)
+    concesion = forms.ModelChoiceField(queryset=Cia.objects.all(), required=False)
     peso_un = forms.FloatField()
     largo_un = forms.FloatField()
     ancho_un = forms.FloatField()
