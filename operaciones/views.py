@@ -397,6 +397,62 @@ def nuevo_aforo(request):
                 linea_022.save()
                 
                 
+                
+                
+                
+                cat_ub_rio = CatUbicacion.objects.get(cia_asociada='001')
+                cat_pk_rio = CatPicking.objects.get(cia_asociada='001')
+                cat_repo_rio = CatRepo.objects.get(cia_asociada='001')
+                
+                linea_001 = Producto(
+                    cia = '001',
+                    codigo = producto.codigo,
+                    descripcion = producto.descripcion,
+                    largo_pall = '1,2',
+                    ancho_pall = '1',
+                    alto_pall = '1,4',
+                    peso_un = producto.peso_un,
+                    largo_un = producto.largo_un,
+                    ancho_un = producto.ancho_un,
+                    alto_un = producto.alto_un,
+                    unidad_caja = producto.unidad_caja,
+                    largo_cj = producto.largo_cj,
+                    alto_cj = producto.alto_cj,
+                    ancho_cj = producto.ancho_cj,
+                    unidad_pall = producto.unidad_pall,
+                    pack = producto.pack,
+                    vd = producto.vd,
+                    tipo_alm = producto.tipo_alm,
+                    fecha_creacion = datetime.now(),
+                    usuario = user,
+
+                    cat_ub = cat_ub_rio.cod,
+                    cat_pk = cat_pk_rio.cod,
+                    cat_repo = cat_repo_rio.cod,
+                    cat_emb = '001',
+                    clase = 'B', #siempre B
+                    unidad_minima = '1', #siempre 1
+                    unidad_medida = '01', #siempre 01
+                    peso_cj = producto.peso_cj, #multiplicacion de peso * unidad_caja
+                    peso_pall = producto.peso_pall, #multiplicacion de peso * unidad_pall
+                    
+
+                    
+                    importado_saad = 'No', #si o no 'para importar solo lo que hace falta en saad
+                    importado_presis = 'No', #si o no 'para importar solo lo que hace falta en saad
+    
+                    
+                    
+                )
+                linea_001.save()
+                
+                
+                
+                
+
+                
+                
+                
                 form_crear_producto = FormCrearProducto(informacion)
                 form_creado = 'Cod ' + producto.codigo + ' creado exitosamente'
                 return render(request,'operaciones/nuevo_aforo.html',{'form':form_crear_producto, 'form2':form_creado})
