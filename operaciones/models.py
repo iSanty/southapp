@@ -56,6 +56,7 @@ class CatUbicacion(models.Model):
     cia_asociada = models.CharField(max_length=3)
     cod = models.CharField(max_length=3)
     descripcion = models.CharField(max_length=180)
+    
     def __str__(self):
         return f'{self.cod}'
 

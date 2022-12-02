@@ -13,6 +13,7 @@ from django.http import Http404
 class PostPlanillaPK(APIView):
     
     def get(self, request, format=None, *args, **kwargs):
+        
         globales = InformePreparacion.objects.all()
         serializer = PlanillaPKSerializer(globales, many=True)
         

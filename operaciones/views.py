@@ -75,9 +75,14 @@ def crear_parametros(request):
                 if catpk_en_base:
                     catpk_en_base = 'La cia ya se encuentra asociada a una categoria'
                     return render(request,'operaciones/parametros.html',{'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':catpk_en_base})
+                
+                cod_cia = Cia.objects.get(descripcion=info['cia_asociada'])
+                
+                cod_cia_2 = cod_cia.cod
+                
                 catpk = CatPicking(
                     cod = info['cod'],
-                    cia_asociada = info['cia_asociada'],
+                    cia_asociada = cod_cia_2,
                     descripcion = info['descripcion']
                     )
                 catpk.save()
@@ -101,9 +106,14 @@ def crear_parametros(request):
                     ub_ya_asociada = str(info['cia_asociada'])
                     catub_en_base = 'La cia ' + ub_ya_asociada + ' ya se encuentra asociada'
                     return render(request,'operaciones/parametros.html',{'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':catub_en_base})
+                
+                cod_cia = Cia.objects.get(descripcion=info['cia_asociada'])
+                
+                cod_cia_2 = cod_cia.cod
+                
                 catub = CatUbicacion(
                     cod = info['cod'],
-                    cia_asociada = info['cia_asociada'],
+                    cia_asociada = cod_cia_2,
                     descripcion = info['descripcion']
                     )
                 catub.save()
@@ -127,9 +137,14 @@ def crear_parametros(request):
                     ubval_ya_asociada = str(info['cia_asociada'])
                     catubval_en_base = 'La cia ' + ubval_ya_asociada + ' ya se encuentra asociada'
                     return render(request,'operaciones/parametros.html',{'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':catub_en_base})
+                
+                cod_cia = Cia.objects.get(descripcion=info['cia_asociada'])
+                
+                cod_cia_2 = cod_cia.cod
+                
                 catubval = CatUbicacionValor(
                     cod = info['cod'],
-                    cia_asociada = info['cia_asociada'],
+                    cia_asociada = cod_cia_2,
                     descripcion = info['descripcion']
                     )
                 catubval.save()
@@ -152,9 +167,14 @@ def crear_parametros(request):
                 if catrepo_en_base:
                     catrepo_en_base = 'La cia ya se encuentra asociada'
                     return render(request,'operaciones/parametros.html',{'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':catrepo_en_base})
+                
+                cod_cia = Cia.objects.get(descripcion=info['cia_asociada'])
+                
+                cod_cia_2 = cod_cia.cod
+                
                 catrepo = CatRepo(
                     cod = info['cod'],
-                    cia_asociada = info['cia_asociada'],
+                    cia_asociada = cod_cia_2,
                     descripcion = info['descripcion']
                     )
                 catrepo.save()
@@ -227,7 +247,8 @@ def nuevo_aforo(request):
             informacion = form_crear_producto.cleaned_data
             
             validar_cia = informacion['cia']
-            cia_en_base = Cia.objects.filter(cod=validar_cia)
+            
+            cia_en_base = Cia.objects.get(descripcion=validar_cia)
             
             if cia_en_base:
                 
@@ -237,22 +258,22 @@ def nuevo_aforo(request):
                 
                 user = request.user
                 
-                validar_ub = CatUbicacion.objects.filter(cia_asociada=informacion['cia'])
-                validar_pk = CatPicking.objects.filter(cia_asociada=informacion['cia'])
-                validar_repo = CatRepo.objects.filter(cia_asociada=informacion['cia'])
+                validar_ub = CatUbicacion.objects.filter(cia_asociada=cia_en_base.cod)
+                validar_pk = CatPicking.objects.filter(cia_asociada=cia_en_base.cod)
+                validar_repo = CatRepo.objects.filter(cia_asociada=cia_en_base.cod)
                 if validar_ub:
-                    ub = CatUbicacion.objects.get(cia_asociada=informacion['cia'])
+                    ub = CatUbicacion.objects.get(cia_asociada=cia_en_base.cod)
                 else:
                     ub = False
                     
                 if validar_pk:
-                    pk = CatPicking.objects.get(cia_asociada=informacion['cia'])
+                    pk = CatPicking.objects.get(cia_asociada=cia_en_base.cod)
                 else:
                     pk = False
                     
                 if validar_repo:
                     
-                    repo = CatRepo.objects.get(cia_asociada=informacion['cia'])
+                    repo = CatRepo.objects.get(cia_asociada=cia_en_base.cod)
                 else:
                     repo = False
                     
@@ -269,7 +290,10 @@ def nuevo_aforo(request):
                     form_error = 'No existe categoria de reposicion para la cia.'
                     return render(request,'operaciones/nuevo_aforo.html',{'form':form_crear_producto, 'form2':form_error} )
                 
-                producto = Producto(cia = informacion['cia'],
+                cia_grabar = Cia.objects.get(descripcion=informacion['cia'])
+                
+                
+                producto = Producto(cia = cia_grabar.cod,
                                 codigo = informacion['codigo'],
                                 descripcion = informacion['descripcion'],
                                 peso_un = informacion['peso_un'],
@@ -331,15 +355,19 @@ def nuevo_aforo(request):
                 cat_repo_sp = CatRepo.objects.get(cia_asociada='022')
                 
                 linea_022 = Producto(
-                    cia = producto.cia,
+                    cia = '022',
                     codigo = producto.codigo,
                     descripcion = producto.descripcion,
+                    largo_pall = '1,2',
+                    ancho_pall = '1',
+                    alto_pall = '1,4',
                     peso_un = producto.peso_un,
                     largo_un = producto.largo_un,
                     ancho_un = producto.ancho_un,
                     alto_un = producto.alto_un,
                     unidad_caja = producto.unidad_caja,
                     largo_cj = producto.largo_cj,
+                    alto_cj = producto.alto_cj,
                     ancho_cj = producto.ancho_cj,
                     unidad_pall = producto.unidad_pall,
                     pack = producto.pack,
