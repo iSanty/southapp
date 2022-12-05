@@ -78,3 +78,7 @@ class FormTipoAlm(forms.Form):
     
 class FormPack(forms.Form):
     descripcion = forms.CharField(max_length=10)
+    
+    
+class FormCubicaje(forms.Form):
+    metro_cubico = forms.FloatField()

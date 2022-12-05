@@ -102,3 +102,5 @@ class TipoPack(models.Model):
     
     
     
+class Cubicaje(models.Model):
+    metro_cubico = models.FloatField(null=False)

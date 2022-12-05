@@ -1,9 +1,9 @@
 from django.shortcuts import redirect, render
 from django.views.generic.edit import DeleteView, UpdateView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from operaciones.forms import FormCrearCatUb, FormCrearCatUbVal, FormCrearProducto, FormBusquedaProducto, FormEditarProducto, FormCrearCia, FormPack, FormCatPk, FormCatRepo, FormTipoAlm, FormPack
+from operaciones.forms import FormCrearCatUb, FormCrearCatUbVal, FormCrearProducto, FormBusquedaProducto, FormEditarProducto, FormCrearCia, FormPack, FormCatPk, FormCatRepo, FormTipoAlm, FormPack, FormCubicaje
 from datetime import datetime
-from operaciones.models import CatUbicacionValor, Cia, Producto, TipoPack, CatPicking, CatUbicacion, CatRepo, TipoAlm
+from operaciones.models import CatUbicacionValor, Cia, Producto, TipoPack, CatPicking, CatUbicacion, CatRepo, TipoAlm, Cubicaje
 import django_excel as excel
 
 from django.contrib.auth.decorators import login_required
@@ -18,6 +18,7 @@ def crear_parametros(request):
     formcatpk = FormCatPk()
     formtipoalm = FormTipoAlm()
     formpack = FormPack()
+    formcubicaje = FormCubicaje()
     
     if request.method == 'POST':
         
@@ -30,16 +31,16 @@ def crear_parametros(request):
                 pack_en_base = TipoPack.objects.filter(descripcion=info['descripcion'])
                 if pack_en_base:
                     pack_en_base = 'Pack ' + info['descripcion'] + ' ya se encuentra dado de alta'
-                    return render(request,'operaciones/parametros.html',{'formcatubvalor':formcatubvalor, 'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':pack_en_base})
+                    return render(request,'operaciones/parametros.html',{'formcubicaje':formcubicaje,'formcatubvalor':formcatubvalor, 'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':pack_en_base})
                 pack = TipoPack(
                     descripcion = info['descripcion']
                     )
                 pack.save()
                 grabado = 'Pack ' + pack.descripcion + ' creado exitosamente.'
-                return render(request,'operaciones/parametros.html',{'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':grabado})
+                return render(request,'operaciones/parametros.html',{'formcubicaje':formcubicaje,'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':grabado})
             else:
                 grabado = 'Formulario invalido'
-                return render(request,'operaciones/parametros.html',{'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':grabado})
+                return render(request,'operaciones/parametros.html',{'formcubicaje':formcubicaje,'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':grabado})
         #boton para crear pack
         #--------------------
         #boton para crear cia
@@ -50,17 +51,17 @@ def crear_parametros(request):
                 cia_en_base = Cia.objects.filter(cod=info['cod'])
                 if cia_en_base:
                     cia_en_base = 'Cia ' + info['cod']+ ' ' + info['descripcion'] + ' ya se encuentra dada de alta'
-                    return render(request,'operaciones/parametros.html',{'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':cia_en_base})
+                    return render(request,'operaciones/parametros.html',{'formcubicaje':formcubicaje,'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':cia_en_base})
                 cia = Cia(
                     cod = info['cod'],
                     descripcion = info['descripcion']
                     )
                 cia.save()
                 grabado = 'Cia ' + cia.cod + ' creada exitosamente.'
-                return render(request,'operaciones/parametros.html',{'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':grabado})
+                return render(request,'operaciones/parametros.html',{'formcubicaje':formcubicaje,'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':grabado})
             else:
                 grabado = 'Formulario invalido'
-                return render(request,'operaciones/parametros.html',{'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':grabado})
+                return render(request,'operaciones/parametros.html',{'formcubicaje':formcubicaje,'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':grabado})
         #boton para crear cia
         #--------------------
         #boton para crear cat de pk
@@ -74,7 +75,7 @@ def crear_parametros(request):
                 
                 if catpk_en_base:
                     catpk_en_base = 'La cia ya se encuentra asociada a una categoria'
-                    return render(request,'operaciones/parametros.html',{'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':catpk_en_base})
+                    return render(request,'operaciones/parametros.html',{'formcubicaje':formcubicaje,'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':catpk_en_base})
                 
                 cod_cia = Cia.objects.get(descripcion=info['cia_asociada'])
                 
@@ -87,10 +88,10 @@ def crear_parametros(request):
                     )
                 catpk.save()
                 grabado = 'Categoria ' + catpk.cod + ' creada exitosamente.'
-                return render(request,'operaciones/parametros.html',{'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':grabado})
+                return render(request,'operaciones/parametros.html',{'formcubicaje':formcubicaje,'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':grabado})
             else:
                 grabado = 'Formulario invalido'
-                return render(request,'operaciones/parametros.html',{'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':grabado})
+                return render(request,'operaciones/parametros.html',{'formcubicaje':formcubicaje,'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':grabado})
         #boton para crear cat de pk
         
         #boton para crear cat de ub
@@ -105,7 +106,7 @@ def crear_parametros(request):
                 if catub_en_base:
                     ub_ya_asociada = str(info['cia_asociada'])
                     catub_en_base = 'La cia ' + ub_ya_asociada + ' ya se encuentra asociada'
-                    return render(request,'operaciones/parametros.html',{'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':catub_en_base})
+                    return render(request,'operaciones/parametros.html',{'formcubicaje':formcubicaje,'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':catub_en_base})
                 
                 cod_cia = Cia.objects.get(descripcion=info['cia_asociada'])
                 
@@ -118,10 +119,10 @@ def crear_parametros(request):
                     )
                 catub.save()
                 grabado = 'Categoria ' + catub.cod + ' creada exitosamente.'
-                return render(request,'operaciones/parametros.html',{'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':grabado})
+                return render(request,'operaciones/parametros.html',{'formcubicaje':formcubicaje,'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':grabado})
             else:
                 grabado = 'Formulario invalido'
-                return render(request,'operaciones/parametros.html',{'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':grabado})
+                return render(request,'operaciones/parametros.html',{'formcubicaje':formcubicaje,'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':grabado})
         #boton para crear cat de ub
         
         #boton para crear cat de ub val
@@ -136,7 +137,7 @@ def crear_parametros(request):
                 if catubval_en_base:
                     ubval_ya_asociada = str(info['cia_asociada'])
                     catubval_en_base = 'La cia ' + ubval_ya_asociada + ' ya se encuentra asociada'
-                    return render(request,'operaciones/parametros.html',{'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':catub_en_base})
+                    return render(request,'operaciones/parametros.html',{'formcubicaje':formcubicaje,'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':catub_en_base})
                 
                 cod_cia = Cia.objects.get(descripcion=info['cia_asociada'])
                 
@@ -149,10 +150,10 @@ def crear_parametros(request):
                     )
                 catubval.save()
                 grabado = 'Categoria ' + catubval.cod + ' creada exitosamente.'
-                return render(request,'operaciones/parametros.html',{'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':grabado})
+                return render(request,'operaciones/parametros.html',{'formcubicaje':formcubicaje,'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':grabado})
             else:
                 grabado = 'Formulario invalido'
-                return render(request,'operaciones/parametros.html',{'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':grabado})
+                return render(request,'operaciones/parametros.html',{'formcubicaje':formcubicaje,'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':grabado})
         #boton para crear cat de ub val
         
         #boton para crear cat de repo
@@ -166,7 +167,7 @@ def crear_parametros(request):
                 
                 if catrepo_en_base:
                     catrepo_en_base = 'La cia ya se encuentra asociada'
-                    return render(request,'operaciones/parametros.html',{'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':catrepo_en_base})
+                    return render(request,'operaciones/parametros.html',{'formcubicaje':formcubicaje,'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':catrepo_en_base})
                 
                 cod_cia = Cia.objects.get(descripcion=info['cia_asociada'])
                 
@@ -179,10 +180,10 @@ def crear_parametros(request):
                     )
                 catrepo.save()
                 grabado = 'Categoria ' + catrepo.cod + ' creada exitosamente.'
-                return render(request,'operaciones/parametros.html',{'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':grabado})
+                return render(request,'operaciones/parametros.html',{'formcubicaje':formcubicaje,'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':grabado})
             else:
                 grabado = 'Formulario invalido'
-                return render(request,'operaciones/parametros.html',{'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':grabado})
+                return render(request,'operaciones/parametros.html',{'formcubicaje':formcubicaje,'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':grabado})
         #boton para crear cat de repo
         
         #boton para crear tipo alm
@@ -199,28 +200,66 @@ def crear_parametros(request):
                 if valor != info['descripcion']:
                     if stock != info['descripcion']:
                         msj = 'Solo se pueden dar de alta los parametros "Stock" y "Valor"'
-                        return render(request,'operaciones/parametros.html',{'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':msj})
+                        return render(request,'operaciones/parametros.html',{'formcubicaje':formcubicaje,'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':msj})
                 
                 if tipoalm_en_base:
                     tipoalm_en_base = 'Tipo de almacenaje ' + info['descripcion'] + ' ya se encuentra dada de alta'
-                    return render(request,'operaciones/parametros.html',{'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':tipoalm_en_base})
+                    return render(request,'operaciones/parametros.html',{'formcubicaje':formcubicaje,'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':tipoalm_en_base})
                 tipoalm = TipoAlm(
                     descripcion = info['descripcion']
                     )
                 tipoalm.save()
                 grabado = 'Tipo de almacenaje ' + tipoalm.descripcion + ' creado exitosamente.'
-                return render(request,'operaciones/parametros.html',{'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':grabado})
-            
-            
-            
-            
-            
+                return render(request,'operaciones/parametros.html',{'formcubicaje':formcubicaje,'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':grabado})
             
             
             
             else:
                 grabado = 'Formulario invalido'
-                return render(request,'operaciones/parametros.html',{'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':grabado})
+                return render(request,'operaciones/parametros.html',{'formcubicaje':formcubicaje,'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':grabado})
+        #boton para crear tipo alm
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+        
+        
+        elif 'btn_cubicaje' in request.POST:
+            
+            datos_cubicaje = FormCubicaje(request.POST)
+            
+            if datos_cubicaje.is_valid():
+                info = datos_cubicaje.cleaned_data
+                
+                objeto = Cubicaje.objects.all()
+                
+                if not objeto:
+                    
+                    
+                    cubicaje = Cubicaje(
+                        metro_cubico = info['metro_cubico']
+                        )
+                    cubicaje.save()
+                
+                else:
+                
+                    objeto_1 = Cubicaje.objects.get(id=1)
+                    objeto_1.metro_cubico = info['metro_cubico']
+                    objeto_1.save()
+                    
+                grabado = 'Creado exitosamente'
+                return render(request,'operaciones/parametros.html',{'formcubicaje':formcubicaje,'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':grabado})
+                
+            else:
+                grabado = 'Formulario invalido'
+                return render(request,'operaciones/parametros.html',{'formcubicaje':formcubicaje,'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm, 'msj':grabado})
         #boton para crear tipo alm
         
         
@@ -233,7 +272,7 @@ def crear_parametros(request):
         else:
             
             return redirect('index')
-    return render(request,'operaciones/parametros.html',{'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm})
+    return render(request,'operaciones/parametros.html',{'formcubicaje':formcubicaje,'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm})
     
     
 @login_required
@@ -415,7 +454,7 @@ def nuevo_aforo(request):
                 cat_repo_rio = CatRepo.objects.get(cia_asociada='001')
                 
                 
-                print(informacion['concesion'])
+                
                 if informacion['concesion']:
                     concesion_de = Cia.objects.get(descripcion=informacion['concesion'])
                 
@@ -460,7 +499,31 @@ def nuevo_aforo(request):
                         
                         
                     )
+                    cubicaje = Cubicaje.objects.get(id=1)
+                    volumen = producto.largo_un * producto.ancho_un * producto.alto_un * producto.unidad_pall
+                    
+                
+                    if volumen > cubicaje:
+                        form_creado = 'Chequear valores Alto unidad= ' + str(producto.alto_un) + ' Ancho =' + str(producto.ancho_un) + ' Largo= ' + str(producto.alto_un) + ' Unidad por pallet= ' + str(producto.unidad_pall)
+                        return render(request,'operaciones/nuevo_aforo.html',{'form':form_crear_producto, 'form2':form_creado})
+                
+                    
+                
                     linea_001.save()
+                
+                
+                
+                
+                cubicaje = Cubicaje.objects.get(id=1)
+                volumen = producto.largo_un * producto.ancho_un * producto.alto_un * producto.unidad_pall
+                
+                
+                
+                if volumen > cubicaje:
+                    form_creado = 'Chequear valores Alto unidad= ' + str(producto.alto_un) + ' Ancho =' + str(producto.ancho_un) + ' Largo= ' + str(producto.alto_un) + ' Unidad por pallet= ' + str(producto.unidad_pall)
+                    return render(request,'operaciones/nuevo_aforo.html',{'form':form_crear_producto, 'form2':form_creado})
+                
+                    
                 linea_022.save()
                 producto.save()
                 
@@ -471,10 +534,10 @@ def nuevo_aforo(request):
                 
                 
                 
-                form_crear_producto = FormCrearProducto(informacion)
+                form_crear_producto = FormCrearProducto()
                 form_creado = 'Cod ' + producto.codigo + ' creado exitosamente'
                 return render(request,'operaciones/nuevo_aforo.html',{'form':form_crear_producto, 'form2':form_creado})
-                # return redirect('nuevo_aforo')
+                
             else:
                 form_crear_producto = FormCrearProducto(informacion)
                 form_error = 'La CIA no existe, verifique...'
@@ -489,45 +552,45 @@ def nuevo_aforo(request):
 def exportar_saad(request):
     export = []
     productos = Producto.objects.filter(importado_saad='No')
-    export.append([
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-    ])
+    # export.append([
+    #     '',
+    #     '',
+    #     '',
+    #     '',
+    #     '',
+    #     '',
+    #     '',
+    #     '',
+    #     '',
+    #     '',
+    #     '',
+    #     '',
+    #     '',
+    #     '',
+    #     '',
+    #     '',
+    #     '',
+    #     '',
+    #     '',
+    #     '',
+    #     '',
+    #     '',
+    #     '',
+    #     '',
+    #     '',
+    #     '',
+    #     '',
+    #     '',
+    #     '',
+    #     '',
+    #     '',
+    #     '',
+    #     '',
+    #     '',
+    #     '',
+    #     '',
+    #     '',
+    # ])
     
     export.append([
         'Cia',
@@ -732,10 +795,18 @@ def ver_productos(request):
 def editar_producto(request, id):
     prod = Producto.objects.get(id=id)
     
+    
+    
+    
     if request.method == 'POST':
         form = FormEditarProducto(request.POST)
         if form.is_valid():
-            prod.cia = str(form.cleaned_data.get('cia'))
+            
+            cia_grabar = Cia.objects.get(descripcion=form.cleaned_data.get('cia'))
+            prod.cia = cia_grabar.cod
+            
+            
+            
             prod.codigo = form.cleaned_data.get('codigo')
             prod.descripcion = form.cleaned_data.get('descripcion')
             prod.peso_un = form.cleaned_data.get('peso_un')
