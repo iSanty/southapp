@@ -263,7 +263,7 @@
             <li>
               <a class="dropdown-item d-flex align-items-center" href={% url 'logout' %}>
                 <i class="bi bi-box-arrow-right"></i>
-                <span>Desconeccion</span>
+                <span>Cerrar Sesión</span>
               </a>
             </li>
 
@@ -278,14 +278,15 @@
 
   <!-- ======= Sidebar ======= -->
   {% block barra_lateral %}
+  <!-- ======= Sidebar ======= -->
   <aside id="sidebar" class="sidebar">
 
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
         <a class="nav-link " href={% url 'index' %}>
-          <i class="bi bi-grid"></i>
-          <span>Sistema</span>
+          <i class="bx bxs-home"></i>
+          <span>Menu Principal</span>
         </a>
       </li><!-- End Dashboard Nav -->
 
@@ -295,123 +296,215 @@
         </a>
         <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href={% url 'index_meli' %}>
-              <i class="bi bi-circle"></i><span>Meli</span>
+            <a href={% url 'alta_personal_meli' %}>
+              <i class="bi bi-circle"></i><span>Alta Personal</span>
             </a>
           </li>
           <li>
-            <a href={% url '404' %}>
-              <i class="bi bi-circle"></i><span>Personal SP</span>
+            <a href={% url 'crear_categoria' %}>
+              <i class="bi bi-circle"></i><span>Parametros</span>
             </a>
           </li>
           <li>
-            <a href={% url '404' %}>
-              <i class="bi bi-circle"></i><span>Contratistas</span>
+            <a href={% url 'fichero' %}>
+              <i class="bi bi-circle"></i><span>Fichero</span>
+            </a>
+          </li>
+          <li>
+            <a href={% url 'busqueda_fichero' %}>
+              <i class="bi bi-circle"></i><span>Consultas Fichero</span>
+            </a>
+          </li>
+          <li>
+            <a href={% url 'ver_personal' %}>
+              <i class="bi bi-circle"></i><span>Consultas Personal</span>
+            </a>
+          </li>
+          <li>
+            <a href={% url 'ver_parametros' %}>
+              <i class="bi bi-circle"></i><span>Consultas Parametros</span>
             </a>
           </li>
           
         </ul>
       </li><!-- End Components Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-journal-text"></i><span>Auditoria</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href={% url '404' %}>
-              <i class="bi bi-circle"></i><span>ISO 9001</span>
-            </a>
-          </li>
-          
-        </ul>
-      </li><!-- End Forms Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Deposito</span><i class="bi bi-chevron-down ms-auto"></i>
+        <a class="nav-link collapsed" data-bs-target="#components1-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-menu-button-wide"></i><span>Deposito</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
-        <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <ul id="components1-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
             <a href={% url 'index_deposito' %}>
-              <i class="bi bi-circle"></i><span>Productos</span>
+              <i class="bi bi-circle"></i><span>Ingresos</span>
             </a>
           </li>
           <li>
             <a href={% url 'index_informes' %}>
-              <i class="bi bi-circle"></i><span>Preparacion de pedidos</span>
+              <i class="bi bi-circle"></i><span>Prep. Pedidos</span>
             </a>
           </li>
-        </ul>
-      </li><!-- End Tables Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-bar-chart"></i><span>Informes</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
             <a href={% url 'informe_global' %}>
-              <i class="bi bi-circle"></i><span>Preparacion de pedidos</span>
+              <i class="bi bi-circle"></i><span>Informes</span>
             </a>
           </li>
           
+          
+        </ul>
+      </li><!-- End Components Nav -->
+
+      
+
+       <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#tables1-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-layout-text-window-reverse"></i><span>Perfil</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="tables1-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            {% if request.user.is_authenticated %}
+            <a href={% url 'perfil' %}>
+              <i class="bi bi-circle"></i><span>{{request.user.username}}</span>
+            </a>
+            <a href={% url 'logout' %}>
+              <i class="bi bi-circle"></i><span>Cerrar sesión</span>
+            </a>
+            {% else %}
+            <a href={% url 'login' %}>
+              <i class="bi bi-circle"></i><span>Login</span>
+            </a>
+
+            {% endif %}
+          </li>
+          <li>
+            
+          </li>
+        </ul>
+      </li><!-- End Tables Nav -->
+      {% comment %}
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-bar-chart"></i><span>Charts</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="charts-chartjs.html">
+              <i class="bi bi-circle"></i><span>Chart.js</span>
+            </a>
+          </li>
+          <li>
+            <a href="charts-apexcharts.html">
+              <i class="bi bi-circle"></i><span>ApexCharts</span>
+            </a>
+          </li>
+          <li>
+            <a href="charts-echarts.html">
+              <i class="bi bi-circle"></i><span>ECharts</span>
+            </a>
+          </li>
         </ul>
       </li><!-- End Charts Nav -->
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-gem"></i><span>Empresa</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-gem"></i><span>Icons</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="icons-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href={% url '404' %}>
-              <i class="bi bi-circle"></i><span>Recursos Humanos</span>
+            <a href="icons-bootstrap.html">
+              <i class="bi bi-circle"></i><span>Bootstrap Icons</span>
             </a>
           </li>
-          
+          <li>
+            <a href="icons-remix.html">
+              <i class="bi bi-circle"></i><span>Remix Icons</span>
+            </a>
+          </li>
+          <li>
+            <a href="icons-boxicons.html">
+              <i class="bi bi-circle"></i><span>Boxicons</span>
+            </a>
+          </li>
         </ul>
       </li><!-- End Icons Nav -->
 
-      <li class="nav-heading">Links utiles</li>
+      
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href={% url '404' %}>
-          <i class="bi bi-grid"></i>
-          <span>Sistema SAAD</span>
+        <a class="nav-link collapsed" href="users-profile.html">
+          <i class="bi bi-person"></i>
+          <span>Profile</span>
         </a>
       </li><!-- End Profile Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href={% url '404' %}>
-          <i class="bi bi-grid"></i>
-          <span>Sistema Presis</span>
+        <a class="nav-link collapsed" href="pages-faq.html">
+          <i class="bi bi-question-circle"></i>
+          <span>F.A.Q</span>
         </a>
       </li><!-- End F.A.Q Page Nav -->
 
-      
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="pages-contact.html">
+          <i class="bi bi-envelope"></i>
+          <span>Contact</span>
+        </a>
+      </li><!-- End Contact Page Nav -->
 
-    </ul>
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="pages-register.html">
+          <i class="bi bi-card-list"></i>
+          <span>Register</span>
+        </a>
+      </li><!-- End Register Page Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="pages-login.html">
+          <i class="bi bi-box-arrow-in-right"></i>
+          <span>Login</span>
+        </a>
+      </li><!-- End Login Page Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="pages-error-404.html">
+          <i class="bi bi-dash-circle"></i>
+          <span>Error 404</span>
+        </a>
+      </li><!-- End Error 404 Page Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="pages-blank.html">
+          <i class="bi bi-file-earmark"></i>
+          <span>Blank</span>
+        </a>
+      </li><!-- End Blank Page Nav -->
+
+    </ul> {% endcomment %}
 
   </aside><!-- End Sidebar-->
   {% endblock barra_lateral %}
 
   <main id="main" class="main">
+    {% block dashboard %}
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Seleccione una opcion para operar</h5>
 
-    <div class="pagetitle">
-      {% block dashboard %}
-      <h1>Dashboard</h1>
-      {% endblock dashboard %}
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href={% url 'index' %}>Home</a></li>
-          <li class="breadcrumb-item active">Dashboard</li>
-        </ol>
-      </nav>
-    </div><!-- End Page Title -->
+        <div class="pagetitle">
+          <h1></h1>
+          <nav>
+            <ol class="breadcrumb">
+              {% comment %} <li class="breadcrumb-item"><a href={% url 'index' %}>Home</a></li> {% endcomment %}
+              {% comment %} <li class="breadcrumb-item">Components</li>
+              <li class="breadcrumb-item active">Breadcrumbs</li> {% endcomment %}
+            </ol>
+          </nav>
+        </div><!-- End Breadcrumbs with a page title -->
 
-    <section class="section dashboard">
-    
+      </div>
+        
+    {% endblock dashboard %}
     {% block graficos_tablas %}
     {% endblock graficos_tablas %}
     
@@ -1053,8 +1146,8 @@
 
 
 
-    </section>
-
+    
+    
   </main><!-- End #main -->
   
   <!-- ======= Footer ======= -->
