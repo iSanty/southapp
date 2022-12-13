@@ -33,9 +33,9 @@ class Producto(models.Model):
     peso_cj = models.FloatField(null=0) #multiplicacion de peso * unidad_caja
     peso_pall = models.FloatField(null=0) #multiplicacion de peso * unidad_pall
     
-    largo_pall = models.CharField(max_length=180, null='1,2')
-    ancho_pall = models.CharField(max_length=180, null='1')
-    alto_pall = models.CharField(max_length=180, null='1,4')
+    largo_pall = models.FloatField(null=1.2)
+    ancho_pall = models.FloatField(null=1.0)
+    alto_pall = models.FloatField(null=1.4)
     
     importado_saad = models.CharField(max_length=2, null='No') #si o no 'para importar solo lo que hace falta en saad
     importado_presis = models.CharField(max_length=2, null='No') #si o no 'para importar solo lo que hace falta en saad

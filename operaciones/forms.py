@@ -20,6 +20,29 @@ class FormCrearProducto(forms.Form):
     vd = forms.FloatField()
     tipo_alm = forms.ModelChoiceField(queryset= TipoAlm.objects.all())
     
+
+class FormProducto(forms.Form):
+    cia =  forms.ModelChoiceField(queryset= Cia.objects.all())
+    codigo = forms.CharField(max_length=15)
+    descripcion = forms.CharField(max_length=180)
+    concesion = forms.ModelChoiceField(queryset=Cia.objects.all(), required=False)
+    vd = forms.FloatField()
+    tipo_alm = forms.ModelChoiceField(queryset= TipoAlm.objects.all())
+    
+    
+class FormAforo(forms.Form):
+    descripcion = forms.CharField(max_length=180)
+    peso_un = forms.FloatField()
+    largo_un = forms.FloatField()
+    ancho_un = forms.FloatField()
+    alto_un = forms.FloatField()
+    unidad_caja = forms.IntegerField()
+    largo_cj = forms.FloatField()
+    ancho_cj = forms.FloatField()
+    alto_cj = forms.FloatField()
+    unidad_pall = forms.IntegerField()
+    pack = forms.ModelChoiceField(queryset= TipoPack.objects.all())
+    
     
     
 class FormBusquedaProducto(forms.Form):

@@ -1,21 +1,36 @@
 
 {% extends 'operaciones/index_operaciones.html' %}
 {% block dashboard %}
-<h1>Dashboard > Productos > Busqueda</h1>
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Deposito</h5>
+
+      <div class="pagetitle">
+        <h1></h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href={% url 'index' %}>Menu</a></li> 
+            <li class="breadcrumb-item"><a href={% url 'index_deposito' %}> Ingresos</a></li>
+            <li class="breadcrumb-item active">Consultar producto</li>
+          </ol>
+        </nav>
+      </div><!-- End Breadcrumbs with a page title -->
+
+    </div>
 {% endblock dashboard %}
 {% block graficos_tablas %}
 <div class="container-fluid pt-4 px-4">
     <div class="col-sm-12 col-xl-3">
-        <div class="bg-secondary rounded h-100 p-4">
-            <div class="container-fluid pt-4 px-4">
-                <form action= {% url 'ver_productos' %}>
-                    
-                    {{form}}
-                        <button>Buscar</button>
-                    
-                </form>
-            </div>
+        
+        <div class="container-fluid pt-4 px-4">
+            <form action= {% url 'ver_productos' %}>
+                
+                {{form}}
+                    <button>Buscar</button>
+                
+            </form>
         </div>
+        
     </div>
 </div>
 
@@ -25,22 +40,22 @@
 
 
 <div class="container-fluid pt-4 px-4">
-    <div class="col-sm-12 col-xl-3">
-        <div class="bg-secondary rounded h-100 p-4">
-            <div class="container-fluid pt-4 px-4">
-                <p>Resultado de la busqueda:</p>
-                    <ul>
-                    {% if productos_listado %}
-                        {%for producto in productos_listado%}
-                        <li><a href={% url 'editar_producto' producto.id %} method="post">>Mas datos<</a>-Compañia: {{producto.cia}}- Código: {{producto.codigo}}- Descripción: {{producto.descripcion}}- Fecha Creacion: {{producto.fecha_creacion}} - Creado por: {{producto.usuario}}</li>
-                        {% endfor %}
-                    </ul>
-                    {% else %}
-                    Aun no se han encontrado productos.
-                    <a href={% url 'nuevo_aforo' %}>Crear productos</a>
-                    {% endif %}
-            </div>
-        </div>
+    <div class="col-sm-12 col-xl-auto">
+        
+        
+        <p>Resultado de la busqueda:</p>
+            <ul>
+            {% if productos_listado %}
+                {%for producto in productos_listado%}
+                <li><a href={% url 'editar_producto' producto.id %} method="post">>Mas datos<</a>-Compañia: {{producto.cia}}- Código: {{producto.codigo}}- Descripción: {{producto.descripcion}}- Fecha Creacion: {{producto.fecha_creacion}} - Creado por: {{producto.usuario}}</li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            Aun no se han encontrado productos.
+            <a href={% url 'nuevo_aforo' %}>Crear productos</a>
+            {% endif %}
+        
+        
     </div>
 </div>
 {% endblock graficos_tablas %}

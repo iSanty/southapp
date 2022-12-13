@@ -1,0 +1,65 @@
+
+{% extends 'operaciones/index_operaciones.html' %}
+
+
+
+
+{% block dashboard %}
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">Deposito</h5>
+
+    <div class="pagetitle">
+      <h1></h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href={% url 'index' %}>Menu</a></li> 
+          <li class="breadcrumb-item"><a href={% url 'index_deposito' %}>Ingresos</a></li>
+          <li class="breadcrumb-item"><a href={% url 'pendientes_aforos' %}>Pendientes de aforo</a></li>
+          <li class="breadcrumb-item active">Aforar</li>
+        </ol>
+      </nav>
+    </div><!-- End Breadcrumbs with a page title -->
+
+  </div>
+    
+{% endblock dashboard %}
+
+
+
+{% block graficos_tablas %}
+
+
+
+<p>
+    {% if msj %}
+    <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show" role="alert">
+        {{msj}}
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+
+
+    {% if msj_principal %}
+    <div class="alert alert-secondary bg-secondary text-light border-0 alert-dismissible fade show" role="alert">
+        {{msj_principal}}
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+
+
+
+
+    
+<form action={% url 'aforar' producto.id %} method="post">
+    {% csrf_token %}
+    <table>
+        {{form.as_table}}
+    </table>
+    <button>Guardar cambios</button>
+</form>
+</p>
+
+
+
+{% endblock graficos_tablas %}

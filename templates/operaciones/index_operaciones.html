@@ -1,84 +1,247 @@
 {% extends 'index.html' %}
 
 
-
-
-
-
-
 {% block barra_lateral %}
+  <!-- ======= Sidebar ======= -->
   <aside id="sidebar" class="sidebar">
 
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link " href={% url 'index_deposito' %}>
-          <i class="bi bi-grid"></i>
-          <span>Sistema Aforos</span>
+        <a class="nav-link " href={% url 'index' %}>
+          <i class="bx bxs-home"></i>
+          <span>Menu Principal</span>
         </a>
       </li><!-- End Dashboard Nav -->
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-menu-button-wide"></i><span>Altas</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-menu-button-wide"></i><span>Empleados</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href={% url 'nuevo_aforo' %}>
-              <i class="bi bi-circle"></i><span>Productos</span>
+            <a href={% url 'alta_personal_meli' %}>
+              <i class="bi bi-circle"></i><span>Alta Personal</span>
             </a>
           </li>
           <li>
-            <a href={% url 'crear_parametros' %}>
+            <a href={% url 'crear_categoria' %}>
               <i class="bi bi-circle"></i><span>Parametros</span>
             </a>
           </li>
-          
+          <li>
+            <a href={% url 'fichero' %}>
+              <i class="bi bi-circle"></i><span>Fichero</span>
+            </a>
+          </li>
+          <li>
+            <a href={% url 'busqueda_fichero' %}>
+              <i class="bi bi-circle"></i><span>Consultas Fichero</span>
+            </a>
+          </li>
+          <li>
+            <a href={% url 'ver_personal' %}>
+              <i class="bi bi-circle"></i><span>Consultas Personal</span>
+            </a>
+          </li>
+          <li>
+            <a href={% url 'ver_parametros' %}>
+              <i class="bi bi-circle"></i><span>Consultas Parametros</span>
+            </a>
+          </li>
           
         </ul>
       </li><!-- End Components Nav -->
 
+
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-journal-text"></i><span>Consultas</span><i class="bi bi-chevron-down ms-auto"></i>
+        <a class="nav-link collapsed-active" data-bs-target="#components1-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-menu-button-wide"></i><span>Deposito</span><i class="bi bi-chevron-down ms-auto"> </i>
         </a>
-        <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <ul id="components1-nav" class="nav-content collapse-active " data-bs-parent="#sidebar-nav">
           <li>
-            <a href={% url 'ver_productos' %}>
-              <i class="bi bi-circle"></i><span>Ver Productos</span>
+            <a href={% url 'index_deposito' %} class="active">
+              <i class="bi bi-circle"></i><span>Ingresos</span>
+            </a>
+          </li>
+          <li>
+            <a href={% url 'index_informes' %}>
+              <i class="bi bi-circle"></i><span>Prep. Pedidos</span>
+            </a>
+          </li>
+          <li>
+            <a href={% url 'informe_global' %}>
+              <i class="bi bi-circle"></i><span>Informes</span>
             </a>
           </li>
           
+          
         </ul>
-      </li><!-- End Forms Nav -->
+      </li>
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Migrador</span><i class="bi bi-chevron-down ms-auto"></i>
+      
+
+       <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#tables1-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-layout-text-window-reverse"></i><span>Perfil</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
-        <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <ul id="tables1-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href={% url 'exportar_saad' %}>
-              <i class="bi bi-circle"></i><span>Saad</span>
+            {% if request.user.is_authenticated %}
+            <a href={% url 'perfil' %}>
+              <i class="bi bi-circle"></i><span>{{request.user.username}}</span>
             </a>
+            <a href={% url 'logout' %}>
+              <i class="bi bi-circle"></i><span>Desconectarse</span>
+            </a>
+            {% else %}
+            <a href={% url 'login' %}>
+              <i class="bi bi-circle"></i><span>Login</span>
+            </a>
+
+            {% endif %}
           </li>
           <li>
-            <a href={% url 'exportar_presis' %}>
-              <i class="bi bi-circle"></i><span>Epresis</span>
-            </a>
+            
           </li>
         </ul>
-      </li><!-- End Tables Nav -->
+      </li>
+  </aside>
 
-      
+{% endblock barra_lateral %}
 
-      
 
-    </ul>
-
-  </aside><!-- End Sidebar-->
-  {% endblock barra_lateral %}
 
   {% block dashboard %}
-  <h1>Dashboard > Productos</h1>
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Deposito</h5>
+
+      <div class="pagetitle">
+        <h1></h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href={% url 'index' %}>Menu</a></li> 
+            <li class="breadcrumb-item">Ingresos</li>
+            {% comment %} <li class="breadcrumb-item active">Breadcrumbs</li> {% endcomment %}
+          </ol>
+        </nav>
+      </div><!-- End Breadcrumbs with a page title -->
+
+    </div>
+  </div>
   {% endblock dashboard %}
+  {% block graficos_tablas %}
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-12">
+
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Aforar productos</h5>
+          
+            <a href={% url 'pendientes_aforos' %}>
+            <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Ingresar a la lista de pendientes">
+              Pendientes:{% if pendiente_aforo %} {{pendiente_aforo}} {% else %} 0 {% endif %}
+            </button>
+            </a>
+            <a href={% url 'index_deposito' %}>
+              <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Actualizar">
+                Actualizar
+              </button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+
+    <div class="row">
+      <div class="col-lg-12">
+
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Alta de productos y parametros</h5>
+            
+
+            <!-- Tooltips Examples -->
+            <a href={% url 'nuevo_producto' %}>
+              <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Agregar producto" >
+                Nuevo Producto
+              </button>
+            </a>
+            <a href={% url 'crear_parametros' %}>
+              <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="right" title="Necesarios para dar de alta productos">
+                Nuevo parametro
+              </button>
+            </a>
+            <!-- End Tooltips Examples -->
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-12">
+
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Consultar, editar y eliminar productos y parametros</h5>
+          
+            <a href={% url 'ver_productos' %}>
+            <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Busqueda y edicion de productos">
+              Consulta Producto
+            </button>
+            </a>
+            <a href={% url 'ver_productos' %}>
+              <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Busqueda y edicion de parametros">
+                Consulta Parametros
+              </button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-lg-12">
+
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Migrar archivos XLSX de productos</h5>
+          
+
+            <a href={% url 'exportar_saad' %}>
+              <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Exporta archivo XLS para importar en SAAD">
+                Exportar SAAD
+              </button>
+            </a>
+            <a href={% url 'exportar_presis' %}>
+              <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Exporta archivo XLS para importar en Epresis">
+                Exportar Epresis
+              </button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+
+
+  </section>
+  {% endblock graficos_tablas %}
+
+  
+  
