@@ -274,7 +274,7 @@ def crear_parametros(request):
             return redirect('index')
     return render(request,'operaciones/parametros.html',{'formcubicaje':formcubicaje,'formcatubvalor':formcatubvalor,'formcia':formcia, 'formcatub':formcatub, 'formpack': formpack, 'formcatrepo':formcatrepo, 'formcatpk': formcatpk, 'formtipoalm':formtipoalm})
     
-
+@login_required
 def nuevo_producto(request):
     if request.method == 'POST':
         form_crear_producto = FormProducto(request.POST)
@@ -547,7 +547,7 @@ def nuevo_producto(request):
     return render(request,'operaciones/nuevo_producto.html',{'form':form_crear_producto})
 
 
-
+@login_required
 def pendientes_aforos(request):
     productos = Producto.objects.all()
     pendientes = productos.filter(largo_un=0)
@@ -1077,7 +1077,7 @@ def exportar_presis(request):
     return excel.make_response(sheet, "xlsx", file_name="Alta PRESIS"+ strHoy + ".xlsx")
 
     
-
+@login_required
 def ver_productos(request):
     id_producto = request.GET.get('codigo')
     #productos_listado = Producto.objects.all()
@@ -1095,7 +1095,7 @@ def ver_productos(request):
 
 
 
-
+@login_required
 def aforar(request, id):
     prod = Producto.objects.get(id=id)
 
@@ -1266,13 +1266,6 @@ def aforar(request, id):
 @login_required
 def editar_producto(request, id):
     prod = Producto.objects.get(id=id)
-    
-    
-    
-    
-    
-    
-    
     
     
     
