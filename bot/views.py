@@ -8,11 +8,7 @@ auth_token = '005fb71cb00230e2e3b696db06dfc94b'
 client = Client(account_sid, auth_token)
 
 
-
-
-
 def bot(request):
     
-                        
     print(request)
-    return HttpResponse("Hola, como estas?")
+    return HttpResponse('hello')
