@@ -3,19 +3,16 @@ from twilio.rest import Client
 from django.views.decorators.csrf import csrf_exempt
 from django.http.response import HttpResponse
 
-account_sid = 'ACfaa88aace5e1a8c3d3ca209c27fb669a'
-auth_token = 'f016c9b285c959eddc1681c18edf9175'
+account_sid = 'AC0e085fdb45b6508a50de706b8257a337'
+auth_token = '005fb71cb00230e2e3b696db06dfc94b'
 client = Client(account_sid, auth_token)
 
 
 
 
-@csrf_exempt
+
 def bot(request):
     
-    
-    print(request.POST)
-   
                         
-    
+    print(request)
     return HttpResponse("Hola, como estas?")
