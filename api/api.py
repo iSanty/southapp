@@ -2,8 +2,28 @@ import requests
 import xmltodict
 
 
+
+def solicitud_presis(consulta):
+    nro_guia = consulta
+    
+    url = "http://epresis.southpost.com.ar/api/v2/seguimiento.json"
     
     
+    auth_data = {'api_token':'zthHOldzd1FYufGkBjKf6QJa5JidhAkPo3KDfhijKCIsYKG4GFAKgNJf9l6M', 'remito':'','nro_guia':nro_guia}
+
+    respuesta = requests.post(url, data=auth_data)
+
+    respuesta = respuesta.json()
+    
+    
+    estado = respuesta['guia']['fechas'][0]
+    
+    return estado
+
+
+consultar = input('Ingrese el nro de guia')
+resultado = solicitud_presis(consultar)
+print(resultado)
     
 def solicitud_oca(numeroEnvio):
     prefijo = '473760000000'
