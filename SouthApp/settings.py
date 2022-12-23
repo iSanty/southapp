@@ -173,4 +173,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 #Poner online
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-django_heroku.settings(locals())
+#django_heroku.settings(locals())
+
+
+
+# AUTH_USER_MODEL = 'accounts.UserProfile'
+
