@@ -178,3 +178,4 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 # AUTH_USER_MODEL = 'accounts.UserProfile'
+

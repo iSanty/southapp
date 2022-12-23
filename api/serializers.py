@@ -1,12 +1,9 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
-from api.models import InformePreparacion
+from .models import Guia
 
 
-        
-        
-class PlanillaPKSerializer(serializers.ModelSerializer):
+class GuiaSerializer(serializers.ModelSerializer):
     class Meta:
-        Model = InformePreparacion
-        exclude = ['is_removed', 'created', 'modified']
-        
+        model = Guia
+        fields = ('id','nro_guia', 'remito')

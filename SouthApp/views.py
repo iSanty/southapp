@@ -15,19 +15,7 @@ client = Client(account_sid, auth_token)
 
 def index(request):
     
-    if request.method =="POST":
-        mensaje = request.POST["Body"]
-        numero = request.POST["From"]
-        
-        print(numero)
-        if mensaje =="Hola":
-            client.messages.create(
-                from_='whatsapp:+14155238886',
-                body='Hola feo',
-                to=numero
-                
-            )
-        return HttpResponse('hello')
+    
     
     return render(request, 'index.html')
 
