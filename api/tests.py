@@ -6,12 +6,15 @@ import xml
 import json
 import xmltodict
 import requests
-
+from dotenv import load_dotenv
+import os
+load_dotenv()
 
 
 url = "http://epresis.southpost.com.ar/api/v2/seguimiento.json"
+token = os.getenv('api_token')
 
-auth_data = {'api_token':'zthHOldzd1FYufGkBjKf6QJa5JidhAkPo3KDfhijKCIsYKG4GFAKgNJf9l6M', 'remito':'','nro_guia':'2605729'}
+auth_data = {'api_token':token, 'remito':'','nro_guia':'2605729'}
 
 respuesta = requests.post(url, data=auth_data)
 

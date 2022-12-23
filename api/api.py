@@ -1,7 +1,11 @@
 import requests
 import xmltodict
 
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
+token = os.getenv('api_token')
 
 def solicitud_presis(consulta):
     nro_guia = consulta
@@ -9,7 +13,7 @@ def solicitud_presis(consulta):
     url = "http://epresis.southpost.com.ar/api/v2/seguimiento.json"
     
     
-    auth_data = {'api_token':'zthHOldzd1FYufGkBjKf6QJa5JidhAkPo3KDfhijKCIsYKG4GFAKgNJf9l6M', 'remito':'','nro_guia':nro_guia}
+    auth_data = {'api_token':token, 'remito':'','nro_guia':nro_guia}
 
     respuesta = requests.post(url, data=auth_data)
 
@@ -21,9 +25,6 @@ def solicitud_presis(consulta):
     return estado
 
 
-consultar = input('Ingrese el nro de guia')
-resultado = solicitud_presis(consultar)
-print(resultado)
     
 def solicitud_oca(numeroEnvio):
     prefijo = '473760000000'

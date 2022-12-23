@@ -2,7 +2,8 @@ from django.shortcuts import render
 from twilio.rest import Client
 from django.views.decorators.csrf import csrf_exempt
 from django.http.response import HttpResponse
-from api.api import solicitud_oca
+from api.api import solicitud_oca, solicitud_presis
+from .models import Accion
 
 account_sid = 'ACa59cfbea3b70499efe3235beb84ecc01'
 auth_token = '242de0cee777d5fa0b9c66781e67b63f'
@@ -11,104 +12,122 @@ client = Client(account_sid, auth_token)
 
 def bot(request):
     
+    
     if request.method =="POST":
         mensaje = request.POST["Body"]
         numero = request.POST["From"]
         
+        accion = Accion.objects.filter(numero=numero)
         
-        
-        print(mensaje)
-        print(numero)
-        if mensaje =="Join walk-careful":
+        if accion:
+            accion = Accion.objects.get(numero=numero)
+        else:
+            nuevo = Accion(
+                    numero = numero,
+                    accion = 'inicio'
+                )
+            nuevo.save()
+    
+    
+        if mensaje == 'Hola' or mensaje == 'HOla' or mensaje == 'hola':
             client.messages.create(
                 from_='whatsapp:+14155238886',
                 body="""Hola, bienvenido al bot de Southpost, responda con el numero de opcion deseada:
-1: Consulta pedido OCA
-2: Cancelar envio
-3: Comunicarme con un representante de atencion al cliente"""
-                
-                ,
+1: Consulta estado e-presis
+2: Consultar por nro pedido OCA
+3: Comunicarme con un representante de atencion al cliente""",
                 to=numero
             )
+            accion = Accion.objects.filter(numero=numero)
+            if accion:
+                accion = Accion.objects.get(numero=numero)
+                accion.accion = 'inicio'
+                accion.save()
+            else:
+                nuevo = Accion(
+                    numero = numero,
+                    accion = 'inicio'
+                )
+                nuevo.save()
             
-        elif mensaje == '1':
-            accion = 'buscar'
+            
+        elif mensaje == '1' and accion.accion == 'inicio':
+            accion = Accion.objects.get(numero=numero)
+            accion.accion = 'epresis'
+            accion.save()
+            
             client.messages.create(
                 from_='whatsapp:+14155238886',
-                body='Por favor indique su numero de OCA',
+                body='Por favor indique el numero de guia. "EJ: 2611423"',
                 
                 to=numero                
-            
-            
             )
-        elif mensaje == '2':
-            accion = 'cancelar'
+        elif mensaje == '2' and accion.accion == 'inicio':
+            
+            accion = Accion.objects.get(numero=numero)
+            accion.accion = 'oca'
+            accion.save()
+            
             client.messages.create(
                 from_='whatsapp:+14155238886',
-                body='Por favor indique su numero de ID o GUIA',
+                body='Por favor indique el numero de envio de oca. EJ: "2433486"',
                 
                 to=numero                
-            
-            
             )
             
-        elif mensaje == '3':
-            accion = 'llamar'
-            client.messages.create(
-                from_='whatsapp:+14155238886',
-                body='Para comunicarse con un representante de atencion al cliente por favor comuniquese al número 08103457678 opcion 2, de 09 a 17hs',
+            
+        elif mensaje != '1' or mensaje != '2' or mensaje != '3':
+            
+            accion = Accion.objects.filter(numero=numero)
+            if accion:
+                accion = Accion.objects.get(numero=numero)
+            
+            
+            
+            if accion.accion == 'epresis':
+                consulta = solicitud_presis(mensaje)
+            
+            
+                estado = consulta['estado']
+                fecha = consulta['fecha']
+                fecha_pactada = consulta['fecha_pactada']
                 
-                to=numero                
+                client.messages.create(
+                    from_='whatsapp:+14155238886',
+                    body=f'Su pedido se encuentra en estado {estado} desde la fecha {fecha} y debe entregarse el dia {fecha_pactada} o antes.',
+                    
+                    to=numero                
+                    
+                    
+                    )
+                accion.accion = 'inicio'
+                accion.save()
             
-            
-            )
-        elif mensaje:
-            accion = 'Consulta OCA'
-            
-            consulta = solicitud_oca(mensaje)
-            
-            if consulta != 'Error':
+            elif accion.accion == 'oca':
+                consulta = solicitud_oca(mensaje)
+                
+                
                 nro_guia = consulta[1]
                 estado_pieza = consulta[0]
                 
                 client.messages.create(
                     from_='whatsapp:+14155238886',
-                    body='Su numero de guia SP es '+ nro_guia+ ' y su pedido se encuentra '+ estado_pieza,
+                    body='Su numero de guia SP es '+ nro_guia + ' y su pedido se encuentra '+ estado_pieza,
                     
                     to=numero                
+                    
+                    
+                    )
+                accion.accion = 'inicio'
+                accion.save()
                 
+            
+        
                 
-                )
-            else:
-                
-                client.messages.create(
-                from_='whatsapp:+14155238886',
-                body="""Hola, bienvenido al bot de Southpost, responda con el numero de opcion deseada:
-1: Consulta pedido OCA
-2: Cancelar envio
-3: Comunicarme con un representante de atencion al cliente"""
-                
-                ,
-                to=numero
-            )
-            
-            
-            
-            
-        else:
-            client.messages.create(
-                from_='whatsapp:+14155238886',
-                body="""Hola, bienvenido al bot de Southpost, responda con el numero de opcion deseada:
-1: Donde esta mi paquete 
-2: Cancelar envio
-3: Comunicarme con un representante de atencion al cliente""",
-                
-                to=numero                
-            
-            
-            )
-                
-    return HttpResponse('Sistema de comunicacion por Whatsapp con clientes finales.')
+    
+    
+    print(accion)
+    return HttpResponse(accion)
     
     
     
