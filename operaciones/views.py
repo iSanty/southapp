@@ -1103,11 +1103,6 @@ def aforar(request, id):
         form = FormAforo(request.POST)
         if form.is_valid():
             
-            
-            
-            
-            
-            
             prod.descripcion = form.cleaned_data.get('descripcion')
             prod.peso_un = form.cleaned_data.get('peso_un')
             prod.largo_un = form.cleaned_data.get('largo_un')

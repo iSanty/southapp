@@ -22,6 +22,7 @@ def solicitud_presis(consulta):
         estado = []
         
     else:
+        
         estado = respuesta['guia']['fechas'][0]
     
 
@@ -63,3 +64,26 @@ def solicitud_oca(numeroEnvio):
             return 'Error'
     
     
+    
+    
+def solicitud_presis_web(consulta):
+    nro_guia = consulta
+    
+    url = "http://epresis.southpost.com.ar/api/v2/seguimiento.json"
+    
+    
+    auth_data = {'api_token':token, 'remito':'','nro_guia':nro_guia}
+
+    respuesta = requests.post(url, data=auth_data)
+    
+    respuesta = respuesta.json()
+    if respuesta['status'] == 'error':
+        estado = []
+        
+    else:
+        
+        estado = respuesta['guia']['fechas']
+    
+
+    
+    return estado

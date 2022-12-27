@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .forms import FormNuevoPK, FormSubCliente, FormPersonalDeposito, FormSector, FormFinalizarPK, FormFinalizarArm
 from .models import GlobalPK, SectorDepo, SubClientes, PersonalDeposito, Pendientes, PendientesArm
@@ -517,4 +517,39 @@ def parametros(request):
     
     
     msj = 'Ingrese los datos solicitados'
-    return render(request, 'informes/crear_parametros.html', {'form_sub_cliente':form_sub_cliente, 'form_personal_deposito':form_personal_deposito, 'form_sector':form_sector, 'msj':msj})    
+    return render(request, 'informes/crear_parametros.html', {'form_sub_cliente':form_sub_cliente, 'form_personal_deposito':form_personal_deposito, 'form_sector':form_sector, 'msj':msj})
+
+
+
+def editar_global(request, id):
+    
+    global_pk = GlobalPK.objects.get(id=id)
+    form = FormNuevoPK(initial={
+        'numero':global_pk.numero,
+        'cliente':global_pk.cliente,
+        'sub_cliente':global_pk.sub_cliente,
+        'unidades':global_pk.unidades,
+        'fecha_procesado':global_pk.fecha_procesado,
+        'hora_procesado':global_pk.hora_procesado,
+    })
+    
+    if request.method == 'POST':
+        form = FormNuevoPK(request.POST)
+        if form.is_valid():
+        
+            global_pk.numero = form.cleaned_data.get('numero')
+            global_pk.cliente = form.cleaned_data.get('cliente')
+            global_pk.sub_cliente = form.cleaned_data.get('sub_cliente')
+            global_pk.unidades = form.cleaned_data.get('unidades')
+            global_pk.fecha_procesado = form.cleaned_data.get('fecha_procesado')
+            global_pk.hora_procesado = form.cleaned_data.get('hora_procesado')
+            global_pk.nombre_planilla = str(form.cleaned_data.get('cliente'))+'('+str(form.cleaned_data.get('sub_cliente'))+')'
+            global_pk.save()
+            return redirect('informe_global')
+        
+        else:
+            msj = 'Formulario inválido'
+            return render(request, 'informes/editar_global.html',{'form':form, 'msj':msj, 'global':global_pk})
+    else:
+        msj = 'Edite según corresponda'
+        return render(request, 'informes/editar_global.html', {'form':form, 'msj':msj, 'global':global_pk})

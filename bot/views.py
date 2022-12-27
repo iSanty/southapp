@@ -2,9 +2,9 @@ from django.shortcuts import render
 from twilio.rest import Client
 from django.views.decorators.csrf import csrf_exempt
 from django.http.response import HttpResponse
-from api.api import solicitud_oca, solicitud_presis
+from api.api import solicitud_oca, solicitud_presis, solicitud_presis_web
 from .models import Accion, MensajePorEstado
-from .forms import frmMensajePorEstado
+from .forms import frmMensajePorEstado, frmConsultaEstado
 import os
 from dotenv import load_dotenv
 load_dotenv()
@@ -154,14 +154,14 @@ def bot(request):
                         
                                 client.messages.create(
                                     from_='whatsapp:+14155238886',
-                                    body=f'Su pedido se encuentra en estado {estado} desde la fecha {fecha}.',
+                                    body=f'{respuesta.mensaje} Estado: {respuesta.estado}',
                                     
                                     to=numero                
                                     
                                     
                                     )
-                            accion.accion = 'inicio'
-                            accion.save()
+                                accion.accion = 'inicio'
+                                accion.save()
                             
                         
                         else:
@@ -261,14 +261,47 @@ to=numero)
     # print(accion)
     return HttpResponse(accion)
     
+
+
+def edicion_mensaje(request, id):
+    
+    
+    datos_mensajes = MensajePorEstado.objects.all()
+    
+    edicion = MensajePorEstado.objects.get(id=id)
+    
+    if request.method == 'POST':
+        form = frmMensajePorEstado(request.POST)
+        if form.is_valid():
+        
+            edicion.estado = form.cleaned_data.get('estado')
+            edicion.mensaje = form.cleaned_data.get('mensaje')
+            edicion.save()
+            return render(request, 'bot/edicion_mensaje.html', {'form':form, 'datos_mensajes':datos_mensajes})
+        else:
+            
+            return render(request, 'bot/edicion_mensaje.html', {'form':form, 'datos_mensajes':datos_mensajes})
+
+
+    else:
+        
+        form = frmMensajePorEstado(initial={
+                                   'estado': edicion.estado,
+                                   'mensaje': edicion.mensaje
+                                   
+                                   })
+        return render(request, 'bot/edicion_mensaje.html', {'form':form, 'datos_mensajes':datos_mensajes})
     
     
     
     
 def crear_mensaje_por_estado(request):
-    
-    
     form = frmMensajePorEstado()
+    
+    datos_mensajes = MensajePorEstado.objects.all()
+    
+    
+    
     
     if request.method == 'POST':
         form = frmMensajePorEstado(request.POST)
@@ -281,7 +314,8 @@ def crear_mensaje_por_estado(request):
                 mensaje.mensaje = data['mensaje']
                 mensaje.save()
                 msj = 'Mensaje por editado correctamente'
-                return render(request, 'bot/parametros.html', {'form':form, 'msj':msj})
+                
+                return render(request, 'bot/parametros.html', {'form':form, 'msj':msj, 'datos_mensajes':datos_mensajes})
                 
             else:
                 mensaje = MensajePorEstado(
@@ -290,12 +324,30 @@ def crear_mensaje_por_estado(request):
                 )
                 mensaje.save()
                 msj = 'Mensaje por estado creado correctamente'
-                return render(request, 'bot/parametros.html', {'form':form, 'msj':msj})
+                
+                return render(request, 'bot/parametros.html', {'form':form, 'msj':msj, 'datos_mensajes':datos_mensajes})
             
     else:
         
-        return render(request, 'bot/parametros.html', {'form':form})
+        return render(request, 'bot/parametros.html', {'form':form, 'datos_mensajes':datos_mensajes})
             
     
-    return render(request, 'bot/parametros.html', {'form':form})
+    return render(request, 'bot/parametros.html', {'form':form, 'datos_mensajes':datos_mensajes})
 
+
+def consultar_estado(request):
+    
+    
+    
+    if 'btn_consulta' in request.GET:
+        form = frmConsultaEstado(request.GET)
+        guia = request.GET.get('nro_guia')
+        
+        consultar = solicitud_presis_web(guia)
+        
+        return render(request,'bot/consulta_estado.html', {'form':form, 'consulta':consultar})        
+        
+        
+        
+    form = frmConsultaEstado()
+    return render(request, 'bot/consulta_estado.html', {'form':form})

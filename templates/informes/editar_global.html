@@ -1,0 +1,30 @@
+{% extends 'informes/index_informes.html' %}
+
+{% block dashboard %}
+
+
+
+{% endblock dashboard %}
+
+{% block graficos_tablas %}
+
+
+
+
+<p>
+    <form action={% url 'editar_global' global.id %} method="post">
+        {% csrf_token %}
+        <table>
+            {{form.as_table}}
+        </table>
+        <button>Guardar cambios</button>
+    </form>
+</p>
+
+
+
+
+
+
+
+{% endblock graficos_tablas %}
