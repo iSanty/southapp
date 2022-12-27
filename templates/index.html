@@ -268,6 +268,27 @@
             </li>
 
           </ul><!-- End Profile Dropdown Items -->
+
+          {% else %}
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            {% comment %} <li class="dropdown-header">
+              <h6>Kevin Anderson</h6>
+              <span>Web Designer</span>
+            </li> {% endcomment %}
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href={% url 'login' %}>
+                <i class="bi bi-person"></i>
+                <span>Conectarse</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+          </ul>
           {% endif %}
         </li><!-- End Profile Nav -->
 
@@ -491,7 +512,7 @@
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">Seleccione una opcion para operar</h5>
-        <a href="https://api.whatsapp.com/send?phone=+14155238886&text=Join walk-careful">Envíanos un mensaje de WhatsApp!</a>
+        <a href="https://api.whatsapp.com/send?phone=+14155238886&text=Join college-afraid">Envíanos un mensaje de WhatsApp!</a>
 
         <div class="pagetitle">
           <h1></h1>

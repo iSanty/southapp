@@ -5,9 +5,13 @@ from django.http.response import HttpResponse
 from api.api import solicitud_oca, solicitud_presis
 from .models import Accion, MensajePorEstado
 from .forms import frmMensajePorEstado
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
-account_sid = 'ACa59cfbea3b70499efe3235beb84ecc01'
-auth_token = '242de0cee777d5fa0b9c66781e67b63f'
+account_sid = os.getenv('account_sid')
+auth_token = os.getenv('auth_token')
+
 client = Client(account_sid, auth_token)
 
 
@@ -63,7 +67,7 @@ def bot(request):
                 
                 to=numero                
             )
-            print(accion.accion)
+            # print(accion.accion)
         elif mensaje == '2' and accion.accion == 'inicio':
             
             accion = Accion.objects.get(numero=numero)
@@ -81,7 +85,7 @@ def bot(request):
         elif mensaje != '1' or mensaje != '2' or mensaje != '3':
             
             accion = Accion.objects.filter(numero=numero)
-            print(accion)
+            # print(accion)
             if accion:
                 accion = Accion.objects.get(numero=numero)
             
@@ -191,15 +195,6 @@ to=numero)
                             )
                             nuevo.save()
                         
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                
                 elif accion.accion == 'oca':
                     consulta = solicitud_oca(mensaje)
                     
@@ -263,7 +258,7 @@ to=numero)
             
     
     
-    print(accion)
+    # print(accion)
     return HttpResponse(accion)
     
     
