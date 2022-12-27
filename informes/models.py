@@ -36,7 +36,7 @@ class GlobalPK(models.Model):
     
     
 class SubClientes(models.Model):
-    codigo = models.CharField(max_length=6)
+    codigo = models.CharField(max_length=128)
     cia_asociada = models.CharField(max_length=30)
     razon_social = models.CharField(max_length=30)
     

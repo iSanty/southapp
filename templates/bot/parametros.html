@@ -1,0 +1,60 @@
+{% extends 'index.html' %}
+
+
+
+{% block dashboard %}
+
+{% if msj %}
+{{msj}}
+{% endif %}
+<p>
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <form action={% url 'mensajes_por_estado' %} method = "POST"> 
+                {% csrf_token %}
+                <table>
+                    Por favor llene todos los campos
+                    {{form.as_table}}
+                </table>
+
+                <button type="submit" class="btn btn-info">Grabar</button>
+            </form>
+        </div>
+    </div>
+</p>
+    
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        
+                        <th scope="col">Estado</th>
+                        <th scope="col">Mensaje</th>
+                        <th scope="col">Accion</th>
+                        <th scope="col">Accion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for valor in datos_mensajes %}
+                    <tr>
+                        <th>{{valor.estado}}</th>
+                        
+                        <td>{{valor.mensaje}}</td>
+                        <td><a href={% url 'edicion_mensaje' valor.id %} method="post">>EDITAR<</a></td>
+                        <td>Eliminar</td>
+                        
+
+
+                    </tr>
+                    {% endfor %}
+                    
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+{% endblock dashboard %}
+

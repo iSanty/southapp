@@ -115,7 +115,7 @@
                           <td>{{valor.estado_picking}}</td>
                           <td>{{valor.estado_armado}}</td>
                           
-                          <td><a href='#'{% comment %} {% url 'edicion_ficha' fichero.id %} {% endcomment %}><button class="btn btn-warning">Editar</a></td>
+                          <td><button type="button" class="btn btn-outline-danger m-2"><a href={% url 'editar_global' valor.id %}>Editar</a></button></td>
                           <td><button type="button" class="btn btn-outline-danger m-2"><a href='#'{% comment %} {% url 'edicion_ficha' fichero.id %} {% endcomment %} >Eliminar</a></button></td>
 
                           
@@ -164,7 +164,7 @@
                           <td>{{valor.estado_picking}}</td>
                           <td>{{valor.estado_armado}}</td>
                           
-                          <td><a href='#'{% comment %} {% url 'edicion_ficha' fichero.id %} {% endcomment %}><button class="btn btn-warning">Editar</a></td>
+                          <td><button type="button" class="btn btn-outline-danger m-2"><a href={% url 'editar_global' valor.id %}>Editar</a></button></td>
                           <td><button type="button" class="btn btn-outline-danger m-2"><a href='#'{% comment %} {% url 'edicion_ficha' fichero.id %} {% endcomment %} >Eliminar</a></button></td>
 
                           
@@ -217,7 +217,7 @@
                           <td>{{valor.estado_picking}}</td>
                           <td>{{valor.estado_armado}}</td>
                           
-                          <td><a href='#'{% comment %} {% url 'edicion_ficha' fichero.id %} {% endcomment %}><button class="btn btn-warning">Editar</a></td>
+                          <td><button type="button" class="btn btn-outline-danger m-2"><a href={% url 'editar_global' valor.id %}>Editar</a></button></td>
                           <td><button type="button" class="btn btn-outline-danger m-2"><a href='#'{% comment %} {% url 'edicion_ficha' fichero.id %} {% endcomment %} >Eliminar</a></button></td>                          
                       </tr>
                       {% endfor %}
@@ -264,7 +264,7 @@
                           <td>{{valor.estado_picking}}</td>
                           <td>{{valor.estado_armado}}</td>
                           
-                          <td><a href='#'{% comment %} {% url 'edicion_ficha' fichero.id %} {% endcomment %}><button class="btn btn-warning">Editar</a></td>
+                          <td><button type="button" class="btn btn-outline-danger m-2"><a href={% url 'editar_global' valor.id %}>Editar</a></button></td>
                           <td><button type="button" class="btn btn-outline-danger m-2"><a href='#'{% comment %} {% url 'edicion_ficha' fichero.id %} {% endcomment %} >Eliminar</a></button></td>                          
                       </tr>
                       {% endfor %}

@@ -268,6 +268,27 @@
             </li>
 
           </ul><!-- End Profile Dropdown Items -->
+
+          {% else %}
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            {% comment %} <li class="dropdown-header">
+              <h6>Kevin Anderson</h6>
+              <span>Web Designer</span>
+            </li> {% endcomment %}
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href={% url 'login' %}>
+                <i class="bi bi-person"></i>
+                <span>Conectarse</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+          </ul>
           {% endif %}
         </li><!-- End Profile Nav -->
 
@@ -491,8 +512,9 @@
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">Seleccione una opcion para operar</h5>
-        <a href="https://api.whatsapp.com/send?phone=+14155238886&text=Join walk-careful">Envíanos un mensaje de WhatsApp!</a>
-
+        <p><a href="https://api.whatsapp.com/send?phone=+14155238886&text=Join college-afraid">Probar el bot de Whatsapp para SP</a></p>
+        <p><a href={% url 'mensajes_por_estado' %}>Mensajes WP por Estado de ePresis</a></p>
+        <p><a href={% url 'consultar_estado' %}>Consulta estados de ePresis</a></p>
         <div class="pagetitle">
           <h1></h1>
           <nav>

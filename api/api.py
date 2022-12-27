@@ -1,9 +1,35 @@
 import requests
 import xmltodict
 
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+token = os.getenv('api_token')
+
+def solicitud_presis(consulta):
+    nro_guia = consulta
+    
+    url = "http://epresis.southpost.com.ar/api/v2/seguimiento.json"
+    
+    
+    auth_data = {'api_token':token, 'remito':'','nro_guia':nro_guia}
+
+    respuesta = requests.post(url, data=auth_data)
+    
+    respuesta = respuesta.json()
+    if respuesta['status'] == 'error':
+        estado = []
+        
+    else:
+        
+        estado = respuesta['guia']['fechas'][0]
+    
 
     
-    
+    return estado
+
+
     
 def solicitud_oca(numeroEnvio):
     prefijo = '473760000000'
@@ -38,3 +64,26 @@ def solicitud_oca(numeroEnvio):
             return 'Error'
     
     
+    
+    
+def solicitud_presis_web(consulta):
+    nro_guia = consulta
+    
+    url = "http://epresis.southpost.com.ar/api/v2/seguimiento.json"
+    
+    
+    auth_data = {'api_token':token, 'remito':'','nro_guia':nro_guia}
+
+    respuesta = requests.post(url, data=auth_data)
+    
+    respuesta = respuesta.json()
+    if respuesta['status'] == 'error':
+        estado = []
+        
+    else:
+        
+        estado = respuesta['guia']['fechas']
+    
+
+    
+    return estado

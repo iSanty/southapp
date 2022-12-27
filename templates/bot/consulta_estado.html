@@ -1,0 +1,64 @@
+{% extends 'index.html' %}
+
+
+
+{% block dashboard %}
+
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <form action= {% url 'consultar_estado' %}>
+            <table>
+            {{form.as_table}}
+            </table>
+            <button name="btn_consulta" type="submit" class="btn btn-success">Consultar</button>
+            
+            
+        </form>
+    </div>
+
+
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Hora</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col">Receptor</th>
+                        <th scope="col">Fecha pactada</th>
+                        <th scope="col">Activo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for valor in consulta %}
+                    <tr>
+                        <th>{{valor.fecha}}</th>
+                        
+                        <td>{{valor.hora}}</td>
+                        <td>{{valor.estado}}</td>
+                        <td>{{valor.receptor}}</td>
+                        <td>{{valor.fecha_pactada}}</td>
+                        <td>{{valor.activo}}</td>
+                        
+
+
+                    </tr>
+                    {% endfor %}
+                    
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+
+ 
+
+
+
+{% endblock dashboard %}
