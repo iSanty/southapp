@@ -215,6 +215,7 @@ def informe_global(request):
     
     pend_armado = GlobalPK.objects.filter(estado_armado='Pendiente')
     finalizados_armado = GlobalPK.objects.filter(estado_armado='Finalizado')
+    
     finalizado_armado_hoy = finalizados_armado.filter(fecha_armado=fecha_hoy_f)
     
     
@@ -305,10 +306,14 @@ def informe_global(request):
     for finalizado_arm in finalizado_armado_hoy:
         
         if finalizado_arm:
-            filtro_arm = canales_arm.get(canal=finalizado_arm.nombre_planilla)
-        
-            filtro_arm.finalizado += finalizado_arm.unidades
-            filtro_arm.save()
+            filtro = canales_arm.filter(canal=finalizado_arm.nombre_planilla)
+            
+            if filtro:
+                
+                filtro_arm = canales_arm.get(canal=finalizado_arm.nombre_planilla)
+            
+                filtro_arm.finalizado += finalizado_arm.unidades
+                filtro_arm.save()
             
     
     
@@ -410,10 +415,12 @@ def informe_global(request):
     for finalizado in finalizado_hoy:
         
         if finalizado:
-            filtro = canales.get(canal=finalizado.nombre_planilla)
-        
-            filtro.finalizado += finalizado.unidades
-            filtro.save()
+            filtro1 = canales.filter(canal=finalizado.nombre_planilla)
+            if filtro1:
+                filtro = canales.get(canal=finalizado.nombre_planilla)
+            
+                filtro.finalizado += finalizado.unidades
+                filtro.save()
             
     
     

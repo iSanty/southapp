@@ -20,6 +20,8 @@ respuesta = requests.post(url, data=auth_data)
 
 diccionario = respuesta.json()
 
+print(diccionario)
+
 estado = diccionario['guia']['fechas'][0]
 
 print(estado)
