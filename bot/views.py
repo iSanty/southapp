@@ -3,11 +3,16 @@ from twilio.rest import Client
 from django.views.decorators.csrf import csrf_exempt
 from django.http.response import HttpResponse
 from api.api import solicitud_oca, solicitud_presis, solicitud_presis_web
-from .models import Accion, MensajePorEstado
-from .forms import frmMensajePorEstado, frmConsultaEstado
+from .models import Accion, MensajePorEstado, MailParaElBot
+from .forms import frmMensajePorEstado, frmConsultaEstado, frmMailParaElBot
 import os
 from dotenv import load_dotenv
 load_dotenv()
+
+import smtplib
+
+
+
 
 account_sid = os.getenv('account_sid')
 auth_token = os.getenv('auth_token')
@@ -40,6 +45,7 @@ def bot(request):
                 body="""Hola, bienvenido al bot de Southpost, responda con el numero de opcion deseada:
 1: Consulta estado e-presis
 2: Consultar por nro pedido OCA
+3: Otras consultas
 """,
                 to=numero
             )
@@ -80,6 +86,19 @@ def bot(request):
                 
                 to=numero                
             )
+            
+        elif mensaje == '3' and accion.accion == 'inicio':
+            accion = Accion.objects.get(numero=numero)
+            accion.accion = 'mail'
+            accion.save()
+            
+            client.messages.create(
+                from_='whatsapp:+14155238886',
+                body='Por favor a continuación, escriba su consulta detallando el mail o contacto telefónico el cual usaremos para contactarnos con usted. Si tiene un numero de GUIA o ID, por favor indiquenos.',
+                
+                to=numero                
+            )
+            
             
             
         elif mensaje != '1' or mensaje != '2' or mensaje != '3':
@@ -181,6 +200,7 @@ def bot(request):
                         body="""Si estas ingresando tu numero de seguimiento, antes tenes que responder la opcion deseada:
 1: Consulta estado e-presis
 2: Consultar por nro pedido OCA
+3: Otras consultas
 """,
 to=numero)
                         accion = Accion.objects.filter(numero=numero)
@@ -212,6 +232,42 @@ to=numero)
                         )
                     accion.accion = 'inicio'
                     accion.save()
+                
+                
+                elif accion.accion == 'mail':
+                    mensaje_mail = mensaje
+                    correo_electronico = str(MailParaElBot.objects.get(id=1))
+                    asunto = 'Consulta desde el BOT de Whatsapp'
+                    body = 'Subject: {}\n\n{}'.format(asunto, """Hola, soy el bot de Whatsapp, me estan consultando esta respuesta y ustedes lo haram mejor que yo:
+                                                      
+                                                      """+ mensaje_mail)
+                    
+                    
+                    server = smtplib.SMTP('smtp.office365.com','587')
+                    server.starttls()
+                    server.login(os.getenv('EMAIL_HOST_USER'),os.getenv('EMAIL_HOST_PASSWORD')) #aca logeo
+                    server.sendmail('santiagonavalon@southpost.com.ar', correo_electronico, body) #aca uso mi cuenta para q no aparezca "desconocido"
+                    server.quit()
+                    
+                    client.messages.create(
+                        from_='whatsapp:+14155238886',
+                        body='Su mensaje <'+ mensaje + '> ha sido enviado correctamente. En 24hs nos comunicaremos al contacto mencionado en su mensaje.',
+                        
+                        to=numero                
+                        
+                        
+                        )
+                    accion.accion = 'inicio'
+                    accion.save()
+                
+                
+                
+                
+                
+                
+                
+                
+                
                     
                 else:
                     client.messages.create(
@@ -219,6 +275,7 @@ to=numero)
                         body="""Si estas ingresando tu numero de seguimiento, antes tenes que responder la opcion deseada:
 1: Consulta estado e-presis
 2: Consultar por nro pedido OCA
+3: Otras consultas
 """,
 to=numero)
                     accion = Accion.objects.filter(numero=numero)
@@ -241,6 +298,7 @@ to=numero)
             body="""Si estas ingresando tu numero de seguimiento, antes tenes que responder la opcion deseada:
 1: Consulta estado e-presis
 2: Consultar por nro pedido OCA
+3: Otras consultas
 """,
             to=numero
         )
@@ -351,3 +409,55 @@ def consultar_estado(request):
         
     form = frmConsultaEstado()
     return render(request, 'bot/consulta_estado.html', {'form':form})
+
+
+
+
+def mail_bot(request):
+    
+    
+    
+    if request.method == 'POST':
+        form = frmMailParaElBot(request.POST)
+        
+        if form.is_valid():
+            datos = form.cleaned_data
+            filtro_mail = MailParaElBot.objects.filter(id=1)
+            if filtro_mail:
+                mail_en_base = MailParaElBot.objects.get(id=1)
+                mail_en_base.mail = datos['mail']
+                mail_en_base.save()
+                
+                
+                msj = 'Mail editado correctamente'
+                return render(request, 'bot/editar_mail.html', {'form':form, 'msj':msj})
+            else:
+                mail = MailParaElBot(
+                    mail = datos['mail']
+                )
+                mail.save()
+                
+                form = frmMailParaElBot(initial={
+                                   'mail': mail,
+                })
+                
+                msj = 'Mail editado correctamente'
+                
+                return render(request, 'bot/editar_mail.html', {'form':form, 'msj':msj})
+            
+        else:
+            msj = 'Formulario inválido. Reintente'
+            return render(request, 'bot/editar_mail.html',{'form':form, 'msj':msj})
+        
+    else:
+        mail = MailParaElBot.objects.filter(id=1)
+        print(mail)
+        if mail:
+            mail = MailParaElBot.objects.get(id=1)
+            
+            
+        form = frmMailParaElBot(initial={
+            'mail':mail,
+        })
+        msj = ''
+        return render(request, 'bot/editar_mail.html',{'form':form, 'msj':msj})

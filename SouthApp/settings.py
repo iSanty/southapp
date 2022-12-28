@@ -19,6 +19,21 @@ import django_heroku
 
 load_dotenv()
 
+
+
+# Configuracion de mandar mails
+EMAIL_HOST = 'smtp.live.com'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = os.getenv('USER_MAIL')
+EMAIL_HOST_PASSWORD = os.getenv('USER_MAIL_PASSWORD')
+EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+
+
+
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 

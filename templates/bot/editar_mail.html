@@ -1,0 +1,27 @@
+{% extends 'index.html' %}
+
+
+
+{% block dashboard %}
+
+{% if msj %}
+{{msj}}
+{% endif %}
+<p>
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <form action={% url 'mail_bot' %} method = "POST"> 
+                {% csrf_token %}
+                <table>
+                    Por favor indiqie el mail a enviar
+                    {{form.as_table}}
+                </table>
+
+                <button type="submit" class="btn btn-info">Grabar</button>
+            </form>
+        </div>
+    </div>
+</p>
+
+
+{% endblock dashboard %}

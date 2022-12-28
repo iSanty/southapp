@@ -11,22 +11,20 @@ import os
 load_dotenv()
 
 
-url = "http://epresis.southpost.com.ar/api/v2/seguimiento.json"
-token = os.getenv('api_token')
+# url = "http://epresis.southpost.com.ar/api/v2/seguimiento.json"
+# token = os.getenv('api_token')
 
-auth_data = {'api_token':token, 'remito':'','nro_guia':'2605729'}
+# auth_data = {'api_token':token, 'remito':'','nro_guia':'2605729'}
 
-respuesta = requests.post(url, data=auth_data)
+# respuesta = requests.post(url, data=auth_data)
 
-diccionario = respuesta.json()
+# diccionario = respuesta.json()
 
-print(diccionario)
+# print(diccionario)
 
-estado = diccionario['guia']['fechas'][0]
+# estado = diccionario['guia']['fechas'][0]
 
-print(estado)
-
-
+# print(estado)
 
 
 
@@ -45,19 +43,24 @@ print(estado)
 
 
 
-# reqUrl = "http://webservice.oca.com.ar/ePak_tracking/Oep_TrackEPak.asmx/GetEnvioEstadoActual"
-# # http://webservice.oca.com.ar/ePak_tracking/Oep_TrackEPak.asmx/Tracking_Pieza?NroDocumentoCliente=2360068&CUIT=0&Pieza=0
-# numeroEnvio = "4737600000002528661"
 
-# ordenRetiro = 0
-# url = reqUrl + "?numeroEnvio=" + numeroEnvio + "&ordenRetiro="+ str(ordenRetiro)
-# headersList = {
-#     "Content-Type": "application/xml"
-#     }
-# payload = ''
-# response = requests.get(url, data=payload,  headers=headersList)
-# with response:
-#     xml_parsed = xmltodict.parse(response.text)
+
+reqUrl = "http://webservice.oca.com.ar/ePak_tracking/Oep_TrackEPak.asmx/Tracking_Pieza"
+# http://webservice.oca.com.ar/ePak_tracking/Oep_TrackEPak.asmx/Tracking_Pieza?NroDocumentoCliente=2360068&CUIT=0&Pieza=0
+NroDocumentoCliente = '2613234'
+aCUIT = ''
+Pieza = ''
+url = reqUrl + "?nrodocumentocliente=" + NroDocumentoCliente +"&cuit="+aCUIT + "&pieza="+ Pieza
+headersList = {
+    "Content-Type": "application/xml"
+    }
+payload = ''
+response = requests.get(url, data=payload,  headers=headersList)
+
+print(response)
+with response:
+    xml_parsed = xmltodict.parse(response.text)
+    print(xml_parsed)
 
 # estado_pieza = xml_parsed['DataSet']['diffgr:diffgram']['NewDataSet']['Table']['Estado']
 # nro_guia = xml_parsed['DataSet']['diffgr:diffgram']['NewDataSet']['Table']['Remito']

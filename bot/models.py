@@ -18,3 +18,12 @@ class MensajePorEstado(models.Model):
     
     def __str__(self):
         return f'{self.mensaje}'
+    
+    
+    
+class MailParaElBot(models.Model):
+    mail = models.EmailField(max_length=254)
+    
+    
+    def __str__(self):
+        return f'{self.mail}'
