@@ -3,13 +3,16 @@ from twilio.rest import Client
 from django.views.decorators.csrf import csrf_exempt
 from django.http.response import HttpResponse
 from api.api import solicitud_oca, solicitud_presis, solicitud_presis_web
-from .models import Accion, MensajePorEstado, MailParaElBot
+from .models import Accion, MensajePorEstado, MailParaElBot, ClienteAtendido
 from .forms import frmMensajePorEstado, frmConsultaEstado, frmMailParaElBot
 import os
+from django.contrib.auth.decorators import login_required
 from dotenv import load_dotenv
 load_dotenv()
 
 import smtplib
+
+import random
 
 
 
@@ -18,6 +21,10 @@ account_sid = os.getenv('account_sid')
 auth_token = os.getenv('auth_token')
 
 client = Client(account_sid, auth_token)
+
+
+
+
 
 
 def bot(request):
@@ -240,7 +247,10 @@ to=numero)
                     asunto = 'Consulta desde el BOT de Whatsapp'
                     body = 'Subject: {}\n\n{}'.format(asunto, """Hola, soy el bot de Whatsapp, me estan consultando esta respuesta y ustedes lo haram mejor que yo:
                                                       
-                                                      """+ mensaje_mail)
+                                                      """+ mensaje_mail +
+                                                      """
+                                                      
+                                                      Comuniquense con el numero """ + numero)
                     
                     
                     server = smtplib.SMTP('smtp.office365.com','587')
@@ -320,7 +330,7 @@ to=numero)
     return HttpResponse(accion)
     
 
-
+@login_required
 def edicion_mensaje(request, id):
     
     
@@ -352,7 +362,7 @@ def edicion_mensaje(request, id):
     
     
     
-    
+@login_required
 def crear_mensaje_por_estado(request):
     form = frmMensajePorEstado()
     
@@ -412,7 +422,7 @@ def consultar_estado(request):
 
 
 
-
+@login_required
 def mail_bot(request):
     
     
@@ -461,3 +471,7 @@ def mail_bot(request):
         })
         msj = ''
         return render(request, 'bot/editar_mail.html',{'form':form, 'msj':msj})
+    
+    
+    
+    

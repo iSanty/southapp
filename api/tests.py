@@ -11,20 +11,20 @@ import os
 load_dotenv()
 
 
-# url = "http://epresis.southpost.com.ar/api/v2/seguimiento.json"
-# token = os.getenv('api_token')
+url = "http://epresis.southpost.com.ar/api/v2/seguimiento.json"
+token = os.getenv('api_token')
 
-# auth_data = {'api_token':token, 'remito':'','nro_guia':'2605729'}
+auth_data = {'api_token':token, 'remito':'','nro_guia':'2605729'}
 
-# respuesta = requests.post(url, data=auth_data)
+respuesta = requests.post(url, data=auth_data)
 
-# diccionario = respuesta.json()
+diccionario = respuesta.json()
 
-# print(diccionario)
+print(diccionario)
 
-# estado = diccionario['guia']['fechas'][0]
+estado = diccionario['guia']['fechas'][0]
 
-# print(estado)
+print(estado)
 
 
 

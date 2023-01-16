@@ -72,6 +72,7 @@ INSTALLED_APPS = [
     
     
     
+    
 ]
 
 MIDDLEWARE = [
@@ -98,6 +99,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
             ],
         },
     },
@@ -191,4 +193,3 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 # AUTH_USER_MODEL = 'accounts.UserProfile'
-
