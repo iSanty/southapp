@@ -34,6 +34,7 @@ def solicitud_presis(consulta):
 def solicitud_oca(numeroEnvio):
     prefijo = '473760000000'
     numeroEnvio = numeroEnvio
+    #numeroEnvio = '2432046'
     
     consulta = prefijo + numeroEnvio
     
@@ -59,11 +60,13 @@ def solicitud_oca(numeroEnvio):
             lista = []
             lista.append(estado_pieza)
             lista.append(nro_guia)
+            print(xml_parsed)
             return lista
+            
         else:
             return 'Error'
     
-    
+
     
     
 def solicitud_presis_web(consulta):

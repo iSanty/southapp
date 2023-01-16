@@ -10,3 +10,7 @@ class frmMensajePorEstado(forms.Form):
     
 class frmConsultaEstado(forms.Form):
     nro_guia = forms.CharField()
+    
+    
+class frmMailParaElBot(forms.Form):
+    mail = forms.EmailField()

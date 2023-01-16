@@ -51,15 +51,85 @@
 
 
     
-<form action={% url 'aforar' producto.id %} method="post">
+{% comment %} <form action={% url 'aforar' producto.id %} method="post">
     {% csrf_token %}
     <table>
         {{form.as_table}}
     </table>
     <button>Guardar cambios</button>
 </form>
-</p>
+</p> {% endcomment %}
 
 
+
+
+
+<div class="container-fluid pt-4 px-4">
+  <div class="row g-4">
+      <div class="col-sm-12 col-xl-6">
+          <div class="bg-primary-light rounded h-100 p-4">
+              <h6 class="mb-4">Formulario de aforos de productos</h6>
+              <form action={% url 'aforar' producto.id %} method="post">
+                  <div class="mb-3">
+                      <label class="form-label">Descripcion</label>
+                      <input class="form-control"{{form.descripcion}}</input>
+                      <div id="emailHelp" class="form-text">Mantener el modelo de la caja al principio de la descripcion. Ej: MOD123 / Pava ACME
+                      </div>
+                  </div>
+                  
+                  <div class="mb-3">
+                      <label class="form-label">Ingrese peso de unidad</label>
+                      <input class="form-control" {{form.peso_un}}</input>
+                      <div id="emailHelp" class="form-text">En KG, ejemplo (200gr = 0,2 kg.) - (20gr = 0,02 kg.)
+                      </div>
+                  </div>
+                  <div class="mb-3">
+                      <label class="form-label">Ingrese largo de unidad</label><input class="form-control"{{form.largo_un}}</input>
+                      <label class="form-label">Ingrese ancho de unidad</label><input class="form-control"{{form.ancho_un}}</input>
+                      <label class="form-label">Ingrese alto de unidad</label><input class="form-control"{{form.alto_un}}</input>
+                      <div id="emailHelp" class="form-text">El largo es el lado más largo de la unidad mirada del derecho.
+                      </div>
+                      <div id="emailHelp" class="form-text">El ancho es el lado más corto de la unidad mirada del derecho.
+                      </div>
+                      <div id="emailHelp" class="form-text">El alto es el lado para arriba de la unidad mirada del derecho.
+                      </div>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Unidad por caja master</label>
+                    <input class="form-control" {{form.unidad_caja}}</input>
+                  </div>
+
+                <div class="mb-3">
+                  <label class="form-label">Ingrese largo de caja master</label><input class="form-control"{{form.largo_cj}}</input>
+                  <label class="form-label">Ingrese ancho de caja master</label><input class="form-control"{{form.ancho_cj}}</input>
+                  <label class="form-label">Ingrese alto de caja master</label><input class="form-control"{{form.alto_cj}}</input>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">Unidades por Pallet completo</label>
+                  <input class="form-control" {{form.unidad_pall}}</input>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">Seleccione el Pack</label>
+                  <input class="form-control" {{form.unidad_pall}}</input>
+                  <div id="emailHelp" class="form-text">El pack es el insumo que se utilizará al momento de armado de un pedido.
+                  </div>
+                </div>
+
+
+
+
+
+                  {% comment %} <div class="mb-3 form-check">
+                      <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                      <label class="form-check-label" for="exampleCheck1">Guardado en Jaula</label>
+                  </div> {% endcomment %}
+                  <button type="submit" class="btn btn-primary">Grabar</button>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>
 
 {% endblock graficos_tablas %}

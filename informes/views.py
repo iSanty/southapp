@@ -95,6 +95,15 @@ def finalizar_global(request):
 
 
 @login_required
+def index_informes_2(request):
+    
+    
+    return render(request, 'informes/index_informes2.html')
+
+
+
+
+@login_required
 def index_informes(request):
     
     informacion_pk_pend = GlobalPK.objects.filter(estado_picking='Pendiente').order_by('-numero')

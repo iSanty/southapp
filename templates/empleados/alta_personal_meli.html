@@ -66,7 +66,7 @@
             </a>
           </li>
           <li>
-            <a href={% url 'index_informes' %}>
+            <a href={% url 'index_informes2' %}>
               <i class="bi bi-circle"></i><span>Prep. Pedidos</span>
             </a>
           </li>
@@ -146,7 +146,7 @@
 
 
 
-<div class="container-fluid pt-4 px-4">
+{% comment %} <div class="container-fluid pt-4 px-4">
     <div class="row g-4">
         <form action={% url 'alta_personal_meli' %} method = "POST"> 
             {% csrf_token %}
@@ -157,7 +157,77 @@
             <button type="submit" class="btn btn-success">Crear</button>
         </form>
     </div>
+</div> {% endcomment %}
+
+
+
+<div class="container-fluid pt-4 px-4">
+  <div class="row g-4">
+      <div class="col-sm-12 col-xl-6">
+          <div class="bg-primary-light rounded h-100 p-4">
+              <h6 class="mb-4">Formulario de alta de personal</h6>
+              <form action={% url 'alta_personal_meli' %} method="post">
+                  <div class="mb-3">
+                      <label class="form-label">Intruduza el DNI</label>
+                      <input class="form-control"{{form_alta.dni}}</input>
+                      {% comment %} <div id="emailHelp" class="form-text">Mantener el modelo de la caja al principio de la descripcion. Ej: MOD123 / Pava ACME
+                      </div> {% endcomment %}
+                  </div>
+                  
+                  <div class="mb-3">
+                      <label class="form-label">Introduzca el nombre</label>
+                      <input class="form-control" {{form_alta.nombre}}</input>
+                      {% comment %} <div id="emailHelp" class="form-text">En KG, ejemplo (200gr = 0,2 kg.) - (20gr = 0,02 kg.)
+                      </div> {% endcomment %}
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label">Introduzca el apellio</label>
+                    <input class="form-control" {{form_alta.apellido}}</input>
+                    {% comment %} <div id="emailHelp" class="form-text">En KG, ejemplo (200gr = 0,2 kg.) - (20gr = 0,02 kg.)
+                    </div> {% endcomment %}
+                </div>
+
+
+
+                  <div class="mb-3">
+                      <label class="form-label">Banco</label><input class="form-control"{{form.banco}}</input>
+                      <label class="form-label">CBU</label><input class="form-control"{{form.cbu}}</input>
+                      <label class="form-label">Alias</label><input class="form-control"{{form.alias}}</input>
+                      
+                  </div>
+                  <div class="col-sm-10">
+                    <select class="form-select" id="sucursal_por_defecto" aria-label="Floating label select example">
+
+                      
+                      {% comment %} <option selected>Seleccione una opcion:</option> {% endcomment %}
+                      
+
+                      {% for valor in form.sucursal_por_defecto %}
+                      
+
+                      <option>{{valor.sucursal_por_defecto}}</option>
+                      
+                      
+                      
+                      {% endfor %}
+                    
+                    
+                    </select>
+
+
+
+
+                    
+
+                
+                  <button type="submit" class="btn btn-primary">Grabar</button>
+              </form>
+          </div>
+      </div>
+  </div>
 </div>
+
 
 
 
