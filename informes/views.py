@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .forms import FormNuevoPK, FormSubCliente, FormPersonalDeposito, FormSector, FormFinalizarPK, FormFinalizarArm
+from .forms import FormNuevoPK, FormSubCliente, FormPersonalDeposito, FormSector, FormFinalizarPK, FormFinalizarArm, FormIniciarPK, FormIniciarArm
 from .models import GlobalPK, SectorDepo, SubClientes, PersonalDeposito, Pendientes, PendientesArm
 from datetime import datetime, date
 import calendar
@@ -10,12 +10,135 @@ import calendar
 formato_fecha = "%d/%m/%Y %H:%M:%S"
 formato_fecha2 = "%d/%m/%Y"
 hoy = datetime.today()
+dia = hoy.day
+mes = hoy.month
+anio = hoy.year
+fecha_hoy = str(dia) + '/' + str(mes) + '/' + str(anio)
+fecha_hoy_f = datetime.strptime(fecha_hoy, formato_fecha2)
+
+
+@login_required
+def inciar_picking(request):
+    user = request.user
+    form = FormIniciarPK()
+    pendientes_pk = GlobalPK.objects.filter(en_picking='No')
+    if request.method == 'POST':
+        form = FormIniciarPK(request.POST)
+        
+        
+        
+        if form.is_valid():
+            informacion = form.cleaned_data
+            picking_en_base = GlobalPK.objects.filter(numero=informacion['numero'])
+            if not picking_en_base:
+                msj = 'Nro de global inexistente'
+                return render(request, 'informes/iniciar_picking.html',{'msj':msj, 'form':form,'pendientes_pk':pendientes_pk})
+
+            picking_en_base = GlobalPK.objects.get(numero=informacion['numero'])
+            if picking_en_base.en_armado == 'Si' or picking_en_base.en_picking == 'Si':
+                if picking_en_base.en_armado == 'Si':
+                    msj = 'El global se encuentra en proceso de Armado, verifique.'
+                    return render(request, 'informes/iniciar_picking.html',{'msj':msj, 'form':form,'pendientes_pk':pendientes_pk})
+                elif picking_en_base.en_picking == 'Si':
+                    msj = 'El global ya se encuentra iniciado.'
+                    return render(request, 'informes/iniciar_picking.html',{'msj':msj, 'form':form,'pendientes_pk':pendientes_pk})
+            
+            if picking_en_base.estado_armado == 'Finalizado' or picking_en_base.estado_picking == 'Finalizado':
+                if picking_en_base.estado_picking == 'Finalizado':
+                    msj = 'El global se encuentra en estado de PK Finalizado.'
+                    return render(request, 'informes/iniciar_picking.html',{'msj':msj, 'form':form,'pendientes_pk':pendientes_pk})
+                elif picking_en_base.estado_armado == 'Finalizado':
+                    msj = 'El global se encuentra en estado de ARM Finalizado.'
+                    return render(request, 'informes/iniciar_picking.html',{'msj':msj, 'form':form,'pendientes_pk':pendientes_pk})
+                
+                
+            picking_en_base.en_picking = 'Si'
+            picking_en_base.fecha_inicio_picking = fecha_hoy_f
+            
+            picking_en_base.hora_inicio_picking = datetime.now().time()
+            picking_en_base.iniciado_por = str(informacion['iniciado_por'])
+            picking_en_base.usuario_inicio = str(user)
+            picking_en_base.save()
+            print('grabe')
+            msj = 'Picking iniciado correctamente'
+            return render(request, 'informes/iniciar_picking.html',{'form':form, 'msj':msj, 'pendientes_pk':pendientes_pk})
+        else:
+            msj = 'Formulario inválido'
+            return render(request, 'informes/iniciar_picking.html',{'form':form, 'msj':msj, 'pendientes_pk':pendientes_pk})
+    
+    else:
+        
+        
+        msj = 'Escriba o seleccione un numero para iniciar.'
+        return render(request, 'informes/iniciar_picking.html',{'form':form, 'msj':msj, 'pendientes_pk':pendientes_pk})
+        
+            
+
+            
+            
+            
+@login_required
+def iniciar_armado(request):
+    user = request.user
+    form = FormIniciarArm()
+    pendientes_arm = GlobalPK.objects.filter(en_armado='No')
+    if request.method == 'POST':
+        form = FormIniciarArm(request.POST)
+        
+        
+        
+        if form.is_valid():
+            informacion = form.cleaned_data
+            picking_en_base = GlobalPK.objects.filter(numero=informacion['numero'])
+            if not picking_en_base:
+                msj = 'Nro de global inexistente'
+                return render(request, 'informes/iniciar_armado.html',{'msj':msj, 'form':form,'pendientes_arm':pendientes_arm})
+
+            picking_en_base = GlobalPK.objects.get(numero=informacion['numero'])
+            if picking_en_base.en_armado == 'Si' or picking_en_base.en_picking == 'Si':
+                if picking_en_base.en_armado == 'Si':
+                    msj = 'El global se encuentra en proceso de Armado, verifique.'
+                    return render(request, 'informes/iniciar_armado.html',{'msj':msj, 'form':form,'pendientes_arm':pendientes_arm})
+                elif picking_en_base.en_picking == 'Si':
+                    msj = 'No ha sido cerrado el global en la instancia de picking.'
+                    return render(request, 'informes/iniciar_armado.html',{'msj':msj, 'form':form,'pendientes_arm':pendientes_arm})
+            
+            if picking_en_base.estado_armado == 'Finalizado':
+                if picking_en_base.estado_armado == 'Finalizado':
+                    msj = 'El global se encuentra en estado de ARM Finalizado.'
+                    return render(request, 'informes/iniciar_armado.html',{'msj':msj, 'form':form,'pendientes_arm':pendientes_arm})
+                
+                
+            picking_en_base.en_armado = 'Si'
+            picking_en_base.fecha_armado = fecha_hoy_f
+            
+            picking_en_base.hora_inicio_armado = datetime.now().time()
+            picking_en_base.inicio_arm_por = str(informacion['inicio_arm_por'])
+            picking_en_base.usuario_inicio_arm = str(user)
+            picking_en_base.save()
+            print('grabe')
+            msj = 'Armado iniciado correctamente'
+            
+            return render(request, 'informes/iniciar_armado.html',{'msj':msj, 'form':form,'pendientes_arm':pendientes_arm})
+        else:
+            msj = 'Formulario inválido'
+            return render(request, 'informes/iniciar_picking.html',{'form':form, 'msj':msj, 'pendientes_arm':pendientes_arm})
+    
+    else:
+        
+        
+        msj = 'Escriba o seleccione un numero para iniciar.'
+        return render(request, 'informes/iniciar_armado.html',{'form':form, 'msj':msj, 'pendientes_arm':pendientes_arm})
+        
+
+
 
 
 
 
 @login_required
 def finalizar_armado(request):
+    user = request.user
     form = FormFinalizarArm()
     
     if request.method == 'POST':
@@ -29,6 +152,7 @@ def finalizar_armado(request):
                 msj = 'Nro de global inexistente'
                 return render(request, 'informes/finalizar_armado.html', {'msj':msj, 'form':form})
             
+            
             pk_finalizado_b = GlobalPK.objects.get(numero=informacion['numero'])
             if pk_finalizado_b.estado_picking == 'Pendiente':
                 msj = 'El global nro ' + str(informacion['numero']) + ' no se encuentra con el picking finalizado'
@@ -38,13 +162,12 @@ def finalizar_armado(request):
                 
             pk_finalizado_b.estado_armado = 'Finalizado'
             
-            pk_finalizado_b.fecha_armado = informacion['fecha_armado']
+            pk_finalizado_b.en_armado = 'Terminado'
             
-            if informacion['hora_fin_armado']:
-                pk_finalizado_b.hora_fin_armado = informacion['hora_fin_armado']
-            else:
-                pk_finalizado_b.hora_fin_armado = '00:00:00'
-                
+            pk_finalizado_b.fecha_finalizado_armado = fecha_hoy_f
+            pk_finalizado_b.finalizado_arm_por = str(user)
+            pk_finalizado_b.hora_fin_armado = datetime.now().time()
+            pk_finalizado_b.contribuyentes = informacion['contribuyentes']
             
             pk_finalizado_b.save()
             msj = 'Globlal ' + str(informacion['numero']) + ': Armado finalizado.'
@@ -58,7 +181,7 @@ def finalizar_armado(request):
 
 @login_required
 def finalizar_global(request):
-    
+    user = request.user
     form = FormFinalizarPK()
     if request.method == 'POST':
         
@@ -75,11 +198,13 @@ def finalizar_global(request):
             
             
             global_en_base_a = GlobalPK.objects.get(numero=informacion['numero'])
+            
             global_en_base_a.estado_picking = 'Finalizado'
+            global_en_base_a.en_picking = 'Terminado'
             global_en_base_a.operario = str(informacion['operario'])
-            global_en_base_a.fecha_picking = informacion['fecha_picking']
-            global_en_base_a.hora_inicio_picking = informacion['hora_inicio_picking']
-            global_en_base_a.hora_fin_picking = informacion['hora_fin_picking']
+            global_en_base_a.fecha_picking = fecha_hoy_f
+            global_en_base_a.hora_fin_picking = datetime.now().time()
+            global_en_base_a.finalizado_pk_por = str(user)
             
             global_en_base_a.save()
             msj = 'Global numero ' + str(informacion['numero']) + ' finalizado correctamente'
@@ -131,7 +256,7 @@ def index_informes(request):
 
 
 def nuevo_global(request):
-    
+    user = request.user
     if request.method == 'POST':
         form = FormNuevoPK(request.POST)
 
@@ -151,16 +276,14 @@ def nuevo_global(request):
                     unidades = informacion['unidades'],
                     fecha_procesado = informacion['fecha_procesado'],
                     hora_procesado = informacion['hora_procesado'],
-                    # operario = '',
-                    # fecha_picking = '',
-                    # hora_inicio_picking = informacion['hora_inicio_picking'],
-                    # hora_fin_picking = informacion['hora_fin_picking'],
                     estado_picking = 'Pendiente',
                     estado_armado = 'Pendiente',
-                    nombre_planilla = str(informacion['cliente'])+'('+str(informacion['sub_cliente'])+')'
-                    # fecha_armado = '',
-                    # hora_fin_armado = '',
-                    
+                    creado_por = user,
+                    fecha_creacion = fecha_hoy_f,
+                    nombre_planilla = str(informacion['cliente'])+'('+str(informacion['sub_cliente'])+')',
+                    en_picking = 'No',
+                    en_armado = 'No',
+
                 )
 
                 picking.save()

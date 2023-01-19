@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 # Create your models here.
 
 
@@ -9,18 +9,36 @@ class GlobalPK(models.Model):
     cliente = models.CharField(max_length=50) #agarro de operaciones
     sub_cliente = models.CharField(max_length=50)
     unidades = models.IntegerField()
-    fecha_procesado = models.DateTimeField(null=True)
-    hora_procesado = models.CharField(max_length=8, null=0)
-    operario = models.CharField(max_length=20)
-    fecha_picking = models.DateTimeField(null=True)
-    fecha_armado = models.DateTimeField(null=True)
-    hora_inicio_picking = models.CharField(max_length=8, null=0)
-    hora_fin_picking = models.CharField(max_length=8, null=0)
-    hora_fin_armado = models.CharField(max_length=8, null=0)
+    fecha_creacion = models.DateField(null=True)
+    fecha_procesado = models.DateField(null=True)
+    hora_procesado = models.CharField(max_length=128, null=0)
+    creado_por = models.CharField(max_length=128, null=0)
+    #esta parte es la que llena el administrativo
+    
+    operario = models.CharField(max_length=20) #este campo es "finalizado por"
+    fecha_picking = models.DateField(null=True)#fecha en la que finaliza el picking
+    fecha_inicio_picking = models.DateField(null=True)
+    hora_inicio_picking = models.CharField(max_length=128, null=0)
+    iniciado_por = models.CharField(max_length=20)
+    hora_fin_picking = models.CharField(max_length=128, null=0)
+    usuario_inicio = models.CharField(max_length=128)
+    finalizado_pk_por = models.CharField(max_length=128)
+    
+    fecha_armado = models.DateField(null=True)
+    fecha_finalizado_armado = models.DateField(null=True)
+    hora_fin_armado = models.CharField(max_length=128, null=0)
+    hora_inicio_armado = models.CharField(max_length=20)
+    inicio_arm_por = models.CharField(max_length=20)
+    contribuyentes = models.IntegerField(null=True)
+    finalizado_arm_por = models.CharField(max_length=20)
+    usuario_inicio_arm = models.CharField(max_length=20)
+    
     estado_picking = models.CharField(max_length=20)
     estado_armado = models.CharField(max_length=20)
     nombre_planilla = models.CharField(max_length=50)
     
+    en_picking = models.CharField(max_length=128)
+    en_armado = models.CharField(max_length=128)
     
     
     

@@ -246,13 +246,13 @@ to=numero)
                     correo_electronico = str(MailParaElBot.objects.get(id=1))
                     asunto = 'Consulta desde el BOT de Whatsapp'
                     body = 'Subject: {}\n\n{}'.format(asunto, """Hola, soy el bot de Whatsapp, me estan consultando esta respuesta y ustedes lo haram mejor que yo:
-                                                      
-                                                      """+ mensaje_mail +
-                                                      """
-                                                      
-                                                      Comuniquense con el numero """ + numero)
-                    
-                    
+                                    
+                                    """+ mensaje_mail +
+                                    
+                                    
+                                    """Comuniquense con el numero """ + numero)
+        
+        
                     server = smtplib.SMTP('smtp.office365.com','587')
                     server.starttls()
                     server.login(os.getenv('EMAIL_HOST_USER'),os.getenv('EMAIL_HOST_PASSWORD')) #aca logeo

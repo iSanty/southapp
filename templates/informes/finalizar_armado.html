@@ -23,7 +23,49 @@
 
 
 {% block graficos_tablas %}
+<section class="section">
+  <div class="row">
+    <div class="col-lg-12">
 
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Carga de globales de picking</h5>
+        
+          <a href={% url 'nuevo_global' %}>
+            <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Alta de pickings">
+              Nuevo Picking
+            </button>
+          </a>
+          <a href={% url 'iniciar_picking' %}>
+            <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Inicia el proceso de picking físico">
+              Iniciar Picking
+            </button>
+          </a>
+
+          <a href={% url 'finalizar_global' %}>
+            <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Finaliza el proceso de picking físico">
+              Finalizar Picking
+            </button>
+          </a>
+
+          <a href={% url 'iniciar_armado' %}>
+            <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Inicia el proceso de armado de paquetes">
+              Iniciar Armado
+            </button>
+          </a>
+
+          <a href={% url 'finalizar_armado' %}>
+            <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Finaliza el proceso de armado de paquetes">
+              Finalizar Armado
+            </button>
+          </a>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
 <div class="container-fluid pt-4 px-4">
     {{msj}}
     <div class="row g-4">
