@@ -104,3 +104,25 @@ class PendientesArm(models.Model):
     
     def __str__(self):
         return f'{self.canal}, {self.pend_tres_o_mas}, {self.pend_dos}, {self.pend_uno}, {self.base_del_dia}, {self.finalizado}, {self.pendiente_para_sig_dia}'
+    
+    
+class PendientePkPorDia(models.Model):
+    fecha = models.DateField()
+    unidades = models.IntegerField()
+    
+    
+class PenditenteArmPorDia(models.Model):
+    fecha = models.DateField()
+    unidades = models.IntegerField()
+    
+    
+class FinalizadoPkPorDia(models.Model):
+    fecha = models.DateField()
+    unidades = models.IntegerField()
+    
+    
+class FinalizadoArmPorDia(models.Model):
+    fecha = models.DateField()
+    unidades = models.IntegerField()
+    
+    

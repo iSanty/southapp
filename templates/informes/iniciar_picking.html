@@ -69,17 +69,33 @@
 
 
 <div class="container-fluid pt-4 px-4">
-    {{msj}}
-    <div class="row g-4">
-        <form action={% url 'iniciar_picking' %} method = "POST"> 
-            {% csrf_token %}
-            <table>
-                {{form.as_table}}
-            </table>
+  {% if msj_error %}
+  <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show" role="alert">
+    {{msj_error}}
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {% elif msj_ok%}
+  <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" role="alert">
+    {{msj_ok}}
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {% elif msj_inicio%}
 
-            <button type="submit" class="btn btn-info">Iniciar</button>
-        </form>
-    </div>
+  <div class="alert alert-secondary bg-secondary text-light border-0 alert-dismissible fade show" role="alert">
+    {{msj_inicio}}
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {% endif %}
+  <div class="row g-4">
+      <form action={% url 'iniciar_picking' %} method = "POST"> 
+          {% csrf_token %}
+          <table>
+              {{form.as_table}}
+          </table>
+
+          <button type="submit" class="btn btn-info">Iniciar</button>
+      </form>
+  </div>
 </div>
 
 

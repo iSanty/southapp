@@ -22,26 +22,26 @@
 {% if msj_correcto %}
 
 <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" role="alert">
-    {{msj_correcto}}
-    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+  {{msj_correcto}}
+  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 
 
 {% endif %}
 
 <div class="container-fluid pt-4 px-4">
-    <div class="col-sm-12 col-xl-3">
-        
-        <div class="container-fluid pt-4 px-4">
-            <form action= {% url 'pendientes_aforos' %}>
-                
-                {{form}}
-                    <button>Buscar</button>
-                
-            </form>
-        </div>
-        
+  <div class="col-sm-12 col-xl-3">
+      
+    <div class="container-fluid pt-4 px-4">
+      <form action= {% url 'pendientes_aforos' %}>
+          
+        {{form}}
+        <button>Buscar</button>
+          
+      </form>
     </div>
+      
+  </div>
 </div>
 
     

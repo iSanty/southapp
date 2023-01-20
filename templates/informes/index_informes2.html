@@ -175,33 +175,6 @@
     </div>
 
 
-
-
-
-
-
-    <div class="row">
-      <div class="col-lg-12">
-
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Alta de parametros</h5>
-            
-
-            <!-- Tooltips Examples -->
-            <a href={% url 'parametros' %}>
-              <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Alta de parametros necesarios para crear globales de pickings." >
-                Parametros para Globales de Picking
-              </button>
-            </a>
-            
-            <!-- End Tooltips Examples -->
-
-          </div>
-        </div>
-
-      </div>
-
     </div>
 
     <div class="row">
@@ -219,11 +192,11 @@
               </button>
             </a>
 
-            <a href={% url 'informe_global' %}>
+            {% comment %} <a href={% url 'informe_global' %}>
               <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Pensemos entre Lauti, Tute y Santi, como serán los demás informes." >
                 Hacer mas informes
               </button>
-            </a>
+            </a> {% endcomment %}
             
             <!-- End Tooltips Examples -->
 
@@ -248,15 +221,15 @@
             
 
               <div class="card-body">
-                <h5 class="card-title">Pendintes de Picking<span>| Today</span></h5>
+                <h5 class="card-title">Pendintes de Picking <span> | Hoy</span></h5>
 
                 <div class="d-flex align-items-center">
                   <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                     <i class="bi bi-bag-x"></i>
                   </div>
                   <div class="ps-3">
-                    <h6>145</h6>
-                    <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">Ver detalle</span>
+                    <h6>{{pendiente_pk_dia}}</h6>
+                    <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1"><a href= {% url 'detalle_pend_pk' %}> Ver detalle</a></span>
 
                   </div>
                 </div>
@@ -272,15 +245,15 @@
         
 
               <div class="card-body">
-                <h5 class="card-title">En proceso de Picking<span>| This Month</span></h5>
+                <h5 class="card-title">En proceso de Picking<span> | Hoy</span></h5>
 
                 <div class="d-flex align-items-center">
                   <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                     <i class="bi bi-bag-dash"></i>
                   </div>
                   <div class="ps-3">
-                    <h6>$3,264</h6>
-                    <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">Ver detalle</span>
+                    <h6>{{en_proceso_pk_dia}}</h6>
+                    <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1"><a href= {% url 'detalle_proc_pk' %}> Ver detalle</a></span>
 
                   </div>
                 </div>
@@ -297,15 +270,15 @@
               
 
               <div class="card-body">
-                <h5 class="card-title">Finalizado de Picking <span>| This Year</span></h5>
+                <h5 class="card-title">Finalizado de Picking <span> | Hoy</span></h5>
 
                 <div class="d-flex align-items-center">
                   <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                     <i class="bi bi-bag-check"></i>
                   </div>
                   <div class="ps-3">
-                    <h6>1244</h6>
-                    <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">Ver detalle</span>
+                    <h6>{{finalizado_pk_dia}}</h6>
+                    <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1"><a href= {% url 'detalle_fin_pk' %}> Ver detalle</a></span>
 
                   </div>
                 </div>
@@ -323,15 +296,15 @@
 
 
               <div class="card-body">
-                <h5 class="card-title">Pendientes de Armado <span>| This Year</span></h5>
+                <h5 class="card-title">Pendientes de Armado <span> | Hoy </span></h5>
 
                 <div class="d-flex align-items-center">
                   <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                     <i class="bi bi-bag-x"></i>
                   </div>
                   <div class="ps-3">
-                    <h6>1244</h6>
-                    <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">Ver detalle</span>
+                    <h6>{{pendiente_arm_dia}}</h6>
+                    <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1"><a href= {% url 'detalle_pend_arm' %}> Ver detalle</a></span>
 
                   </div>
                 </div>
@@ -347,15 +320,15 @@
 
 
               <div class="card-body">
-                <h5 class="card-title">En proceso de Armado <span>| This Year</span></h5>
+                <h5 class="card-title">En proceso de Armado <span>| Hoy</span></h5>
 
                 <div class="d-flex align-items-center">
                   <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                     <i class="bi bi-bag-dash"></i>
                   </div>
                   <div class="ps-3">
-                    <h6>1244</h6>
-                    <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">Ver detalle</span>
+                    <h6>{{en_proceso_arm_dia}}</h6>
+                    <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1"><a href= {% url 'detalle_proc_arm' %}> Ver detalle</a></span>
 
                   </div>
                 </div>
@@ -371,15 +344,15 @@
 
 
               <div class="card-body">
-                <h5 class="card-title">Finalizado de Armado <span>| This Year</span></h5>
+                <h5 class="card-title">Finalizado de Armado <span> | Hoy</span></h5>
 
                 <div class="d-flex align-items-center">
                   <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                     <i class="bi bi-bag-check"></i>
                   </div>
                   <div class="ps-3">
-                    <h6>1244</h6>
-                    <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">Ver detalle</span>
+                    <h6>{{finalizado_arm_dia}}</h6>
+                    <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1"><a href= {% url 'detalle_fin_arm' %}> Ver detalle</a></span>
 
                   </div>
                 </div>
@@ -388,12 +361,56 @@
             </div>
 
           </div><!-- End Customers Card -->
+          <div class="col-xxl-4 col-md-6">
 
+            <div class="card info-card customers-card">
+
+
+              <div class="card-body">
+                <h5 class="card-title">Base del Dia <span> | Hoy</span></h5>
+
+                <div class="d-flex align-items-center">
+                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                    <i class="bi bi-bag-check"></i>
+                  </div>
+                  <div class="ps-3">
+                    <h6>{{base_del_dia}}</h6>
+                    <span class="text-danger small pt-1 fw-bold">12</span> <span class="text-muted small pt-2 ps-1"><a href= {% url 'base_dia' %}> Ver detalle</a></span>
+
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
 
         </div>
       </div>
     </div>
-  
+    <div class="row">
+      <div class="col-lg-12">
+
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Alta de parametros</h5>
+            
+
+            <!-- Tooltips Examples -->
+            <a href={% url 'parametros' %}>
+              <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Alta de parametros necesarios para crear globales de pickings." >
+                Parametros para Globales de Picking
+              </button>
+            </a>
+            
+            <!-- End Tooltips Examples -->
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
 
   {% endblock graficos_tablas %}
 
