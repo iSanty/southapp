@@ -67,7 +67,9 @@ def detalle_base_dia(request):
 @login_required
 def inciar_picking(request):
     user = request.user
-    form = FormIniciarPK()
+    form = FormIniciarPK(initial={
+            'fecha_inicio_picking':hoy.strftime(formato_fecha2)
+        })
     pendientes_pk = GlobalPK.objects.filter(en_picking='No')
     if request.method == 'POST':
         form = FormIniciarPK(request.POST)
@@ -100,30 +102,30 @@ def inciar_picking(request):
                 
                 
             picking_en_base.en_picking = 'Si'
-            picking_en_base.fecha_inicio_picking = fecha_hoy_f
+            picking_en_base.fecha_inicio_picking = informacion['fecha_inicio_picking']
             
             picking_en_base.hora_inicio_picking = datetime.now().time()
             picking_en_base.iniciado_por = str(informacion['iniciado_por'])
             picking_en_base.usuario_inicio = str(user)
             picking_en_base.save()
-            print('grabe')
+            
             msj = 'Picking iniciado correctamente'
             return render(request, 'informes/iniciar_picking.html',{'form':form, 'msj_ok':msj, 'pendientes_pk':pendientes_pk})
         else:
             msj = 'Formulario inválido'
             return render(request, 'informes/iniciar_picking.html',{'form':form, 'msj_error':msj, 'pendientes_pk':pendientes_pk})
-    
+
     else:
         
         
         msj = 'Escriba o seleccione un numero para iniciar.'
         return render(request, 'informes/iniciar_picking.html',{'form':form, 'msj_inicio':msj, 'pendientes_pk':pendientes_pk})
-        
-            
 
-            
-            
-            
+
+
+
+
+
 @login_required
 def iniciar_armado(request):
     user = request.user
@@ -157,7 +159,7 @@ def iniciar_armado(request):
                 
                 
             picking_en_base.en_armado = 'Si'
-            picking_en_base.fecha_armado = fecha_hoy_f
+            picking_en_base.fecha_armado = informacion['fecha_armado']
             
             picking_en_base.hora_inicio_armado = datetime.now().time()
             picking_en_base.inicio_arm_por = str(informacion['inicio_arm_por'])
@@ -206,12 +208,12 @@ def finalizar_armado(request):
                 return render(request, 'informes/finalizar_armado.html', {'msj_error':msj, 'form':form})
             
             
-                
+            
             pk_finalizado_b.estado_armado = 'Finalizado'
             
             pk_finalizado_b.en_armado = 'Terminado'
             
-            pk_finalizado_b.fecha_finalizado_armado = fecha_hoy_f
+            pk_finalizado_b.fecha_finalizado_armado = informacion['fecha_finalizado_armado']
             pk_finalizado_b.finalizado_arm_por = str(user)
             pk_finalizado_b.hora_fin_armado = datetime.now().time()
             pk_finalizado_b.contribuyentes = informacion['contribuyentes']
@@ -257,7 +259,7 @@ def finalizar_global(request):
             global_en_base_a.estado_picking = 'Finalizado'
             global_en_base_a.en_picking = 'Terminado'
             global_en_base_a.operario = str(informacion['operario'])
-            global_en_base_a.fecha_picking = fecha_hoy_f
+            global_en_base_a.fecha_picking = informacion['fecha_picking']
             global_en_base_a.hora_fin_picking = datetime.now().time()
             global_en_base_a.finalizado_pk_por = str(user)
             
