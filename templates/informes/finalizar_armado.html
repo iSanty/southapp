@@ -23,9 +23,75 @@
 
 
 {% block graficos_tablas %}
+<section class="section">
+  <div class="row">
+    <div class="col-lg-12">
 
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Carga de globales de picking</h5>
+        
+          <a href={% url 'nuevo_global' %}>
+            <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Alta de pickings">
+              Nuevo Picking
+            </button>
+          </a>
+          <a href={% url 'iniciar_picking' %}>
+            <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Inicia el proceso de picking físico">
+              Iniciar Picking
+            </button>
+          </a>
+
+          <a href={% url 'finalizar_global' %}>
+            <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Finaliza el proceso de picking físico">
+              Finalizar Picking
+            </button>
+          </a>
+
+          <a href={% url 'iniciar_armado' %}>
+            <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Inicia el proceso de armado de paquetes">
+              Iniciar Armado
+            </button>
+          </a>
+
+          <a href={% url 'finalizar_armado' %}>
+            <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Finaliza el proceso de armado de paquetes">
+              Finalizar Armado
+            </button>
+          </a>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
 <div class="container-fluid pt-4 px-4">
-    {{msj}}
+    
+
+
+
+  {% if msj_error %}
+  <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show" role="alert">
+    {{msj_error}}
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {% elif msj_ok%}
+  <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" role="alert">
+    {{msj_ok}}
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {% elif msj_inicio%}
+
+  <div class="alert alert-secondary bg-secondary text-light border-0 alert-dismissible fade show" role="alert">
+    {{msj_inicio}}
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {% endif %}
+
+
+
+
     <div class="row g-4">
         <form action={% url 'finalizar_armado' %} method = "POST"> 
             {% csrf_token %}
