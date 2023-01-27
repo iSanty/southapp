@@ -19,6 +19,13 @@ fecha_hoy_f = datetime.strptime(fecha_hoy, formato_fecha2)
 
 
 
+def detalle_por_subcliente(request, subcliente):
+    detalle_sub = GlobalPK.objects.filter(nombre_planilla=subcliente)
+    detalle = detalle_sub.filter(estado_armado='Pendiente')
+    return render(request, 'informes/detalle_por_subcliente.html',{'detalle':detalle})
+
+
+
 def detalle_pend_pk(request):
     detalle = GlobalPK.objects.filter(estado_picking='Pendiente')
     
