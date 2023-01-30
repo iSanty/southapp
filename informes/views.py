@@ -695,7 +695,79 @@ def informe_global(request):
         canal.save()
         
     
-    return render(request, 'informes/informe_global.html',{'anterior_a':fecha_anterior,'antes_ayer':fecha_antes_ayer,'ayer':fecha_ayer,'hoy':fecha_hoy, 'informacion':informacion, 'informacion_arm':informacion_arm})
+    
+    
+    
+    
+    totales = Pendientes.objects.all()
+    totales_arm = PendientesArm.objects.all()
+    
+    
+    cero = 0
+    uno = 0
+    dos = 0
+    mas_de_tres = 0
+    maniana = 0
+    for valor in totales:
+        cero += valor.base_del_dia
+        uno += valor.pend_uno
+        dos += valor.pend_dos
+        mas_de_tres += valor.pend_tres_o_mas
+        maniana += valor.pendiente_para_sig_dia
+        
+        
+    cero_arm = 0
+    uno_arm = 0
+    dos_arm = 0
+    mas_de_tres_arm = 0
+    maniana_arm = 0
+    for valor in totales_arm:
+        
+
+        
+        cero_arm += valor.base_del_dia
+        uno_arm += valor.pend_uno
+        dos_arm += valor.pend_dos
+        mas_de_tres_arm += valor.pend_tres_o_mas
+        maniana_arm += valor.pendiente_para_sig_dia
+        
+    
+    total_finalizado = GlobalPK.objects.filter(fecha_picking=fecha_hoy_f)
+    pk_fin = total_finalizado.filter(estado_picking='Finalizado')
+    total_finalizado_arm = GlobalPK.objects.filter(fecha_finalizado_armado=fecha_hoy_f)
+    arm_fin = total_finalizado_arm.filter(estado_armado='Finalizado')
+    
+    fin_arm = 0
+    for valor in arm_fin:
+        
+        fin_arm += valor.unidades
+    
+    fin_pk = 0
+    for valor in pk_fin:
+        
+        fin_pk += valor.unidades
+    
+    
+    return render(request, 'informes/informe_global.html',{'anterior_a':fecha_anterior,
+                                                           'antes_ayer':fecha_antes_ayer,
+                                                           'ayer':fecha_ayer,
+                                                           'hoy':fecha_hoy, 
+                                                           'informacion':informacion, 
+                                                           'informacion_arm':informacion_arm,
+                                                           'total_pk_3':mas_de_tres,
+                                                           'total_pk_2':dos,
+                                                           'total_pk_1':uno,
+                                                           'total_pk_0':cero,
+                                                           'total_pk_maniana':maniana,
+                                                           
+                                                           'total_arm_3':mas_de_tres_arm,
+                                                           'total_arm_2':dos_arm,
+                                                           'total_arm_1':uno_arm,
+                                                           'total_arm_0':cero_arm,
+                                                           'total_arm_maniana':maniana_arm,
+                                                           'fin_arm':fin_arm,
+                                                           'fin_pk':fin_pk
+                                                           })
 
 @login_required
 def parametros(request):
@@ -859,17 +931,10 @@ def editar_global(request, id):
             global_pk.cantidad_ediciones = cantidad_antes          
             
             
-            
-            
-            
-            
-            
-            
-            
             global_pk.nombre_planilla = str(form.cleaned_data.get('cliente'))+'('+str(form.cleaned_data.get('sub_cliente'))+')'
             global_pk.save()
             msj = 'Global editado correctamente'
-            return redirect('informe_global')
+            return redirect('index_informes2')
         
         else:
             msj = 'Formulario inválido'
