@@ -59,7 +59,7 @@
                         {% for valor in informacion %}
                         <tr>
                         
-                            <th>{{valor.canal}}</th>
+                            <th><a href={% url 'detalle_por_subcliente' valor.canal %}>{{valor.canal}}</th>
                             <th>{{valor.pend_tres_o_mas}}</th>
                             <th>{{valor.pend_dos}}</th>
                             <th>{{valor.pend_uno}}</th>
@@ -91,6 +91,21 @@
 
 
                     </tbody>
+
+                    <tbody>
+                        
+                        <tr>
+                            <th>Total</th>
+                            <th>Total</th>
+                            <th>Total</th>
+                            <th>Total</th>
+                            <th>Total</th>
+                            <th>Total</th>
+                            <th>Total</th>
+                            
+                        </tr>
+                    </tbody>
+                    
                 </table>
             </div>
         </div>
@@ -148,7 +163,7 @@
                     <tbody>
                         {% for valor in informacion_arm %}
                         <tr>
-                            <th>{{valor.canal}}</th>
+                            <th><a href={% url 'detalle_por_subcliente' valor.canal %}>{{valor.canal}}</th>
                             <th>{{valor.pend_tres_o_mas}}</th>
                             <th>{{valor.pend_dos}}</th>
                             <th>{{valor.pend_uno}}</th>
@@ -176,7 +191,26 @@
 
                         </tr>
                         {% endfor %}
+                        
                     </tbody>
+
+                    
+
+                    <tbody>
+                        
+                        <tr>
+                            <th>Total</th>
+                            <th>Total</th>
+                            <th>Total</th>
+                            <th>Total</th>
+                            <th>Total</th>
+                            <th>Total</th>
+                            <th>Total</th>
+
+                        </tr>
+                    </tbody>
+
+
                 </table>
             </div>
         </div>

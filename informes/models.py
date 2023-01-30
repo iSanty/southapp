@@ -8,6 +8,7 @@ class GlobalPK(models.Model):
     numero = models.IntegerField()
     cliente = models.CharField(max_length=50) #agarro de operaciones
     sub_cliente = models.CharField(max_length=50)
+    tipo = models.CharField(max_length=128)
     unidades = models.IntegerField()
     fecha_creacion = models.DateField(null=True)
     fecha_procesado = models.DateField(null=True)
@@ -39,6 +40,11 @@ class GlobalPK(models.Model):
     
     en_picking = models.CharField(max_length=128)
     en_armado = models.CharField(max_length=128)
+    
+    editado_por = models.CharField(max_length=20)
+    fecha_edicion = models.DateField(null=True)
+    cantidad_ediciones = models.IntegerField(null=True)
+    
     
     
     

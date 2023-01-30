@@ -111,8 +111,13 @@
                 </div>
 
                 <div class="mb-3">
-                  <label class="form-label">Seleccione el Pack</label>
-                  <input class="form-control" {{form.unidad_pall}}</input>
+                  <label class="form-label">Seleccione el Pack </label>
+                  <div class="form-group">
+                    <label for="{{ form.pack.id_for_label }}">{{ form.pack.label }}</label>
+                    {{ form.pack }}
+                  </div>
+                    
+                </div>
                   <div id="emailHelp" class="form-text">El pack es el insumo que se utilizará al momento de armado de un pedido.
                   </div>
                 </div>

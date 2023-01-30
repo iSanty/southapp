@@ -197,23 +197,16 @@
                       
                   </div>
                   <div class="col-sm-10">
-                    <select class="form-select" id="sucursal_por_defecto" aria-label="Floating label select example">
-
-                      
-                      {% comment %} <option selected>Seleccione una opcion:</option> {% endcomment %}
-                      
-
-                      {% for valor in form.sucursal_por_defecto %}
-                      
-
-                      <option>{{valor.sucursal_por_defecto}}</option>
-                      
-                      
-                      
-                      {% endfor %}
-                    
-                    
-                    </select>
+                    <div class="mb-3">
+                      <label class="form-label"></label>
+                      <div class="form-group">
+                        <label for="{{ form_alta.sucursal_por_defecto.id_for_label }}">{{ form_alta.sucursal_por_defecto.label }}</label>
+                        {{ form_alta.sucursal_por_defecto }}
+                      </div>
+                        
+                    </div>
+                        
+                  </div>
 
 
 

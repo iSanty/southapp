@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .forms import FormNuevoPK, FormSubCliente, FormPersonalDeposito, FormSector, FormFinalizarPK, FormFinalizarArm, FormIniciarPK, FormIniciarArm
+from .forms import FormNuevoPK, FormSubCliente, FormPersonalDeposito, FormSector, FormFinalizarPK, FormFinalizarArm, FormIniciarPK, FormIniciarArm, FormEditarGlobal
 from .models import GlobalPK, SectorDepo, SubClientes, PersonalDeposito, Pendientes, PendientesArm, PendientePkPorDia, PenditenteArmPorDia, FinalizadoArmPorDia, FinalizadoPkPorDia
 from datetime import datetime, date
 import calendar
@@ -16,6 +16,13 @@ anio = hoy.year
 fecha_hoy = str(dia) + '/' + str(mes) + '/' + str(anio)
 fecha_hoy_f = datetime.strptime(fecha_hoy, formato_fecha2)
 
+
+
+
+def detalle_por_subcliente(request, subcliente):
+    detalle_sub = GlobalPK.objects.filter(nombre_planilla=subcliente)
+    detalle = detalle_sub.filter(estado_armado='Pendiente')
+    return render(request, 'informes/detalle_por_subcliente.html',{'detalle':detalle})
 
 
 
@@ -385,6 +392,7 @@ def nuevo_global(request):
                     numero = informacion['numero'],
                     cliente = informacion['cliente'],
                     sub_cliente = informacion['sub_cliente'],
+                    tipo = informacion['tipo'],
                     unidades = informacion['unidades'],
                     fecha_procesado = informacion['fecha_procesado'],
                     hora_procesado = informacion['hora_procesado'],
@@ -770,29 +778,97 @@ def parametros(request):
 
 
 def editar_global(request, id):
-    
+    user = request.user
     global_pk = GlobalPK.objects.get(id=id)
-    form = FormNuevoPK(initial={
+    form = FormEditarGlobal(initial={
         'numero':global_pk.numero,
         'cliente':global_pk.cliente,
         'sub_cliente':global_pk.sub_cliente,
         'unidades':global_pk.unidades,
         'fecha_procesado':global_pk.fecha_procesado,
         'hora_procesado':global_pk.hora_procesado,
+        'fecha_creacion':global_pk.fecha_creacion,
+        'fecha_procesado':global_pk.fecha_procesado,
+        'hora_procesado':global_pk.fecha_procesado,
+        'operario':global_pk.operario,
+        'fecha_picking':global_pk.fecha_picking,
+        'fecha_inicio_picking':global_pk.fecha_inicio_picking,
+        'hora_inicio_picking':global_pk.hora_inicio_picking,
+        'iniciado_por':global_pk.iniciado_por,
+        'hora_fin_picking':global_pk.finalizado_pk_por,
+        'usuario_inicio':global_pk.finalizado_pk_por,
+        'fecha_armado':global_pk.fecha_armado,
+        'fecha_finalizado_armado':global_pk.fecha_finalizado_armado,
+        'hora_fin_armado':global_pk.hora_fin_armado,
+        'hora_inicio_armado':global_pk.hora_inicio_armado,
+        'inicio_arm_por':global_pk.inicio_arm_por,
+        'inicio_arm_por':global_pk.inicio_arm_por,
+        'finalizado_arm_por':global_pk.finalizado_arm_por,
+        'usuario_inicio_arm':global_pk.usuario_inicio_arm,
+        'estado_picking':global_pk.estado_picking,
+        'estado_armado':global_pk.estado_armado,
+        'en_picking':global_pk.en_picking,
+        'en_armado':global_pk.en_armado
+        
+        
     })
     
     if request.method == 'POST':
-        form = FormNuevoPK(request.POST)
+        form = FormEditarGlobal(request.POST)
         if form.is_valid():
         
             global_pk.numero = form.cleaned_data.get('numero')
             global_pk.cliente = form.cleaned_data.get('cliente')
             global_pk.sub_cliente = form.cleaned_data.get('sub_cliente')
+            global_pk.tipo = form.cleaned_data.get('tipo')
             global_pk.unidades = form.cleaned_data.get('unidades')
+            global_pk.fecha_creacion = form.cleaned_data.get('fecha_creacion')
             global_pk.fecha_procesado = form.cleaned_data.get('fecha_procesado')
             global_pk.hora_procesado = form.cleaned_data.get('hora_procesado')
+            global_pk.operario = form.cleaned_data.get('operario')
+            
+            
+            global_pk.fecha_picking = form.cleaned_data.get('fecha_picking')
+            global_pk.fecha_inicio_picking = form.cleaned_data.get('fecha_inicio_picking')
+            global_pk.hora_inicio_picking = form.cleaned_data.get('hora_inicio_picking')
+            global_pk.iniciado_por = form.cleaned_data.get('iniciado_por')
+            global_pk.hora_fin_picking = form.cleaned_data.get('hora_fin_picking')
+            global_pk.usuario_inicio = form.cleaned_data.get('usuario_inicio')
+            global_pk.finalizado_pk_por = form.cleaned_data.get('finalizado_pk_por')
+            global_pk.fecha_armado = form.cleaned_data.get('fecha_armado')
+            global_pk.fecha_finalizado_armado = form.cleaned_data.get('fecha_finalizado_armado')
+            global_pk.hora_fin_armado = form.cleaned_data.get('hora_fin_armado')
+            
+            global_pk.hora_inicio_armado = form.cleaned_data.get('hora_inicio_armado')
+            global_pk.inicio_arm_por = form.cleaned_data.get('inicio_arm_por')
+            global_pk.contribuyentes = form.cleaned_data.get('contribuyentes')
+            global_pk.finalizado_arm_por = form.cleaned_data.get('finalizado_arm_por')
+            global_pk.usuario_inicio_arm = form.cleaned_data.get('usuario_inicio_arm')
+            
+            global_pk.estado_picking = form.cleaned_data.get('estado_picking')
+            global_pk.estado_armado = form.cleaned_data.get('estado_armado')
+            global_pk.en_picking = form.en_picking.get('usuario_inicio_arm')
+            global_pk.en_armado = form.en_armado.get('usuario_inicio_arm')
+            
+            
+            global_pk.editado_por = user
+            global_pk.fecha_edicion = fecha_hoy_f
+            cantidad_antes = global_pk.cantidad_ediciones
+            cantidad_antes += 1
+            
+            global_pk.cantidad_ediciones = cantidad_antes          
+            
+            
+            
+            
+            
+            
+            
+            
+            
             global_pk.nombre_planilla = str(form.cleaned_data.get('cliente'))+'('+str(form.cleaned_data.get('sub_cliente'))+')'
             global_pk.save()
+            msj = 'Global editado correctamente'
             return redirect('informe_global')
         
         else:
