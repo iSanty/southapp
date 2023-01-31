@@ -10,13 +10,14 @@ class FormNuevoPK(forms.Form):
     tipo = forms.CharField()
     unidades = forms.IntegerField()
     fecha_procesado = forms.DateTimeField(input_formats=['%d/%m/%Y'])
-    hora_procesado = forms.CharField(max_length=8)
+    hora_procesado = forms.TimeField()
     
     
 class FormIniciarPK(forms.Form):
     numero = forms.IntegerField()
     iniciado_por = forms.ModelChoiceField(queryset=PersonalDeposito.objects.all().order_by('nombre'))
     fecha_inicio_picking = forms.DateTimeField(input_formats=['%d/%m/%Y'])
+    hora = forms.TimeField()
 
 
 
@@ -25,6 +26,7 @@ class FormFinalizarPK(forms.Form):
     numero = forms.IntegerField()
     operario = forms.ModelChoiceField(queryset=PersonalDeposito.objects.all().order_by('nombre'))
     fecha_picking = forms.DateTimeField(input_formats=['%d/%m/%Y'])
+    hora = forms.TimeField()
     
     
     
@@ -51,12 +53,14 @@ class FormFinalizarArm(forms.Form):
     finalizado_arm_por = forms.ModelChoiceField(queryset=PersonalDeposito.objects.all().order_by('nombre'))
     contribuyentes = forms.IntegerField()
     fecha_finalizado_armado = forms.DateTimeField(input_formats=['%d/%m/%Y'])
+    hora = forms.TimeField()
     
     
 class FormIniciarArm(forms.Form):
     numero = forms.IntegerField()
     fecha_armado = forms.DateTimeField(input_formats=['%d/%m/%Y'])
     inicio_arm_por = forms.ModelChoiceField(queryset=PersonalDeposito.objects.all().order_by('nombre'))
+    hora = forms.TimeField()
     
     
 class FormEditarGlobal(forms.Form):
@@ -67,23 +71,23 @@ class FormEditarGlobal(forms.Form):
     unidades = forms.IntegerField()
     fecha_creacion = forms.DateField(input_formats=['%d/%m/%Y'])
     fecha_procesado = forms.DateField(input_formats=['%d/%m/%Y'])
-    hora_procesado = forms.CharField()
+    hora_procesado = forms.TimeField()
     
     #esta parte es la que llena el administrativo
     
     operario = forms.ModelChoiceField(queryset=PersonalDeposito.objects.all().order_by('nombre'))
     fecha_picking = forms.DateField(input_formats=['%d/%m/%Y'])#fecha en la que finaliza el picking
     fecha_inicio_picking = forms.DateField(input_formats=['%d/%m/%Y'])
-    hora_inicio_picking = forms.CharField()
+    hora_inicio_picking = forms.TimeField()
     iniciado_por = forms.ModelChoiceField(queryset=PersonalDeposito.objects.all().order_by('nombre'))
-    hora_fin_picking = forms.CharField()
+    hora_fin_picking = forms.TimeField()
     usuario_inicio = forms.ModelChoiceField(queryset=PersonalDeposito.objects.all().order_by('nombre'))
     finalizado_pk_por = forms.CharField()
     
     fecha_armado = forms.DateField(input_formats=['%d/%m/%Y'])
     fecha_finalizado_armado = forms.DateField(input_formats=['%d/%m/%Y'])
-    hora_fin_armado = forms.CharField()
-    hora_inicio_armado = forms.CharField()
+    hora_fin_armado = forms.TimeField()
+    hora_inicio_armado = forms.TimeField()
     inicio_arm_por = forms.ModelChoiceField(queryset=PersonalDeposito.objects.all().order_by('nombre'))
     contribuyentes = forms.IntegerField()
     finalizado_arm_por = forms.ModelChoiceField(queryset=PersonalDeposito.objects.all().order_by('nombre'))
