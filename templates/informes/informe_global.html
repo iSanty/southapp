@@ -5,111 +5,134 @@
     <div class="card-body">
       <h5 class="card-title">Preparacion de pedidos</h5>
 
-      <div class="pagetitle">
-        <h1></h1>
-        <nav>
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href={% url 'index' %}>Menu</a></li> 
-            <li class="breadcrumb-item"><a href={% url 'index_informes2' %}>Preparacion de pedidos</a></li>
-            <li class="breadcrumb-item">Informe Diario de pendientes</li>
-            {% comment %} <li class="breadcrumb-item active">Breadcrumbs</li> {% endcomment %}
-          </ol>
-        </nav>
-      </div><!-- End Breadcrumbs with a page title -->
+        <div class="pagetitle">
+            <h1></h1>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href={% url 'index' %}>Menu</a></li> 
+                    <li class="breadcrumb-item"><a href={% url 'index_informes2' %}>Preparacion de pedidos</a></li>
+                    <li class="breadcrumb-item">Informe Diario de pendientes</li>
+                    {% comment %} <li class="breadcrumb-item active">Breadcrumbs</li> {% endcomment %}
+                </ol>
+            </nav>
+        </div><!-- End Breadcrumbs with a page title -->
 
     </div>
-  </div>
+</div>
+  
+
+
+
+{% block class %}<a href={% url 'index_informes2' %}>{% endblock class %}
+
+{% block class2 %}<a href={% url 'informe_global' %} class="active">{% endblock class2 %}
+
+
+
 {% endblock dashboard %}
 
 {% block graficos_tablas %}
 
 
 
-<div class="container-fluid pt-4 px-4">
-    <div class="row g-4">
-        {% comment %} <form action= {% url 'informe_global' %}>
-            <table>
-            {{form.as_table}}
-            </table>
-            <button type="submit" class="btn btn-success">Buscar</button>
+{% comment %} <div class="container-fluid pt-4 px-4"> {% endcomment %}
+<section class="section dashboard">
+    <div class="row">
+        <div class="col-lg-6">    
+            <div class="row">
             
-        </form> {% endcomment %}
-        
-        <div class="col-sm-12">
-            <div class="bg-white rounded h-100 p-4">
-                <h6 class="mb-4">Informe diario picking pendiente</h6>
-                <a href={% url 'informe_global' %}><button class="btn btn-black" >Actualizar</a></button>
-                <table class="table table-bordered border-primary">
-                    <thead>
-                        <tr>
-                            
-                            
-                            <th scope="col">Canal </th>
-                            <th scope="col">Pendientes anteriores a {{anterior_a}}</th>
-                            <th scope="col">Pendiente {{antes_ayer}}</th>
-                            <th scope="col">Pendiente {{ayer}}</th>
-                            <th scope="col">Pendientes de hoy {{hoy}}</th>
-                            <th scope="col">Finalizado {{hoy}}</th>
-                            <th scope="col">Pendiente para el siguiente dia {{siguiente}}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        
-                        
-                        {% for valor in informacion %}
-                        <tr>
-                        
-                            <th><a href={% url 'detalle_por_subcliente' valor.canal %}>{{valor.canal}}</th>
-                            <th>{{valor.pend_tres_o_mas}}</th>
-                            <th>{{valor.pend_dos}}</th>
-                            <th>{{valor.pend_uno}}</th>
-                            <th>{{valor.base_del_dia}}</th>
-                            <th>{{valor.finalizado}}</th>
-                            <th>{{valor.pendiente_para_sig_dia}}</th>
-
-                            
-                            {% comment %} <td>{{fichero.nombre}}</td>
-                            <td>{{fichero.apellido}}</td>
-                            <td>{{fichero.sucursal}}</td>
-                            <td>{{fichero.categoria}}</td>
-                            <td>{{fichero.tipo_tarifa}}</td>
-                            <td>{{fichero.fecha_trabajada}}</td>
-                            <td>{{fichero.id}}</td>
-                            {% if fichero.pago_realizado == 'Si' %}
-                            <td>{{fichero.pago_realizado}}</td>
-                            {% else %}
-                            <td>{{fichero.pago_realizado}}  -<a href={% url 'pagar_ficha' fichero.id %}><button class="btn btn-light">Pagar</a></button></td>
-                            {% endif %}
-                            <td><a href={% url 'edicion_ficha' fichero.id %}><button class="btn btn-warning">Editar</a></td>
-                            <td><button type="button" class="btn btn-outline-danger m-2"><a href={% url 'eliminar_ficha' fichero.id %} >Eliminar</a></button></td> {% endcomment %}
-
-
-
-                        </tr>
-                        {% endfor %}
-                       
-
-
-                    </tbody>
-
-                    <tbody>
-                        
-                        <tr>
-                            <th>Total</th>
-                            
-                            <th>{{total_pk_3}}</th>
-                            <th>{{total_pk_2}}</th>
-                            <th>{{total_pk_1}}</th>
-                            <th>{{total_pk_0}}</th>
-                            <th>{{fin_pk}}</th>
-                            <th>{{total_pk_maniana}}</th>
-                            
-                        </tr>
-                    </tbody>
+                {% comment %} <form action= {% url 'informe_global' %}>
+                    <table>
+                    {{form.as_table}}
+                    </table>
+                    <button type="submit" class="btn btn-success">Buscar</button>
                     
-                </table>
+                </form> {% endcomment %}
+                <div class="col-12">
+                    
+                    
+                        
+                    
+                    <h6 class="mb-4">Informe diario picking pendiente</h6>
+                    <a href={% url 'informe_global' %}><button class="btn btn-black" >Actualizar</a></button>
+                    <table class="table table-bordered border-primary">
+                        <thead>
+                            <tr>
+                                
+                                
+                                <th scope="col">Canal </th>
+                                <th scope="col">Pendientes anteriores a {{anterior_a}}</th>
+                                <th scope="col">Pendiente {{antes_ayer}}</th>
+                                <th scope="col">Pendiente {{ayer}}</th>
+                                <th scope="col">Pendientes de hoy {{hoy}}</th>
+                                <th scope="col">Finalizado {{hoy}}</th>
+                                <th scope="col">Pendiente para el siguiente dia {{siguiente}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            
+                            {% for valor in informacion %}
+                            <tr>
+                            
+                                <th><a href={% url 'detalle_por_subcliente' valor.canal %}>{{valor.canal}}</th>
+                                <th>{{valor.pend_tres_o_mas}}</th>
+                                <th>{{valor.pend_dos}}</th>
+                                <th>{{valor.pend_uno}}</th>
+                                <th>{{valor.base_del_dia}}</th>
+                                <th>{{valor.finalizado}}</th>
+                                <th>{{valor.pendiente_para_sig_dia}}</th>
+
+                                
+                                {% comment %} <td>{{fichero.nombre}}</td>
+                                <td>{{fichero.apellido}}</td>
+                                <td>{{fichero.sucursal}}</td>
+                                <td>{{fichero.categoria}}</td>
+                                <td>{{fichero.tipo_tarifa}}</td>
+                                <td>{{fichero.fecha_trabajada}}</td>
+                                <td>{{fichero.id}}</td>
+                                {% if fichero.pago_realizado == 'Si' %}
+                                <td>{{fichero.pago_realizado}}</td>
+                                {% else %}
+                                <td>{{fichero.pago_realizado}}  -<a href={% url 'pagar_ficha' fichero.id %}><button class="btn btn-light">Pagar</a></button></td>
+                                {% endif %}
+                                <td><a href={% url 'edicion_ficha' fichero.id %}><button class="btn btn-warning">Editar</a></td>
+                                <td><button type="button" class="btn btn-outline-danger m-2"><a href={% url 'eliminar_ficha' fichero.id %} >Eliminar</a></button></td> {% endcomment %}
+
+
+
+                            </tr>
+                            {% endfor %}
+                            
+
+
+                        </tbody>
+
+                        <tbody>
+                            
+                            <tr>
+                                <th>Total</th>
+                                
+                                <th>{{total_pk_3}}</th>
+                                <th>{{total_pk_2}}</th>
+                                <th>{{total_pk_1}}</th>
+                                <th>{{total_pk_0}}</th>
+                                <th>{{fin_pk}}</th>
+                                <th>{{total_pk_maniana}}</th>
+                                
+                            </tr>
+                        </tbody>
+                        
+                    </table>
+                
+                    
+                        
+                    
+                </div>
             </div>
+
         </div>
+    
 
 
 
@@ -124,27 +147,29 @@
 
 
 
+    
+
+
+
+
+
+
+
+        <div class="col-lg-6">
+            <div class="row">
+    
         
-
-    </div>
-
-
-
-
-
-
-
-    <div class="row g-4">
-        {% comment %} <form action= {% url 'informe_global' %}>
-            <table>
-            {{form.as_table}}
-            </table>
-            <button type="submit" class="btn btn-success">Buscar</button>
-            
-        </form> {% endcomment %}
-        
-        <div class="col-sm-12">
-            <div class="bg-white rounded h-100 p-4">
+                
+                {% comment %} <form action= {% url 'informe_global' %}>
+                    <table>
+                    {{form.as_table}}
+                    </table>
+                    <button type="submit" class="btn btn-success">Buscar</button>
+                    
+                </form> {% endcomment %}
+                
+                
+                        
                 <h6 class="mb-4">Informe diario armado pendiente</h6>
                 <a href={% url 'informe_global' %}><button class="btn btn-black" >Actualizar</a></button>
                 <table class="table table-bordered border-primary">
@@ -216,6 +241,9 @@
                 </table>
             </div>
         </div>
+                
+            
+    </div>
 
 
 
@@ -229,9 +257,10 @@
 
 
 
+            
 
         
-
-    </div>
-</div>        
+    
+    {% comment %} </div>         {% endcomment %}
+</section>
 {% endblock graficos_tablas %}

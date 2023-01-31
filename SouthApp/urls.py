@@ -30,6 +30,7 @@ urlpatterns = [
     path('operaciones/', include('operaciones.urls')),
     path('api/', include('api.urls')),
     path('bot/', include('bot.urls')),
+    path('inicio/', include('pagina.urls')),
     
 
 ]
