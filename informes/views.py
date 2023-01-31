@@ -335,7 +335,6 @@ def index_informes_2(request):
         
             
     
-    
     return render(request, 'informes/index_informes2.html', {'pendiente_pk_dia':pendiente_pk_dia,
                                                              'en_proceso_pk_dia':en_proceso_pk_dia,
                                                              'finalizado_pk_dia':finalizado_pk_dia,
@@ -783,7 +782,10 @@ def parametros(request):
                 sub_en_base = SubClientes.objects.filter(codigo=informacion['codigo'])
                 if sub_en_base:
                     msj = 'El sub cliente ' + informacion['razon_social'] + ' ya se encuentra dado de alta.'
-                    return render(request, 'informes/crear_parametros.html', {'form_sub_cliente':form_sub_cliente, 'form_personal_deposito':form_personal_deposito, 'form_sector':form_sector, 'msj':msj})    
+                    return render(request, 'informes/crear_parametros.html', {'form_sub_cliente':form_sub_cliente, 
+                                                                              'form_personal_deposito':form_personal_deposito, 
+                                                                              'form_sector':form_sector, 
+                                                                              'msj':msj})    
 
                 sub_cliente = SubClientes(
                     codigo = informacion['codigo'],
@@ -793,11 +795,18 @@ def parametros(request):
                 )
                 sub_cliente.save()
                 msj = 'Sub cliente ' + informacion['razon_social'] + ' creado exitosamente'
-                return render(request, 'informes/crear_parametros.html', {'form_sub_cliente':form_sub_cliente, 'form_personal_deposito':form_personal_deposito, 'form_sector':form_sector, 'msj':msj})    
+                return render(request, 'informes/crear_parametros.html', {'form_sub_cliente':form_sub_cliente, 
+                                                                          'form_personal_deposito':form_personal_deposito, 
+                                                                          'form_sector':form_sector, 
+                                                                          'msj':msj})    
             else:
                 msj = 'Formulario inválido'
-                return render(request, 'informes/crear_parametros.html', {'form_sub_cliente':form_sub_cliente, 'form_personal_deposito':form_personal_deposito, 'form_sector':form_sector, 'msj':msj})    
-        
+                return render(request, 'informes/crear_parametros.html', {'form_sub_cliente':form_sub_cliente, 
+                                                                          'form_personal_deposito':form_personal_deposito, 
+                                                                          'form_sector':form_sector, 
+                                                                          'msj':msj})
+
+
         elif 'btn_sector' in request.POST:
             form_sector = FormSector(request.POST)
             if form_sector.is_valid():
@@ -805,7 +814,10 @@ def parametros(request):
                 sector_en_base = SectorDepo.objects.filter(descripcion=informacion['descripcion'])
                 if sector_en_base:
                     msj = 'El sector ' + informacion['descripcion'] + ' ya se encuentra dado de alta.'
-                    return render(request, 'informes/crear_parametros.html', {'form_sub_cliente':form_sub_cliente, 'form_personal_deposito':form_personal_deposito, 'form_sector':form_sector, 'msj':msj})    
+                    return render(request, 'informes/crear_parametros.html', {'form_sub_cliente':form_sub_cliente, 
+                                                                              'form_personal_deposito':form_personal_deposito, 
+                                                                              'form_sector':form_sector, 
+                                                                              'msj':msj})    
 
                 sector = SectorDepo(
                     descripcion = informacion['descripcion']
@@ -813,10 +825,16 @@ def parametros(request):
                 )
                 sector.save()
                 msj = 'Sector ' + informacion['descripcion'] + ' creado exitosamente'
-                return render(request, 'informes/crear_parametros.html', {'form_sub_cliente':form_sub_cliente, 'form_personal_deposito':form_personal_deposito, 'form_sector':form_sector, 'msj':msj})    
+                return render(request, 'informes/crear_parametros.html', {'form_sub_cliente':form_sub_cliente, 
+                                                                          'form_personal_deposito':form_personal_deposito, 
+                                                                          'form_sector':form_sector, 
+                                                                          'msj':msj})    
             else:
                 msj = 'Formulario inválido'
-                return render(request, 'informes/crear_parametros.html', {'form_sub_cliente':form_sub_cliente, 'form_personal_deposito':form_personal_deposito, 'form_sector':form_sector, 'msj':msj})    
+                return render(request, 'informes/crear_parametros.html', {'form_sub_cliente':form_sub_cliente, 
+                                                                          'form_personal_deposito':form_personal_deposito, 
+                                                                          'form_sector':form_sector, 
+                                                                          'msj':msj})    
         
         elif 'btn_personal_deposito' in request.POST:
             form_personal_deposito = FormPersonalDeposito(request.POST)
@@ -825,7 +843,10 @@ def parametros(request):
                 personal_en_base = PersonalDeposito.objects.filter(dni=informacion['dni'])
                 if personal_en_base:
                     msj = 'El empleado ' + informacion['nombre'] + ' ' + informacion['apellido'] +' con dni' + str(informacion['dni']) + ' ya se encuentra dado de alta.'
-                    return render(request, 'informes/crear_parametros.html', {'form_sub_cliente':form_sub_cliente, 'form_personal_deposito':form_personal_deposito, 'form_sector':form_sector, 'msj':msj})    
+                    return render(request, 'informes/crear_parametros.html', {'form_sub_cliente':form_sub_cliente, 
+                                                                              'form_personal_deposito':form_personal_deposito, 
+                                                                              'form_sector':form_sector, 
+                                                                              'msj':msj})    
 
                 empleado = PersonalDeposito(
                     dni = informacion['dni'],
@@ -836,16 +857,25 @@ def parametros(request):
                 )
                 empleado.save()
                 msj = 'Empleado con dni ' + str(informacion['dni']) + ' creado exitosamente'
-                return render(request, 'informes/crear_parametros.html', {'form_sub_cliente':form_sub_cliente, 'form_personal_deposito':form_personal_deposito, 'form_sector':form_sector, 'msj':msj})    
+                return render(request, 'informes/crear_parametros.html', {'form_sub_cliente':form_sub_cliente, 
+                                                                          'form_personal_deposito':form_personal_deposito, 
+                                                                          'form_sector':form_sector, 
+                                                                          'msj':msj})    
             else:
                 msj = 'Formulario inválido'
-                return render(request, 'informes/crear_parametros.html', {'form_sub_cliente':form_sub_cliente, 'form_personal_deposito':form_personal_deposito, 'form_sector':form_sector, 'msj':msj})    
+                return render(request, 'informes/crear_parametros.html', {'form_sub_cliente':form_sub_cliente, 
+                                                                          'form_personal_deposito':form_personal_deposito, 
+                                                                          'form_sector':form_sector, 
+                                                                          'msj':msj})    
         
     
     
     
     msj = 'Ingrese los datos solicitados'
-    return render(request, 'informes/crear_parametros.html', {'form_sub_cliente':form_sub_cliente, 'form_personal_deposito':form_personal_deposito, 'form_sector':form_sector, 'msj':msj})
+    return render(request, 'informes/crear_parametros.html', {'form_sub_cliente':form_sub_cliente, 
+                                                              'form_personal_deposito':form_personal_deposito, 
+                                                              'form_sector':form_sector, 
+                                                              'msj':msj})
 
 
 
