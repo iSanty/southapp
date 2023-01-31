@@ -12,23 +12,23 @@ class GlobalPK(models.Model):
     unidades = models.IntegerField()
     fecha_creacion = models.DateField(null=True)
     fecha_procesado = models.DateField(null=True)
-    hora_procesado = models.CharField(max_length=128, null=0)
+    hora_procesado = models.TimeField(null=True)
     creado_por = models.CharField(max_length=128, null=0)
     #esta parte es la que llena el administrativo
     
     operario = models.CharField(max_length=20) #este campo es "finalizado por"
     fecha_picking = models.DateField(null=True)#fecha en la que finaliza el picking
     fecha_inicio_picking = models.DateField(null=True)
-    hora_inicio_picking = models.CharField(max_length=128, null=0)
+    hora_inicio_picking = models.TimeField(null=True)
     iniciado_por = models.CharField(max_length=20)
-    hora_fin_picking = models.CharField(max_length=128, null=0)
+    hora_fin_picking = models.TimeField(null=True)
     usuario_inicio = models.CharField(max_length=128)
     finalizado_pk_por = models.CharField(max_length=128)
     
     fecha_armado = models.DateField(null=True)
     fecha_finalizado_armado = models.DateField(null=True)
-    hora_fin_armado = models.CharField(max_length=128, null=0)
-    hora_inicio_armado = models.CharField(max_length=20)
+    hora_fin_armado = models.TimeField(null=True)
+    hora_inicio_armado = models.TimeField(null=True)
     inicio_arm_por = models.CharField(max_length=20)
     contribuyentes = models.IntegerField(null=True)
     finalizado_arm_por = models.CharField(max_length=20)

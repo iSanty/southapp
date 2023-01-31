@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .forms import FormNuevoPK, FormSubCliente, FormPersonalDeposito, FormSector, FormFinalizarPK, FormFinalizarArm, FormIniciarPK, FormIniciarArm, FormEditarGlobal
 from .models import GlobalPK, SectorDepo, SubClientes, PersonalDeposito, Pendientes, PendientesArm, PendientePkPorDia, PenditenteArmPorDia, FinalizadoArmPorDia, FinalizadoPkPorDia
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 import calendar
 
 
@@ -75,7 +75,8 @@ def detalle_base_dia(request):
 def inciar_picking(request):
     user = request.user
     form = FormIniciarPK(initial={
-            'fecha_inicio_picking':hoy.strftime(formato_fecha2)
+            'fecha_inicio_picking':hoy.strftime(formato_fecha2),
+            'hora':datetime.now().time()
         })
     pendientes_pk = GlobalPK.objects.filter(en_picking='No')
     if request.method == 'POST':
@@ -111,7 +112,8 @@ def inciar_picking(request):
             picking_en_base.en_picking = 'Si'
             picking_en_base.fecha_inicio_picking = informacion['fecha_inicio_picking']
             
-            picking_en_base.hora_inicio_picking = datetime.now().time()
+            
+            picking_en_base.hora_inicio_picking = informacion['hora']
             picking_en_base.iniciado_por = str(informacion['iniciado_por'])
             picking_en_base.usuario_inicio = str(user)
             picking_en_base.save()
@@ -136,7 +138,10 @@ def inciar_picking(request):
 @login_required
 def iniciar_armado(request):
     user = request.user
-    form = FormIniciarArm()
+    form = FormIniciarArm(initial={
+        'fecha_armado':hoy.strftime(formato_fecha2),
+        'hora':datetime.now().time()
+    })
     pendientes_arm = GlobalPK.objects.filter(en_armado='No')
     if request.method == 'POST':
         form = FormIniciarArm(request.POST)
@@ -168,7 +173,7 @@ def iniciar_armado(request):
             picking_en_base.en_armado = 'Si'
             picking_en_base.fecha_armado = informacion['fecha_armado']
             
-            picking_en_base.hora_inicio_armado = datetime.now().time()
+            picking_en_base.hora_inicio_armado = informacion['hora']
             picking_en_base.inicio_arm_por = str(informacion['inicio_arm_por'])
             picking_en_base.usuario_inicio_arm = str(user)
             picking_en_base.save()
@@ -195,7 +200,10 @@ def iniciar_armado(request):
 @login_required
 def finalizar_armado(request):
     user = request.user
-    form = FormFinalizarArm()
+    form = FormFinalizarArm(initial={
+        'fecha_finalizado_armado':hoy.strftime(formato_fecha2),
+        'hora':datetime.now().time()
+    })
     
     if request.method == 'POST':
         form = FormFinalizarArm(request.POST)
@@ -222,7 +230,7 @@ def finalizar_armado(request):
             
             pk_finalizado_b.fecha_finalizado_armado = informacion['fecha_finalizado_armado']
             pk_finalizado_b.finalizado_arm_por = str(user)
-            pk_finalizado_b.hora_fin_armado = datetime.now().time()
+            pk_finalizado_b.hora_fin_armado = informacion['hora']
             pk_finalizado_b.contribuyentes = informacion['contribuyentes']
             
             pk_finalizado_b.save()
@@ -242,7 +250,8 @@ def finalizar_armado(request):
 @login_required
 def finalizar_global(request):
     user = request.user
-    form = FormFinalizarPK()
+    form = FormFinalizarPK(initial={'fecha_picking':hoy.strftime(formato_fecha2),
+                                    'hora':datetime.now().time()})
     if request.method == 'POST':
         
         form = FormFinalizarPK(request.POST)
@@ -267,7 +276,7 @@ def finalizar_global(request):
             global_en_base_a.en_picking = 'Terminado'
             global_en_base_a.operario = str(informacion['operario'])
             global_en_base_a.fecha_picking = informacion['fecha_picking']
-            global_en_base_a.hora_fin_picking = datetime.now().time()
+            global_en_base_a.hora_fin_picking = informacion['hora'] #datetime.now().time()
             global_en_base_a.finalizado_pk_por = str(user)
             
             global_en_base_a.save()
