@@ -1,12 +1,13 @@
 from django import forms
 from operaciones.models import Cia
-from .models import PersonalDeposito, SubClientes, SectorDepo
+from .models import PersonalDeposito, SubClientes, SectorDepo, NombrePlanilla
 
 
 class FormNuevoPK(forms.Form):
     numero = forms.IntegerField()
-    cliente = forms.ModelChoiceField(queryset=Cia.objects.all())
-    sub_cliente = forms.ModelChoiceField(queryset=SubClientes.objects.all().order_by('razon_social'))
+    # cliente = forms.ModelChoiceField(queryset=Cia.objects.all())
+    # sub_cliente = forms.ModelChoiceField(queryset=SubClientes.objects.all().order_by('razon_social'))
+    nombre_planilla = forms.ModelChoiceField(queryset=NombrePlanilla.objects.all().order_by('nombre'))
     tipo = forms.CharField()
     unidades = forms.IntegerField()
     fecha_procesado = forms.DateTimeField(input_formats=['%d/%m/%Y'])
@@ -26,7 +27,8 @@ class FormFinalizarPK(forms.Form):
     numero = forms.IntegerField()
     operario = forms.ModelChoiceField(queryset=PersonalDeposito.objects.all().order_by('nombre'))
     fecha_picking = forms.DateTimeField(input_formats=['%d/%m/%Y'])
-    hora = forms.TimeField()
+    hora_inicio_pk = forms.TimeField()
+    hora_fin_pk = forms.TimeField()
     
     
     
@@ -47,13 +49,17 @@ class FormPersonalDeposito(forms.Form):
 class FormSector(forms.Form):
     descripcion = forms.CharField()
     
+class FormNombrePlanilla(forms.Form):
+    nombre = forms.CharField()
+    
     
 class FormFinalizarArm(forms.Form):
     numero = forms.IntegerField()
-    finalizado_arm_por = forms.ModelChoiceField(queryset=PersonalDeposito.objects.all().order_by('nombre'))
+    
     contribuyentes = forms.IntegerField()
     fecha_finalizado_armado = forms.DateTimeField(input_formats=['%d/%m/%Y'])
-    hora = forms.TimeField()
+    hora_inicio_armado = forms.TimeField()
+    hora_fin_armado = forms.TimeField()
     
     
 class FormIniciarArm(forms.Form):

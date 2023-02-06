@@ -142,17 +142,17 @@
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">Carga de globales de picking</h5>
-        
+          
           <a href={% url 'nuevo_global' %}>
             <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Alta de pickings">
               Nuevo Picking
             </button>
           </a>
-          <a href={% url 'iniciar_picking' %}>
+          {% comment %} <a href={% url 'iniciar_picking' %}>
             <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Inicia el proceso de picking físico">
               Iniciar Picking
             </button>
-          </a>
+          </a> {% endcomment %}
 
           <a href={% url 'finalizar_global' %}>
             <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Finaliza el proceso de picking físico">
@@ -160,17 +160,18 @@
             </button>
           </a>
 
-          <a href={% url 'iniciar_armado' %}>
+          {% comment %} <a href={% url 'iniciar_armado' %}>
             <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Inicia el proceso de armado de paquetes">
               Iniciar Armado
             </button>
-          </a>
+          </a> {% endcomment %}
 
           <a href={% url 'finalizar_armado' %}>
             <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Finaliza el proceso de armado de paquetes">
               Finalizar Armado
             </button>
           </a>
+          
 
         </div>
       </div>
@@ -192,6 +193,18 @@
           <a href={% url 'informe_global' %}>
             <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Planillas de informes diarios" >
               Informe Diario de Pendientes
+            </button>
+          </a>
+
+          <a href={% url 'informe_global' %}>
+            <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Planillas de informes diarios" >
+              Consulta base de datos por fecha
+            </button>
+          </a>
+
+          <a href={% url 'informe_global' %}>
+            <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Planillas de informes diarios" >
+              Consulta Base de datos completa
             </button>
           </a>
 
@@ -242,7 +255,7 @@
       </div><!-- End Sales Card -->
 
       <!-- Revenue Card -->
-      <div class="col-xxl-4 col-md-6">
+      {% comment %} <div class="col-xxl-4 col-md-6">
         <div class="card info-card revenue-card">
 
     
@@ -263,7 +276,7 @@
           </div>
 
         </div>
-      </div><!-- End Revenue Card -->
+      </div><!-- End Revenue Card --> {% endcomment %}
 
       <!-- Customers Card -->
       <div class="col-xxl-4 col-xl-12">
@@ -317,7 +330,7 @@
 
       </div><!-- End Customers Card -->
 
-      <div class="col-xxl-4 col-md-6">
+      {% comment %} <div class="col-xxl-4 col-md-6">
 
         <div class="card info-card customers-card">
 
@@ -339,7 +352,7 @@
           </div>
         </div>
 
-      </div><!-- End Customers Card -->
+      </div><!-- End Customers Card --> {% endcomment %}
 
       <div class="col-xxl-4 col-md-6">
 
@@ -388,7 +401,7 @@
 
       </div>
 
-      <div class="col-xxl-4 col-md-6">
+      {% comment %} <div class="col-xxl-4 col-md-6">
 
         <div class="card info-card customers-card">
 
@@ -410,7 +423,7 @@
           </div>
         </div>
 
-      </div>
+      </div> {% endcomment %}
 
       <div class="col-xxl-4 col-md-6">
 

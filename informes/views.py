@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .forms import FormNuevoPK, FormSubCliente, FormPersonalDeposito, FormSector, FormFinalizarPK, FormFinalizarArm, FormIniciarPK, FormIniciarArm, FormEditarGlobal
-from .models import GlobalPK, SectorDepo, SubClientes, PersonalDeposito, Pendientes, PendientesArm, PendientePkPorDia, PenditenteArmPorDia, FinalizadoArmPorDia, FinalizadoPkPorDia
+from .forms import FormNuevoPK, FormSubCliente, FormPersonalDeposito, FormSector, FormFinalizarPK, FormFinalizarArm, FormIniciarPK, FormIniciarArm, FormEditarGlobal, FormNombrePlanilla
+from .models import GlobalPK, SectorDepo, SubClientes, PersonalDeposito, Pendientes, PendientesArm, PendientePkPorDia, PenditenteArmPorDia, FinalizadoArmPorDia, FinalizadoPkPorDia, NombrePlanilla
 from datetime import datetime, date, timedelta
 import calendar
 
@@ -202,7 +202,7 @@ def finalizar_armado(request):
     user = request.user
     form = FormFinalizarArm(initial={
         'fecha_finalizado_armado':hoy.strftime(formato_fecha2),
-        'hora':datetime.now().time()
+        'hora_fin_armado':datetime.now().time()
     })
     
     if request.method == 'POST':
@@ -230,7 +230,8 @@ def finalizar_armado(request):
             
             pk_finalizado_b.fecha_finalizado_armado = informacion['fecha_finalizado_armado']
             pk_finalizado_b.finalizado_arm_por = str(user)
-            pk_finalizado_b.hora_fin_armado = informacion['hora']
+            pk_finalizado_b.hora_inicio_armado = informacion['hora_inicio_armado']
+            pk_finalizado_b.hora_fin_armado = informacion['hora_fin_armado']
             pk_finalizado_b.contribuyentes = informacion['contribuyentes']
             
             pk_finalizado_b.save()
@@ -251,7 +252,7 @@ def finalizar_armado(request):
 def finalizar_global(request):
     user = request.user
     form = FormFinalizarPK(initial={'fecha_picking':hoy.strftime(formato_fecha2),
-                                    'hora':datetime.now().time()})
+                                    'hora_fin_pk':datetime.now().time()})
     if request.method == 'POST':
         
         form = FormFinalizarPK(request.POST)
@@ -276,7 +277,8 @@ def finalizar_global(request):
             global_en_base_a.en_picking = 'Terminado'
             global_en_base_a.operario = str(informacion['operario'])
             global_en_base_a.fecha_picking = informacion['fecha_picking']
-            global_en_base_a.hora_fin_picking = informacion['hora'] #datetime.now().time()
+            global_en_base_a.hora_inicio_picking = informacion['hora_inicio_pk']
+            global_en_base_a.hora_fin_picking = informacion['hora_fin_pk'] #datetime.now().time()
             global_en_base_a.finalizado_pk_por = str(user)
             
             global_en_base_a.save()
@@ -398,8 +400,6 @@ def nuevo_global(request):
             if not global_en_base:
                 picking = GlobalPK(
                     numero = informacion['numero'],
-                    cliente = informacion['cliente'],
-                    sub_cliente = informacion['sub_cliente'],
                     tipo = informacion['tipo'],
                     unidades = informacion['unidades'],
                     fecha_procesado = informacion['fecha_procesado'],
@@ -408,7 +408,7 @@ def nuevo_global(request):
                     estado_armado = 'Pendiente',
                     creado_por = user,
                     fecha_creacion = fecha_hoy_f,
-                    nombre_planilla = str(informacion['cliente'])+'('+str(informacion['sub_cliente'])+')',
+                    nombre_planilla = informacion['nombre_planilla'],
                     en_picking = 'No',
                     en_armado = 'No',
 
@@ -450,29 +450,30 @@ def informe_global(request):
     mes = hoy.month
     anio = hoy.year
     validar_lunes = calendar.weekday(anio, mes, dia)
+    delta1 = timedelta(1)
+    delta2 = timedelta(2)
+    delta3 = timedelta(3)
+    delta4 = timedelta(4)
+    delta5 = timedelta(5)
+    
     
     
     if validar_lunes == 0:
-        ayer = dia -3
-        antes_de_ayer = dia -4
-        anterior_a = dia - 5
+        ayer = hoy - delta3
+        antes_de_ayer = hoy - delta4
+        anterior_a = hoy - delta5
     elif validar_lunes == 1:
-        ayer = dia -1
-        antes_de_ayer = dia -4
-        anterior_a = dia - 5
+        ayer = hoy - delta1
+        antes_de_ayer = hoy - delta4
+        anterior_a = hoy - delta5
     else:
-        ayer = dia -1
-        antes_de_ayer = dia -2
-        anterior_a = dia - 3
+        ayer = hoy - delta1
+        antes_de_ayer = hoy -delta2
+        anterior_a = hoy - delta3
         
     fecha_hoy = str(dia) + '/' + str(mes) + '/' + str(anio)
-    fecha_ayer = str(ayer) + '/' + str(mes) + '/' + str(anio)
-    fecha_antes_ayer = str(antes_de_ayer) + '/' + str(mes) + '/' + str(anio)
-    fecha_anterior = str(anterior_a) + '/' + str(mes) + '/' + str(anio)
     fecha_hoy_f = datetime.strptime(fecha_hoy, formato_fecha2)
-    # fecha_ayer_f = datetime.strptime(fecha_ayer, formato_fecha2)
-    # fecha_antes_ayer_f = datetime.strptime(fecha_antes_ayer, formato_fecha2)
-    # fecha_anterior_f = datetime.strptime(fecha_anterior, formato_fecha2)
+    
     todos_globales = GlobalPK.objects.all()
     pend_picking = todos_globales.filter(estado_picking='Pendiente')
     finalizados = todos_globales.filter(estado_picking='Finalizado')
@@ -490,7 +491,7 @@ def informe_global(request):
     
     for valor in pend_armado:
         
-        hoy = date.today()
+        hoy_a = date.today()
         
         fecha_proceso = valor.fecha_procesado
         dia_proceso = fecha_proceso.day
@@ -498,7 +499,7 @@ def informe_global(request):
         anio_proceso = fecha_proceso.year
         fecha_proceso_f = date(anio_proceso, mes_proceso, dia_proceso)
         
-        dias_pend = (hoy - fecha_proceso_f).days
+        dias_pend = (hoy_a - fecha_proceso_f).days
         
         
         filtro_canal_arm = canales_arm.filter(canal=valor.nombre_planilla)
@@ -598,7 +599,7 @@ def informe_global(request):
         
     for valor in pend_picking:
         
-        hoy = date.today()
+        hoy_a = date.today()
         
         fecha_proceso = valor.fecha_procesado
         dia_proceso = fecha_proceso.day
@@ -606,7 +607,7 @@ def informe_global(request):
         anio_proceso = fecha_proceso.year
         fecha_proceso_f = date(anio_proceso, mes_proceso, dia_proceso)
         
-        dias_pend = (hoy - fecha_proceso_f).days
+        dias_pend = (hoy_a - fecha_proceso_f).days
         #unidades, _ = GlobalPK.objects.get_or_create(nombre_planilla=valor.nombre_planilla)
         
         
@@ -756,9 +757,9 @@ def informe_global(request):
         fin_pk += valor.unidades
     
     
-    return render(request, 'informes/informe_global.html',{'anterior_a':fecha_anterior,
-                                                           'antes_ayer':fecha_antes_ayer,
-                                                           'ayer':fecha_ayer,
+    return render(request, 'informes/informe_global.html',{'anterior_a':anterior_a,
+                                                           'antes_ayer':antes_de_ayer,
+                                                           'ayer':ayer,
                                                            'hoy':fecha_hoy, 
                                                            'informacion':informacion, 
                                                            'informacion_arm':informacion_arm,
@@ -779,31 +780,30 @@ def informe_global(request):
 
 @login_required
 def parametros(request):
-    form_sub_cliente = FormSubCliente()
+    form_sub_cliente = FormNombrePlanilla()
     form_personal_deposito = FormPersonalDeposito()
     form_sector = FormSector()
     
     if request.method == 'POST':
         if 'btn_sub_cliente' in request.POST:
-            form_sub_cliente = FormSubCliente(request.POST)
+            form_sub_cliente = FormNombrePlanilla(request.POST)
             if form_sub_cliente.is_valid():
                 informacion = form_sub_cliente.cleaned_data
-                sub_en_base = SubClientes.objects.filter(codigo=informacion['codigo'])
+                sub_en_base = NombrePlanilla.objects.filter(nombre=informacion['nombre'])
                 if sub_en_base:
-                    msj = 'El sub cliente ' + informacion['razon_social'] + ' ya se encuentra dado de alta.'
+                    msj = 'El canal de descuento ' + informacion['nombre'] + ' ya se encuentra dado de alta.'
                     return render(request, 'informes/crear_parametros.html', {'form_sub_cliente':form_sub_cliente, 
                                                                               'form_personal_deposito':form_personal_deposito, 
                                                                               'form_sector':form_sector, 
                                                                               'msj':msj})    
 
-                sub_cliente = SubClientes(
-                    codigo = informacion['codigo'],
-                    cia_asociada = informacion['cia_asociada'],
-                    razon_social = informacion['razon_social']
+                sub_cliente = NombrePlanilla(
+                    nombre = informacion['nombre'],
+                    
                     
                 )
                 sub_cliente.save()
-                msj = 'Sub cliente ' + informacion['razon_social'] + ' creado exitosamente'
+                msj = 'Canal ' + informacion['nombre'] + ' creado exitosamente'
                 return render(request, 'informes/crear_parametros.html', {'form_sub_cliente':form_sub_cliente, 
                                                                           'form_personal_deposito':form_personal_deposito, 
                                                                           'form_sector':form_sector, 

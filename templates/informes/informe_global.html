@@ -1,5 +1,10 @@
 {% extends 'informes/index_informes2.html' %}
 
+
+
+
+
+
 {% block dashboard %}
 <div class="card">
     <div class="card-body">
@@ -36,231 +41,102 @@
 
 
 {% comment %} <div class="container-fluid pt-4 px-4"> {% endcomment %}
-<section class="section dashboard">
-    <div class="row">
-        <div class="col-lg-6">    
-            <div class="row">
-            
-                {% comment %} <form action= {% url 'informe_global' %}>
-                    <table>
-                    {{form.as_table}}
-                    </table>
-                    <button type="submit" class="btn btn-success">Buscar</button>
-                    
-                </form> {% endcomment %}
-                <div class="col-12">
-                    
-                    
-                        
-                    
-                    <h6 class="mb-4">Informe diario picking pendiente</h6>
-                    <a href={% url 'informe_global' %}><button class="btn btn-black" >Actualizar</a></button>
-                    <table class="table table-bordered border-primary">
-                        <thead>
-                            <tr>
-                                
-                                
-                                <th scope="col">Canal </th>
-                                <th scope="col">Pendientes anteriores a {{anterior_a}}</th>
-                                <th scope="col">Pendiente {{antes_ayer}}</th>
-                                <th scope="col">Pendiente {{ayer}}</th>
-                                <th scope="col">Pendientes de hoy {{hoy}}</th>
-                                <th scope="col">Finalizado {{hoy}}</th>
-                                <th scope="col">Pendiente para el siguiente dia {{siguiente}}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            
-                            
-                            {% for valor in informacion %}
-                            <tr>
-                            
-                                <th><a href={% url 'detalle_por_subcliente' valor.canal %}>{{valor.canal}}</th>
-                                <th>{{valor.pend_tres_o_mas}}</th>
-                                <th>{{valor.pend_dos}}</th>
-                                <th>{{valor.pend_uno}}</th>
-                                <th>{{valor.base_del_dia}}</th>
-                                <th>{{valor.finalizado}}</th>
-                                <th>{{valor.pendiente_para_sig_dia}}</th>
 
-                                
-                                {% comment %} <td>{{fichero.nombre}}</td>
-                                <td>{{fichero.apellido}}</td>
-                                <td>{{fichero.sucursal}}</td>
-                                <td>{{fichero.categoria}}</td>
-                                <td>{{fichero.tipo_tarifa}}</td>
-                                <td>{{fichero.fecha_trabajada}}</td>
-                                <td>{{fichero.id}}</td>
-                                {% if fichero.pago_realizado == 'Si' %}
-                                <td>{{fichero.pago_realizado}}</td>
-                                {% else %}
-                                <td>{{fichero.pago_realizado}}  -<a href={% url 'pagar_ficha' fichero.id %}><button class="btn btn-light">Pagar</a></button></td>
-                                {% endif %}
-                                <td><a href={% url 'edicion_ficha' fichero.id %}><button class="btn btn-warning">Editar</a></td>
-                                <td><button type="button" class="btn btn-outline-danger m-2"><a href={% url 'eliminar_ficha' fichero.id %} >Eliminar</a></button></td> {% endcomment %}
+<a href={% url 'informe_global' %}><button class="btn btn-black" >Actualizar</a></button>
 
 
-
-                            </tr>
-                            {% endfor %}
-                            
-
-
-                        </tbody>
-
-                        <tbody>
-                            
-                            <tr>
-                                <th>Total</th>
-                                
-                                <th>{{total_pk_3}}</th>
-                                <th>{{total_pk_2}}</th>
-                                <th>{{total_pk_1}}</th>
-                                <th>{{total_pk_0}}</th>
-                                <th>{{fin_pk}}</th>
-                                <th>{{total_pk_maniana}}</th>
-                                
-                            </tr>
-                        </tbody>
-                        
-                    </table>
-                
-                    
-                        
-                    
-                </div>
-            </div>
-
-        </div>
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-        <div class="col-lg-6">
-            <div class="row">
+<table border="1" id="tablapk">
     
         
-                
-                {% comment %} <form action= {% url 'informe_global' %}>
-                    <table>
-                    {{form.as_table}}
-                    </table>
-                    <button type="submit" class="btn btn-success">Buscar</button>
-                    
-                </form> {% endcomment %}
-                
-                
-                        
-                <h6 class="mb-4">Informe diario armado pendiente</h6>
-                <a href={% url 'informe_global' %}><button class="btn btn-black" >Actualizar</a></button>
-                <table class="table table-bordered border-primary">
-                    <thead>
-                        <tr>
-                            
-                            
-                            <th scope="col">Canal </th>
-                            <th scope="col">Pendientes anteriores a {{anterior_a}}</th>
-                            <th scope="col">Pendiente {{antes_ayer}}</th>
-                            <th scope="col">Pendiente {{ayer}}</th>
-                            <th scope="col">Pendientes de hoy {{hoy}}</th>
-                            <th scope="col">Finalizado {{hoy}}</th>
-                            <th scope="col">Pendiente para el siguiente dia {{siguiente}}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for valor in informacion_arm %}
-                        <tr>
-                            <th><a href={% url 'detalle_por_subcliente' valor.canal %}>{{valor.canal}}</th>
-                            <th>{{valor.pend_tres_o_mas}}</th>
-                            <th>{{valor.pend_dos}}</th>
-                            <th>{{valor.pend_uno}}</th>
-                            <th>{{valor.base_del_dia}}</th>
-                            <th>{{valor.finalizado}}</th>
-                            <th>{{valor.pendiente_para_sig_dia}}</th>
+    <tr>
+        <th onclick="sortTable(0, 'str')">Canal</th>
+        <th onclick="sortTable(0, 'int')"> Pendientes anteriores a {{anterior_a | date:"d/m/Y"}}</th>
+        <th onclick="sortTable(0, 'int')">Pendiente {{antes_ayer | date:"d/m/Y"}}</th>
+        <th onclick="sortTable(0, 'int')">Pendiente {{ayer | date:"d/m/Y"}}</th>
+        <th onclick="sortTable(0, 'int')">Pendientes de hoy {{hoy}}</th>
+        <th onclick="sortTable(0, 'int')">Finalizado {{hoy}}</th>
+        <th onclick="sortTable(0, 'int')">Pendiente para el siguiente dia {{siguiente}}</th>
+    </tr>
 
-                            
-                            {% comment %} <td>{{fichero.nombre}}</td>
-                            <td>{{fichero.apellido}}</td>
-                            <td>{{fichero.sucursal}}</td>
-                            <td>{{fichero.categoria}}</td>
-                            <td>{{fichero.tipo_tarifa}}</td>
-                            <td>{{fichero.fecha_trabajada}}</td>
-                            <td>{{fichero.id}}</td>
-                            {% if fichero.pago_realizado == 'Si' %}
-                            <td>{{fichero.pago_realizado}}</td>
-                            {% else %}
-                            <td>{{fichero.pago_realizado}}  -<a href={% url 'pagar_ficha' fichero.id %}><button class="btn btn-light">Pagar</a></button></td>
-                            {% endif %}
-                            <td><a href={% url 'edicion_ficha' fichero.id %}><button class="btn btn-warning">Editar</a></td>
-                            <td><button type="button" class="btn btn-outline-danger m-2"><a href={% url 'eliminar_ficha' fichero.id %} >Eliminar</a></button></td> {% endcomment %}
+
+    
+    
+    {% for valor in informacion %}
+    <tr>
+        <td><a href={% url 'detalle_por_subcliente' valor.canal %}>{{valor.canal}}</a></td>
+        <td>{{valor.pend_tres_o_mas}}</td>
+        <td>{{valor.pend_dos}}</td>
+        <td>{{valor.pend_uno}}</td>
+        <td>{{valor.base_del_dia}}</td>
+        <td>{{valor.finalizado}}</td>
+        <td>{{valor.pendiente_para_sig_dia}}</td>
+    </tr>
+    {% endfor %}
 
 
 
-                        </tr>
-                        {% endfor %}
-                        
-                    </tbody>
-
-                    
-
-                    <tbody>
-                        
-                        <tr>
-                            <th>Total</th>
-                            
-                            <th>{{total_arm_3}}</th>
-                            <th>{{total_arm_2}}</th>
-                            <th>{{total_arm_1}}</th>
-                            <th>{{total_arm_0}}</th>
-                            <th>{{fin_arm}}</th>
-                            <th>{{total_arm_maniana}}</th>
-
-                        </tr>
-                    </tbody>
-
-
-                </table>
-            </div>
-        </div>
-                
-            
-    </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
-
+    <tr>
+        <th>Total</th>
+        <th>{{total_pk_3}}</th>
+        <th>{{total_pk_2}}</th>
+        <th>{{total_pk_1}}</th>
+        <th>{{total_pk_0}}</th>
+        <th>{{fin_pk}}</th>
+        <th>{{total_pk_maniana}}</th>
+    </tr>
         
     
-    {% comment %} </div>         {% endcomment %}
-</section>
+    
+</table>
+
+
+
+
+<table border="1" id="tablaarm">
+    
+    <tr>
+        <th onclick="sortTablearm(0, 'int')">Canal </th>
+        <th onclick="sortTablearm(0, 'int')">Pendientes anteriores a {{anterior_a | date:"d/m/Y"}}</th>
+        <th onclick="sortTablearm(0, 'int')">Pendiente {{antes_ayer | date:"d/m/Y"}}</th>
+        <th onclick="sortTablearm(0, 'int')">Pendiente {{ayer | date:"d/m/Y"}}</th>
+        <th onclick="sortTablearm(0, 'int')">Pendientes de hoy {{hoy}}</th>
+        <th onclick="sortTablearm(0, 'int')">Finalizado {{hoy}}</th>
+        <th onclick="sortTablearm(0, 'int')">Pendiente para el siguiente dia {{siguiente}}</th>
+    </tr>
+
+
+    {% for valor in informacion_arm %}
+    <tr>
+        <td><a href={% url 'detalle_por_subcliente' valor.canal %}>{{valor.canal}}</td>
+        <td>{{valor.pend_tres_o_mas}}</td>
+        <td>{{valor.pend_dos}}</td>
+        <td>{{valor.pend_uno}}</td>
+        <td>{{valor.base_del_dia}}</td>
+        <td>{{valor.finalizado}}</td>
+        <td>{{valor.pendiente_para_sig_dia}}</td>
+    </tr>
+    {% endfor %}
+
+
+
+    <tr>
+        <th>Total</th>
+        <th>{{total_arm_3}}</th>
+        <th>{{total_arm_2}}</th>
+        <th>{{total_arm_1}}</th>
+        <th>{{total_arm_0}}</th>
+        <th>{{fin_arm}}</th>
+        <th>{{total_arm_maniana}}</th>
+    </tr>
+    
+
+</table>
+
+
+
+
+
+
+
 {% endblock graficos_tablas %}
+
