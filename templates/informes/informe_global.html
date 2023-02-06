@@ -44,99 +44,120 @@
 
 <a href={% url 'informe_global' %}><button class="btn btn-black" >Actualizar</a></button>
 
+<section class"section">
+    <div class="row">
 
-<table border="1" id="tablapk">
-    
         
-    <tr>
-        <th onclick="sortTable(0, 'str')">Canal</th>
-        <th onclick="sortTable(0, 'int')"> Pendientes anteriores a {{anterior_a | date:"d/m/Y"}}</th>
-        <th onclick="sortTable(0, 'int')">Pendiente {{antes_ayer | date:"d/m/Y"}}</th>
-        <th onclick="sortTable(0, 'int')">Pendiente {{ayer | date:"d/m/Y"}}</th>
-        <th onclick="sortTable(0, 'int')">Pendientes de hoy {{hoy}}</th>
-        <th onclick="sortTable(0, 'int')">Finalizado {{hoy}}</th>
-        <th onclick="sortTable(0, 'int')">Pendiente para el siguiente dia {{siguiente}}</th>
-    </tr>
-
-
-    
-    
-    {% for valor in informacion %}
-    <tr>
-        <td><a href={% url 'detalle_por_subcliente' valor.canal %}>{{valor.canal}}</a></td>
-        <td>{{valor.pend_tres_o_mas}}</td>
-        <td>{{valor.pend_dos}}</td>
-        <td>{{valor.pend_uno}}</td>
-        <td>{{valor.base_del_dia}}</td>
-        <td>{{valor.finalizado}}</td>
-        <td>{{valor.pendiente_para_sig_dia}}</td>
-    </tr>
-    {% endfor %}
+        <div class="col-lg-6">
+        
+            <div class"dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                <div class="dataTable-container">
 
 
 
-    <tr>
-        <th>Total</th>
-        <th>{{total_pk_3}}</th>
-        <th>{{total_pk_2}}</th>
-        <th>{{total_pk_1}}</th>
-        <th>{{total_pk_0}}</th>
-        <th>{{fin_pk}}</th>
-        <th>{{total_pk_maniana}}</th>
-    </tr>
+
+                    <table border="1" class="table datatable dataTable-table" id="tablapk">
+                        
+                            
+                        <tr>
+                            <th onclick="sortTable(0, 'str')">Canal</th>
+                            <th onclick="sortTable(0, 'int')"> Pendientes anteriores a {{anterior_a | date:"d/m/Y"}}</th>
+                            <th onclick="sortTable(0, 'int')">Pendiente {{antes_ayer | date:"d/m/Y"}}</th>
+                            <th onclick="sortTable(0, 'int')">Pendiente {{ayer | date:"d/m/Y"}}</th>
+                            <th onclick="sortTable(0, 'int')">Pendientes de hoy {{hoy}}</th>
+                            <th onclick="sortTable(0, 'int')">Finalizado {{hoy}}</th>
+                            <th onclick="sortTable(0, 'int')">Pendiente para el siguiente dia {{siguiente}}</th>
+                        </tr>
+
+
+                        
+                        
+                        {% for valor in informacion %}
+                        <tr>
+                            <td><a href={% url 'detalle_por_subcliente' valor.canal %}>{{valor.canal}}</a></td>
+                            <td>{{valor.pend_tres_o_mas}}</td>
+                            <td>{{valor.pend_dos}}</td>
+                            <td>{{valor.pend_uno}}</td>
+                            <td>{{valor.base_del_dia}}</td>
+                            <td>{{valor.finalizado}}</td>
+                            <td>{{valor.pendiente_para_sig_dia}}</td>
+                        </tr>
+                        {% endfor %}
+
+
+
+                        <tr>
+                            <th>Total</th>
+                            <th>{{total_pk_3}}</th>
+                            <th>{{total_pk_2}}</th>
+                            <th>{{total_pk_1}}</th>
+                            <th>{{total_pk_0}}</th>
+                            <th>{{fin_pk}}</th>
+                            <th>{{total_pk_maniana}}</th>
+                        </tr>
+                            
+                        
+                        
+                    </table>
+                </div>
+            </div>
+                
+        </div>
         
     
-    
-</table>
+
+        
+        <div class="col-lg-6">
+            
+            <div class"dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                <div class="dataTable-container">
+
+
+                <table border="1" class="table datatable dataTable-table" id="tablaarm">
+                    
+                    <tr>
+                        <th onclick="sortTablearm(0, 'str')">Canal </th>
+                        <th onclick="sortTablearm(0, 'int')">Pendientes anteriores a {{anterior_a | date:"d/m/Y"}}</th>
+                        <th onclick="sortTablearm(0, 'int')">Pendiente {{antes_ayer | date:"d/m/Y"}}</th>
+                        <th onclick="sortTablearm(0, 'int')">Pendiente {{ayer | date:"d/m/Y"}}</th>
+                        <th onclick="sortTablearm(0, 'int')">Pendientes de hoy {{hoy}}</th>
+                        <th onclick="sortTablearm(0, 'int')">Finalizado {{hoy}}</th>
+                        <th onclick="sortTablearm(0, 'int')">Pendiente para el siguiente dia {{siguiente}}</th>
+                    </tr>
+
+
+                    {% for valor in informacion_arm %}
+                    <tr>
+                        <td><a href={% url 'detalle_por_subcliente' valor.canal %}>{{valor.canal}}</td>
+                        <td>{{valor.pend_tres_o_mas}}</td>
+                        <td>{{valor.pend_dos}}</td>
+                        <td>{{valor.pend_uno}}</td>
+                        <td>{{valor.base_del_dia}}</td>
+                        <td>{{valor.finalizado}}</td>
+                        <td>{{valor.pendiente_para_sig_dia}}</td>
+                    </tr>
+                    {% endfor %}
 
 
 
+                    <tr>
+                        <th>Total</th>
+                        <th>{{total_arm_3}}</th>
+                        <th>{{total_arm_2}}</th>
+                        <th>{{total_arm_1}}</th>
+                        <th>{{total_arm_0}}</th>
+                        <th>{{fin_arm}}</th>
+                        <th>{{total_arm_maniana}}</th>
+                    </tr>
+                    
 
-<table border="1" id="tablaarm">
-    
-    <tr>
-        <th onclick="sortTablearm(0, 'int')">Canal </th>
-        <th onclick="sortTablearm(0, 'int')">Pendientes anteriores a {{anterior_a | date:"d/m/Y"}}</th>
-        <th onclick="sortTablearm(0, 'int')">Pendiente {{antes_ayer | date:"d/m/Y"}}</th>
-        <th onclick="sortTablearm(0, 'int')">Pendiente {{ayer | date:"d/m/Y"}}</th>
-        <th onclick="sortTablearm(0, 'int')">Pendientes de hoy {{hoy}}</th>
-        <th onclick="sortTablearm(0, 'int')">Finalizado {{hoy}}</th>
-        <th onclick="sortTablearm(0, 'int')">Pendiente para el siguiente dia {{siguiente}}</th>
-    </tr>
+                </table>
+            </div>
+        </div>
+        
+    </div>
 
-
-    {% for valor in informacion_arm %}
-    <tr>
-        <td><a href={% url 'detalle_por_subcliente' valor.canal %}>{{valor.canal}}</td>
-        <td>{{valor.pend_tres_o_mas}}</td>
-        <td>{{valor.pend_dos}}</td>
-        <td>{{valor.pend_uno}}</td>
-        <td>{{valor.base_del_dia}}</td>
-        <td>{{valor.finalizado}}</td>
-        <td>{{valor.pendiente_para_sig_dia}}</td>
-    </tr>
-    {% endfor %}
-
-
-
-    <tr>
-        <th>Total</th>
-        <th>{{total_arm_3}}</th>
-        <th>{{total_arm_2}}</th>
-        <th>{{total_arm_1}}</th>
-        <th>{{total_arm_0}}</th>
-        <th>{{fin_arm}}</th>
-        <th>{{total_arm_maniana}}</th>
-    </tr>
-    
-
-</table>
-
-
-
-
-
-
+</section>
 
 {% endblock graficos_tablas %}
 

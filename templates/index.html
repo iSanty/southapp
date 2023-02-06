@@ -1213,33 +1213,7 @@
   <script src={% static 'tema_claro/assets/js/main.js' %}></script>
   <script src={% static "tema_claro/assets/js/jquery-3.4.1.min.js" %}></script>
 
-  {% comment %} <script>
-
-    $(document).ready(() => {
-        $('th').each(function(columna) {
-            $(this).hover(function() {
-                $(this).addClass('resaltar');
-            }, function() {
-                $(this).removeClass('resaltar');
-            });
-
-            $(this).click(function() {
-                let registros = $('table').find('tbody > tr').get();
-
-                registros.sort(function(a, b) {
-                    let valor1 = $(a).children('td').eq(columna).text().toUpperCase();
-                    let valor2 = $(b).children('td').eq(columna).text().toUpperCase();
-
-                    return valor1 < valor2 ? -1 : valor1 > valor2 ? 1 : 0;
-                });
-
-                $.each(registros, function(indice, elemento) {
-                    $('tbody').append(elemento);
-                });
-            });
-        });
-    });
-</script> {% endcomment %}
+  
   
 
 

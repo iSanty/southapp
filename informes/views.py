@@ -708,42 +708,67 @@ def informe_global(request):
     
     
     
-    totales = Pendientes.objects.all()
-    totales_arm = PendientesArm.objects.all()
-    
-    
+    totales = GlobalPK.objects.filter(estado_picking='Pendiente')
+    totales_arm = GlobalPK.objects.filter(estado_armado='Pendiente')
+    hoy2 = date.today()
     cero = 0
     uno = 0
     dos = 0
     mas_de_tres = 0
     maniana = 0
-    for valor in totales:
-        cero += valor.base_del_dia
-        uno += valor.pend_uno
-        dos += valor.pend_dos
-        mas_de_tres += valor.pend_tres_o_mas
-        maniana += valor.pendiente_para_sig_dia
-        
-        
     cero_arm = 0
     uno_arm = 0
     dos_arm = 0
     mas_de_tres_arm = 0
     maniana_arm = 0
+    
+    
+    for valor in totales:
+        if valor.fecha_procesado == hoy2:
+            
+            cero += valor.unidades
+            
+        elif valor.fecha_procesado == hoy2 - delta1:
+            uno += valor.unidades
+            
+        elif valor.fecha_procesado == hoy2 -delta2:
+            dos += valor.unidades
+            
+        elif valor.fecha_procesado <= hoy2 - delta3:
+            mas_de_tres += valor.unidades
+            
+        if valor:
+            maniana += valor.unidades
+        
+        
+        
     for valor in totales_arm:
         
 
         
-        cero_arm += valor.base_del_dia
-        uno_arm += valor.pend_uno
-        dos_arm += valor.pend_dos
-        mas_de_tres_arm += valor.pend_tres_o_mas
-        maniana_arm += valor.pendiente_para_sig_dia
+        if valor.fecha_procesado == hoy2:
+            
+            cero_arm += valor.unidades
+            
+        elif valor.fecha_procesado == hoy2 - delta1:
+            uno_arm += valor.unidades
+            
+        elif valor.fecha_procesado == hoy2 -delta2:
+            dos_arm += valor.unidades
+            
+        elif valor.fecha_procesado <= hoy2 - delta3:
+            mas_de_tres_arm += valor.unidades
+            
+        if valor:
+            maniana_arm += valor.unidades
         
     
-    total_finalizado = GlobalPK.objects.filter(fecha_picking=fecha_hoy_f)
+    
+    
+    
+    total_finalizado = GlobalPK.objects.filter(fecha_picking=hoy2)
     pk_fin = total_finalizado.filter(estado_picking='Finalizado')
-    total_finalizado_arm = GlobalPK.objects.filter(fecha_finalizado_armado=fecha_hoy_f)
+    total_finalizado_arm = GlobalPK.objects.filter(fecha_finalizado_armado=hoy2)
     arm_fin = total_finalizado_arm.filter(estado_armado='Finalizado')
     
     fin_arm = 0
@@ -763,6 +788,7 @@ def informe_global(request):
                                                            'hoy':fecha_hoy, 
                                                            'informacion':informacion, 
                                                            'informacion_arm':informacion_arm,
+                                                           
                                                            'total_pk_3':mas_de_tres,
                                                            'total_pk_2':dos,
                                                            'total_pk_1':uno,
@@ -774,6 +800,7 @@ def informe_global(request):
                                                            'total_arm_1':uno_arm,
                                                            'total_arm_0':cero_arm,
                                                            'total_arm_maniana':maniana_arm,
+                                                           
                                                            'fin_arm':fin_arm,
                                                            'fin_pk':fin_pk
                                                            })
