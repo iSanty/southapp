@@ -34,23 +34,23 @@
               Nuevo Picking
             </button>
           </a>
-          <a href={% url 'iniciar_picking' %}>
+          {% comment %} <a href={% url 'iniciar_picking' %}>
             <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Inicia el proceso de picking físico">
               Iniciar Picking
             </button>
-          </a>
+          </a> {% endcomment %}
 
           <a href={% url 'finalizar_global' %}>
-            <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Finaliza el proceso de picking físico">
+            <button type="button" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Finaliza el proceso de picking físico">
               Finalizar Picking
             </button>
           </a>
 
-          <a href={% url 'iniciar_armado' %}>
+          {% comment %} <a href={% url 'iniciar_armado' %}>
             <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Inicia el proceso de armado de paquetes">
               Iniciar Armado
             </button>
-          </a>
+          </a> {% endcomment %}
 
           <a href={% url 'finalizar_armado' %}>
             <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Finaliza el proceso de armado de paquetes">

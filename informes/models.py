@@ -3,11 +3,18 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 
+class NombrePlanilla(models.Model):
+    nombre = models.CharField(max_length=128)
+    
+    def __str__(self):
+        return f'{self.nombre}'
+    
+
 
 class GlobalPK(models.Model):
     numero = models.IntegerField()
-    cliente = models.CharField(max_length=50) #agarro de operaciones
-    sub_cliente = models.CharField(max_length=50)
+    cliente = models.CharField(max_length=50, null=True) #agarro de operaciones
+    sub_cliente = models.CharField(max_length=50, null=True)
     tipo = models.CharField(max_length=128)
     unidades = models.IntegerField()
     fecha_creacion = models.DateField(null=True)

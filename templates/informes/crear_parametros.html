@@ -28,66 +28,101 @@
 </div>
 
 
-<div class="container-fluid pt-4 px-4">
-    
-        
-    <div class="container-fluid pt-4 px-4">
-        <h6>Crear sub cliente</h6>
-        <div class="row g-4">
-            <form action={% url 'parametros'%} method = "POST"> 
-                {% csrf_token %}
-                <table>
-                    {{form_sub_cliente.as_table}}
-                </table>
-                <button type="submit" class="btn btn-info" name="btn_sub_cliente">Crear</button>
-            </form>
-        </div>
-    </div>
-        
-        
-</div>
+<div class="row">
+    <div class="col-lg-8">
+        <div class="row">
+
+
+
+            <div class="col-xxl-4 col-md-6">
+
+                <div class="card info-card customers-card">
+
+
+                    <div class="card-body">
+                        <h5 class="card-title">Crear canal de descuento</h5>
+
+                        <div class="d-flex align-items-center">
+                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                <div class="row g-4">
+                                    <form action={% url 'parametros'%} method = "POST"> 
+                                        {% csrf_token %}
+                                        <table>
+                                            {{form_sub_cliente.as_table}}
+                                        </table>
+                                        <button type="submit" class="btn btn-info" name="btn_sub_cliente">Crear</button>
+                                    </form>
+                                </div>
+
+                            </div>
+                    
+                    
+                        </div>
+                    </div>    
+                </div>
+                    
+            </div>
 
 
 
 
-<div class="container-fluid pt-4 px-4">
-    
-            <div class="container-fluid pt-4 px-4">
-                <h6>Crear personal de deposito</h6>
-                <div class="row g-4">
-                    <form action={% url 'parametros'%} method = "POST"> 
-                        {% csrf_token %}
-                        <table>
-                            {{form_personal_deposito.as_table}}
-                        </table>
-                        <button type="submit" class="btn btn-info" name="btn_personal_deposito">Crear</button>
-                    </form>
+            <div class="col-xxl-4 col-md-6">
+
+                <div class="card info-card customers-card">
+
+
+                    <div class="card-body">
+                        <h5 class="card-title">Crear personal de deposito</h5>
+
+                        <div class="d-flex align-items-center">
+                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                <div class="row g-4">
+                                    <form action={% url 'parametros'%} method = "POST"> 
+                                        {% csrf_token %}
+                                        <table>
+                                            {{form_personal_deposito.as_table}}
+                                        </table>
+                                        <button type="submit" class="btn btn-info" name="btn_personal_deposito">Crear</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
                 </div>
             </div>
-        
-</div>
 
 
 
 
-<div class="container-fluid pt-4 px-4">
-    
-        
-    <div class="container-fluid pt-4 px-4">
-        <h6>Crear sector de deposito</h6>
-        <div class="row g-4">
-            <form action={% url 'parametros'%} method = "POST"> 
-                {% csrf_token %}
-                <table>
-                    {{form_sector.as_table}}
-                </table>
-                <button type="submit" class="btn btn-info" name="btn_sector">Crear</button>
-            </form>
+            <div class="col-xxl-4 col-md-6">
+
+                <div class="card info-card customers-card">
+
+
+                    <div class="card-body">
+                        <h5 class="card-title">Crear sector de deposito</h5>
+
+                        <div class="d-flex align-items-center">
+                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                <div class="row g-4">
+                                    <form action={% url 'parametros'%} method = "POST"> 
+                                        {% csrf_token %}
+                                        <table>
+                                            {{form_sector.as_table}}
+                                        </table>
+                                        <button type="submit" class="btn btn-info" name="btn_sector">Crear</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                
+            
         </div>
     </div>
-        
-    
 </div>
-
 
 {% endblock graficos_tablas %}
