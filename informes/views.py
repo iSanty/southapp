@@ -17,7 +17,9 @@ fecha_hoy = str(dia) + '/' + str(mes) + '/' + str(anio)
 fecha_hoy_f = datetime.strptime(fecha_hoy, formato_fecha2)
 
 
-
+def monitor(request):
+    detalle = 0
+    return render(request, 'informes/monitor.html',{'detalle':detalle})
 
 def detalle_por_subcliente(request, subcliente):
     detalle_sub = GlobalPK.objects.filter(nombre_planilla=subcliente)

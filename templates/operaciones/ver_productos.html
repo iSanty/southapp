@@ -22,40 +22,77 @@
 <div class="container-fluid pt-4 px-4">
     <div class="col-sm-12 col-xl-3">
         
-        <div class="container-fluid pt-4 px-4">
-            <form action= {% url 'ver_productos' %}>
-                
-                {{form}}
-                    <button>Buscar</button>
-                
-            </form>
-        </div>
+      <div class="container-fluid pt-4 px-4">
+        <form action= {% url 'ver_productos' %}>
+            
+          {{form}}
+          <button>Buscar</button>
+            
+        </form>
+      </div>
         
     </div>
 </div>
 
     
-<p></p>
-<p></p>
-
 
 <div class="container-fluid pt-4 px-4">
-    <div class="col-sm-12 col-xl-auto">
+  <div class="col-sm-12 col-xl-auto">
+      
+      
+    <p>Resultado de la busqueda:</p>
+    <ul>
+    {% if productos_listado %}
+
+
+
+
+      <table class="table table-bordered border-primary">
+        <thead>
+          <tr>  
+            <th scope="col"></th> 
+            <th scope="col">Cia</th>
+            <th scope="col">Codigo</th>
+            <th scope="col">Descripcion</th>
+            <th scope="col">Peso unidad</th>
+            <th scope="col">Medida Unidad</th>
+            <th scope="col">Unidad por caja</th>
+            <th scope="col">Medida Caja</th>
+            <th scope="col">Unidad por Pall</th>
+            <th scope="col">Empaque</th>
+            <th scope="col">Valor</th>
+          </tr>
+        </thead>
+        <tbody>
+          {%for producto in productos_listado%}
+          <td><button type="button" class="btn btn-outline-danger m-2"><a href={% url 'editar_producto' producto.id %}>Editar</a></td>
+          <td>{{producto.cia}}</td>
+          <td>{{producto.codigo}}</td>
+          <td>{{producto.descripcion}}</td>
+          <td>{{producto.peso_un}}</td>
+          <td>L: {{producto.largo_un}} - An: {{producto.ancho_un}} - Al: {{producto.alto_un}}</td>
+          <td>{{producto.unidad_caja}}</td>
+          <td>L: {{producto.largo_cj}} - An: {{producto.ancho_cjn}} - Al: {{producto.alto_cj}}</td>
+          <td>{{producto.unidad_pall}}</td>
+          <td>{{producto.pack}}</td>
+          <td>{{producto.vd}}</td>
+        </tbody>
+
+
+
+
+
         
         
-        <p>Resultado de la busqueda:</p>
-            <ul>
-            {% if productos_listado %}
-                {%for producto in productos_listado%}
-                <li><a href={% url 'editar_producto' producto.id %} method="post">>Mas datos<</a>-Compañia: {{producto.cia}}- Código: {{producto.codigo}}- Descripción: {{producto.descripcion}}- Fecha Creacion: {{producto.fecha_creacion}} - Creado por: {{producto.usuario}}</li>
-                {% endfor %}
-            </ul>
-            {% else %}
-            Aun no se han encontrado productos.
-            <a href={% url 'nuevo_aforo' %}>Crear productos</a>
-            {% endif %}
-        
-        
-    </div>
+        {% endfor %}
+      </table>
+    </ul>
+    {% else %}
+    Aun no se han encontrado productos.
+    <a href={% url 'nuevo_aforo' %}>Crear productos</a>
+    {% endif %}
+      
+      
+  </div>
 </div>
 {% endblock graficos_tablas %}

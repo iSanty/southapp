@@ -34,28 +34,43 @@
                     <thead>
                         <tr>
                             
-                            <th scope="col">Numero</th>
                             <th scope="col">Cliente</th>
-                            <th scope="col">Sub Cliente</th>
+                            <th scope="col">Tipo</th>
+                            <th scope="col">Picking</th>
                             <th scope="col">Unidades</th>
                             <th scope="col">Fecha Proceso</th>
-                            <th scope="col">Estado PK</th>
+                            <th scope="col">Hora Proceso</th>
+                            <th scope="col">Operario</th>
+                            <th scope="col">Fecha Picking</th>
+                            <th scope="col">Hora Inicio Picking</th>
+                            <th scope="col">Hora Fin Picking</th>
+                            <th scope="col">Fecha Armado</th>
+                            <th scope="col">Hora Inicio Armado</th>
+                            <th scope="col">Hora Fin Armado</th>
+                            <th scope="col">Estado Picking</th>
                             <th scope="col">Estado Armado</th>
-                            <th scope="col">Accion</th>
-                            <th scope="col">Accion</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for valor in detalle %}
                         <tr>
                             
-                            <th>{{valor.numero}}</th>
-                            <td>{{valor.cliente}}</td>
-                            <td>{{valor.sub_cliente}}</td>
+                            <th>{{valor.nombre_planilla}}</th>
+                            <td>{{valor.tipo}}</td>
+                            <td>{{valor.numero}}</td>
                             <td>{{valor.unidades}}</td>
-                            <td>{{valor.fecha_procesado}}</td>
+                            <td>{{valor.fecha_procesado | date:"d/m/Y"}}</td>
+                            <td>{{valor.hora_procesado}}</td>
+                            <td>{{valor.operario}}</td>
+                            <td>{{valor.fecha_picking | date:"d/m/Y"}}</td>
+                            <td>{{valor.hora_inicio_picking}}</td>
+                            <td>{{valor.hora_fin_picking}}</td>
+                            <td>{{valor.fecha_finalizado_armado | date:"d/m/Y"}}</td>
+                            <td>{{valor.hora_inicio_armado}}</td>
+                            <td>{{valor.hora_fin_armado}}</td>
                             <td>{{valor.estado_picking}}</td>
                             <td>{{valor.estado_armado}}</td>
+
                             
                             <td><button type="button" class="btn btn-outline-danger m-2"><a href={% url 'editar_global' valor.id %}>Editar</a></button></td>
                             <td><button type="button" class="btn btn-outline-danger m-2"><a href='#'{% comment %} {% url 'edicion_ficha' fichero.id %} {% endcomment %} >Eliminar</a></button></td>

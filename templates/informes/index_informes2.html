@@ -189,22 +189,33 @@
           <h5 class="card-title">Informes de preparacion de pedidos</h5>
           
 
+
+
+          <a href={% url 'monitor' %}>
+            <button type="button" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Control por tarjetas de pendientes" >
+              Monitor
+            </button>
+          </a>
+
+
           <!-- Tooltips Examples -->
           <a href={% url 'informe_global' %}>
-            <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Planillas de informes diarios" >
-              Informe Diario de Pendientes
+            <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Muestra pendientes por cliente y días de atraso" >
+              Ver Tabla por Cliente
+            </button>
+          </a>
+
+          
+
+          <a href={% url 'informe_global' %}>
+            <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Tabla base de pendientes por fecha" >
+              Consultar planilla
             </button>
           </a>
 
           <a href={% url 'informe_global' %}>
-            <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Planillas de informes diarios" >
-              Consulta base de datos por fecha
-            </button>
-          </a>
-
-          <a href={% url 'informe_global' %}>
-            <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Planillas de informes diarios" >
-              Consulta Base de datos completa
+            <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Grafico lineal por fecha y cantidad de pendientes" >
+              Informe grafico
             </button>
           </a>
 
@@ -245,7 +256,7 @@
               </div>
               <div class="ps-3">
                 <h6>{{pendiente_pk_dia}}</h6>
-                <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1"><a href= {% url 'detalle_pend_pk' %}> Ver detalle</a></span>
+                <span class="text-success small pt-1 fw-bold">...</span> <span class="text-muted small pt-2 ps-1"><a href= {% url 'detalle_pend_pk' %}> Ver detalle</a></span>
 
               </div>
             </div>
@@ -294,7 +305,7 @@
               </div>
               <div class="ps-3">
                 <h6>{{finalizado_pk_dia}}</h6>
-                <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1"><a href= {% url 'detalle_fin_pk' %}> Ver detalle</a></span>
+                <span class="text-danger small pt-1 fw-bold">...</span> <span class="text-muted small pt-2 ps-1"><a href= {% url 'detalle_fin_pk' %}> Ver detalle</a></span>
 
               </div>
             </div>
@@ -320,7 +331,7 @@
               </div>
               <div class="ps-3">
                 <h6>{{pendiente_arm_dia}}</h6>
-                <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1"><a href= {% url 'detalle_pend_arm' %}> Ver detalle</a></span>
+                <span class="text-danger small pt-1 fw-bold">...</span> <span class="text-muted small pt-2 ps-1"><a href= {% url 'detalle_pend_arm' %}> Ver detalle</a></span>
 
               </div>
             </div>
@@ -368,7 +379,7 @@
               </div>
               <div class="ps-3">
                 <h6>{{finalizado_arm_dia}}</h6>
-                <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1"><a href= {% url 'detalle_fin_arm' %}> Ver detalle</a></span>
+                <span class="text-danger small pt-1 fw-bold">...</span> <span class="text-muted small pt-2 ps-1"><a href= {% url 'detalle_fin_arm' %}> Ver detalle</a></span>
 
               </div>
             </div>
@@ -391,7 +402,7 @@
               </div>
               <div class="ps-3">
                 <h6>{{base_del_dia}}</h6>
-                <span class="text-danger small pt-1 fw-bold">12</span> <span class="text-muted small pt-2 ps-1"><a href= {% url 'base_dia' %}> Ver detalle</a></span>
+                <span class="text-danger small pt-1 fw-bold">...</span> <span class="text-muted small pt-2 ps-1"><a href= {% url 'base_dia' %}> Ver detalle</a></span>
 
               </div>
             </div>
@@ -439,7 +450,7 @@
               </div>
               <div class="ps-3">
                 <h6>{{base_del_dia}}</h6>
-                <span class="text-danger small pt-1 fw-bold">12</span> <span class="text-muted small pt-2 ps-1"><a href= {% url 'base_dia' %}> Ver detalle</a></span>
+                <span class="text-danger small pt-1 fw-bold">...</span> <span class="text-muted small pt-2 ps-1"><a href= {% url 'base_dia' %}> Ver detalle</a></span>
 
               </div>
             </div>

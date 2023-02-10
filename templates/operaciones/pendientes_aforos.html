@@ -56,10 +56,35 @@
         <p>Resultado de la busqueda:</p>
             <ul>
             {% if productos_listado %}
-                {%for producto in productos_listado%}
-                {% if producto.cia != '022' %}
-                {% if producto.cia != '001' %}
-                <li><a href={% url 'aforar' producto.id %} method="post">>AFORAR<</a>-Compañia: {{producto.cia}}- Código: {{producto.codigo}}- Descripción: {{producto.descripcion}}- Fecha Creacion: {{producto.fecha_creacion}} - Creado por: {{producto.usuario}}</li>
+                
+
+
+              <table class="table table-bordered border-primary">
+                <thead>
+                  <tr>  
+                    <th scope="col">Acción</th> 
+                    <th scope="col">Cia</th>
+                    <th scope="col">Codigo</th>
+                    <th scope="col">Descripcion</th>
+                    <th scope="col">Fecha Creacion</th>
+                    <th scope="col">Usuario</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {%for producto in productos_listado%}
+                  {% if producto.cia != '022' %}
+                  {% if producto.cia != '001' %}
+                  <tr>
+                      
+                    <td><button type="button" class="btn btn-outline-danger m-2"><a href={% url 'aforar' producto.id %}>Aforar</a></button> </td>
+                    <td>{{producto.cia}}</td>
+                    <td>{{producto.codigo}}</td>
+                    <td>{{producto.descripcion}}</td>
+                    <td>{{producto.fecha_creacion | date:"d/m/Y"}}</td>
+                    <td>{{producto.usuario}}</td>
+                  
+                  </tr>
+                
                 {% endif %}
                 {% endif %}
                 
@@ -67,7 +92,7 @@
                 {% endfor %}
             </ul>
             {% else %}
-            Aun no se han encontrado productos.
+            Aun no se han creado productos.
             
             {% endif %}
         
