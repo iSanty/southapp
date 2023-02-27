@@ -1,0 +1,39 @@
+{% extends 'informes/index_informes2.html' %}
+
+
+
+{% block dashboard %}
+<div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Preparacion de pedidos</h5>
+
+        <div class="pagetitle">
+            <h1></h1>
+            <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href={% url 'index' %}>Menu</a></li> 
+                <li class="breadcrumb-item"><a href={% url 'index_informes2' %}>Preparacion de pedidos</a></li>
+                <li class="breadcrumb-item">Consuta Planilla</li>
+                {% comment %} <li class="breadcrumb-item active">Breadcrumbs</li> {% endcomment %}
+            </ol>
+            </nav>
+        </div><!-- End Breadcrumbs with a page title -->
+
+    </div>
+</div>
+
+
+{% endblock dashboard %}
+
+
+{% block graficos_tablas %}
+
+
+Busqueda por fecha de:{{form.fecha_de}}
+Desde{{form.fecha_inicial}}
+Hasta{{form.fecha_final}}
+
+
+
+
+{% endblock graficos_tablas %}

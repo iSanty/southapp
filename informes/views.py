@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .forms import FormNuevoPK, FormSubCliente, FormPersonalDeposito, FormSector, FormFinalizarPK, FormFinalizarArm, FormIniciarPK, FormIniciarArm, FormEditarGlobal, FormNombrePlanilla
+from .forms import FormNuevoPK, FormSubCliente, FormPersonalDeposito, FormSector, FormFinalizarPK, FormFinalizarArm, FormIniciarPK, FormIniciarArm, FormEditarGlobal, FormNombrePlanilla, FormFiltroPlanilla
 from .models import GlobalPK, SectorDepo, SubClientes, PersonalDeposito, Pendientes, PendientesArm, PendientePkPorDia, PenditenteArmPorDia, FinalizadoArmPorDia, FinalizadoPkPorDia, NombrePlanilla
 from datetime import datetime, date, timedelta
 import calendar
@@ -17,9 +17,43 @@ fecha_hoy = str(dia) + '/' + str(mes) + '/' + str(anio)
 fecha_hoy_f = datetime.strptime(fecha_hoy, formato_fecha2)
 
 
+def consulta_planilla(request):
+    
+    if request.method == 'POST':
+        
+        form = FormFiltroPlanilla(request.POST)
+        if form.is_valid():
+            informacion = form.cleaned_data
+            fecha_inicial = informacion['fecha_inicial']
+            fecha_final = informacion['fecha_final']
+            fecha_de = informacion['fecha_de']
+            tipo =informacion['tipo']
+            cliente = informacion['cliente']
+            picking = informacion ['picking']
+            estado_de = informacion['estado_de']
+            operario = informacion['operario']
+            
+        else:
+            msj = 'Formulario inválido, reintente.'
+            return render(request, 'informes/consulta_planilla.html', {'form':form,'msj':msj})
+            
+    else:
+        fecha_inicio = date(2022, 8, 1) #fecha inicio de desarrollo
+        fecha_inicio_f = str(fecha_inicio.day) + '/' + str(fecha_inicio.month) + '/' + str(fecha_inicio.year)
+        form = FormFiltroPlanilla(initial={
+            'fecha_inicial':fecha_inicio_f,
+            'fecha_final':fecha_hoy,
+            
+            })
+        return render(request, 'informes/consulta_planilla.html', {'form':form})
+            
+            
+
+
 def monitor(request):
     detalle = 0
     return render(request, 'informes/monitor.html',{'detalle':detalle})
+
 
 def detalle_por_subcliente(request, subcliente):
     detalle_sub = GlobalPK.objects.filter(nombre_planilla=subcliente)
@@ -346,6 +380,12 @@ def index_informes_2(request):
     for valor in base_del_dia_hoy:
         base_del_dia += valor.unidades
         
+        
+        
+    #calculo piking por hora
+    total_pickeado = finalizado_pk_dia
+    
+    
             
     
     return render(request, 'informes/index_informes2.html', {'pendiente_pk_dia':pendiente_pk_dia,
@@ -451,7 +491,10 @@ def informe_global(request):
     dia = hoy.day
     mes = hoy.month
     anio = hoy.year
+    
     validar_lunes = calendar.weekday(anio, mes, dia)
+    
+    
     delta1 = timedelta(1)
     delta2 = timedelta(2)
     delta3 = timedelta(3)

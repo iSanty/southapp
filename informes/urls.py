@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import index_informes, nuevo_global, parametros , finalizar_global, informe_global, finalizar_armado, editar_global, index_informes_2, inciar_picking, iniciar_armado, detalle_base_dia, detalle_fin_arm, detalle_fin_pk, detalle_pend_arm, detalle_pend_pk, detalle_proc_arm, detalle_proc_pk, detalle_por_subcliente, monitor
+from .views import index_informes, nuevo_global, parametros , finalizar_global, informe_global, finalizar_armado, editar_global, index_informes_2, inciar_picking, iniciar_armado, detalle_base_dia, detalle_fin_arm, detalle_fin_pk, detalle_pend_arm, detalle_pend_pk, detalle_proc_arm, detalle_proc_pk, detalle_por_subcliente, monitor, consulta_planilla
 
 
 urlpatterns = [
@@ -25,6 +25,7 @@ urlpatterns = [
     path('detalle_proc_pk/', detalle_proc_pk, name='detalle_proc_pk'),
     path('detalle_por_subcliente/<subcliente>/', detalle_por_subcliente, name='detalle_por_subcliente'),
     path('monitor/', monitor, name='monitor'),
+    path('consulta_planilla/', consulta_planilla, name='consulta_planilla'),
     
 
 
