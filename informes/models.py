@@ -139,3 +139,4 @@ class FinalizadoArmPorDia(models.Model):
     unidades = models.IntegerField()
     
     
+    

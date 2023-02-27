@@ -1,6 +1,6 @@
 from django import forms
 from operaciones.models import Cia
-from .models import PersonalDeposito, SubClientes, SectorDepo, NombrePlanilla
+from .models import PersonalDeposito, SubClientes, SectorDepo, NombrePlanilla, GlobalPK
 
 
 class FormNuevoPK(forms.Form):
@@ -105,3 +105,32 @@ class FormEditarGlobal(forms.Form):
     
     en_picking = forms.CharField()
     en_armado = forms.CharField()
+    
+    
+    
+class FormFiltroPlanilla(forms.Form):
+    lista_fecha_1 = (
+        ('1', 'Procesado'),
+        ('2', 'Pickeo'),
+        ('3', 'Armado'), 
+        ('4', 'Fin Pickeo'), 
+        ('5', 'Fin Armado')
+        )
+    
+    fecha_de = forms.ChoiceField(choices=lista_fecha_1, required=False)
+    fecha_inicial = forms.DateField(input_formats=['%d/%m/%Y'], required=False)
+    fecha_final = forms.DateField(input_formats=['%d/%m/%Y'], required=False)
+    tipo = forms.CharField(required=False)
+    cliente = forms.ModelChoiceField(queryset=NombrePlanilla.objects.all().order_by('nombre'), required=False)
+    picking = forms.IntegerField(required=False)
+    operario = forms.ModelChoiceField(queryset=PersonalDeposito.objects.all(), required=False)
+    lista_estados = (
+        ("1", ''),
+        ("2", 'Armado'),
+        ("3", 'Picking')
+        
+        
+        
+        
+        )
+    estado_de = forms.ChoiceField(choices=lista_estados, required=False)
