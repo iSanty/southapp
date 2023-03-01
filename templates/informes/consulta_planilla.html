@@ -28,11 +28,44 @@
 
 {% block graficos_tablas %}
 
+<div class="row">
+    <div class="col-lg-12">
 
-Busqueda por fecha de:{{form.fecha_de}}
-Desde{{form.fecha_inicial}}
-Hasta{{form.fecha_final}}
+      <div class="card">
+        <div class="card-body">
 
+            <form action={% url 'consulta_planilla' %} method = "POST"> 
+                <p>Nro de picking: {{form.picking}}</p>
+                <p>Busqueda por fecha de:{{form.fecha_de}}
+                Desde: {{form.fecha_inicial}}
+                Hasta: {{form.fecha_final}}</p>
+                <p>Busqueda por cliente: {{form.cliente}}
+                Utilizar filtro de fecha en columna estado de: {{form.estado_de}}
+                Busqueda por operario: {{form.operario}}</p>
+                
+                
+                <button type="submit" class="btn btn-info">Grabar</button>
+            </form>
+            
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-12">
+    <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" role="alert">
+        {{msj}}
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+</div>
+
+
+
+{% if tabla %}
+{{tabla}}
+
+
+
+{% endif %}
 
 
 

@@ -110,24 +110,24 @@ class FormEditarGlobal(forms.Form):
     
 class FormFiltroPlanilla(forms.Form):
     lista_fecha_1 = (
-        ('1', 'Procesado'),
-        ('2', 'Pickeo'),
-        ('3', 'Armado'), 
-        ('4', 'Fin Pickeo'), 
-        ('5', 'Fin Armado')
+        ('Procesado', 'Procesado'),
+        ('Pickeo', 'Pickeo'),
+        ('Armado', 'Armado'), 
+        ('Fin Pickeo', 'Fin Pickeo'), 
+        ('Fin Armado', 'Fin Armado')
         )
     
-    fecha_de = forms.ChoiceField(choices=lista_fecha_1, required=False)
-    fecha_inicial = forms.DateField(input_formats=['%d/%m/%Y'], required=False)
-    fecha_final = forms.DateField(input_formats=['%d/%m/%Y'], required=False)
-    tipo = forms.CharField(required=False)
+    fecha_de = forms.ChoiceField(choices=lista_fecha_1)
+    fecha_inicial = forms.DateField(input_formats=['%d/%m/%Y'])
+    fecha_final = forms.DateField(input_formats=['%d/%m/%Y'])
+    
     cliente = forms.ModelChoiceField(queryset=NombrePlanilla.objects.all().order_by('nombre'), required=False)
     picking = forms.IntegerField(required=False)
     operario = forms.ModelChoiceField(queryset=PersonalDeposito.objects.all(), required=False)
     lista_estados = (
         ("1", ''),
-        ("2", 'Armado'),
-        ("3", 'Picking')
+        ("Armado", 'Armado'),
+        ("Picking", 'Picking')
         
         
         
