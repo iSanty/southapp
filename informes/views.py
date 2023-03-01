@@ -24,15 +24,107 @@ def consulta_planilla(request):
         form = FormFiltroPlanilla(request.POST)
         if form.is_valid():
             informacion = form.cleaned_data
+            
             fecha_inicial = informacion['fecha_inicial']
             fecha_final = informacion['fecha_final']
             fecha_de = informacion['fecha_de']
-            tipo =informacion['tipo']
-            cliente = informacion['cliente']
+            
             picking = informacion ['picking']
+            
             estado_de = informacion['estado_de']
+            
+            cliente = informacion['cliente']
             operario = informacion['operario']
             
+            if picking:
+                tabla = GlobalPK.objects.filter(numero=picking)
+                if tabla:
+                    tabla = GlobalPK.objects.get(numero=picking)
+                    msj = 'Resultado de la busqueda: '
+                    return render(request, 'informes/consulta_planilla.html', {'form':form,'msj':msj, 'tabla':tabla})
+                else:
+                    msj = 'Número de picking ' + str(picking) + ' inexistente.'
+                    return render(request, 'informes/consulta_planilla.html', {'form':form,'msj':msj})
+            
+            globales = GlobalPK.objects.all()
+            tabla = []
+            
+            
+            
+            
+            
+            if fecha_de == 'Procesado' and estado_de == '1' and cliente == None and operario == None:
+                for valor in globales:
+                    if valor.fecha_procesado >= fecha_inicial and valor.fecha_procesado <= fecha_final:
+                        tabla.append(valor)
+                if not tabla:
+                    msj = 'Sin resultados.'
+                    return render(request, 'informes/consulta_planilla.html', {'form':form,'msj':msj})
+                msj = 'Resultado de la busqueda: '
+                return render(request, 'informes/consulta_planilla.html', {'form':form,'msj':msj, 'tabla':tabla})
+                
+                
+            elif fecha_de == 'Pickeo' and estado_de == '1' and cliente == None and operario == None:
+                for valor in globales:
+                    if valor.fecha_inicio_picking >= fecha_inicial and valor.fecha_inicio_picking <= fecha_final: 
+                        tabla.append(valor)
+                if not tabla:
+                    msj = 'Sin resultados.'
+                    return render(request, 'informes/consulta_planilla.html', {'form':form,'msj':msj})
+                msj = 'Resultado de la busqueda: '
+                return render(request, 'informes/consulta_planilla.html', {'form':form,'msj':msj, 'tabla':tabla})
+            
+            
+            elif fecha_de == 'Armado' and estado_de == '1' and cliente == None and operario == None:
+                for valor in globales:
+                    if valor.fecha_armado >= fecha_inicial and valor.fecha_armado <= fecha_final:                            
+                        tabla.append(valor)
+                if not tabla:
+                    msj = 'Sin resultados.'
+                    return render(request, 'informes/consulta_planilla.html', {'form':form,'msj':msj})
+                msj = 'Resultado de la busqueda: '
+                return render(request, 'informes/consulta_planilla.html', {'form':form,'msj':msj, 'tabla':tabla})
+            
+            
+            elif fecha_de == 'Fin Pickeo' and estado_de == '1' and cliente == None and operario == None:
+                for valor in globales:
+                    if valor.fecha_picking >= fecha_inicial and valor.fecha_picking <= fecha_final:                            
+                        tabla.append(valor)
+                if not tabla:
+                    msj = 'Sin resultados.'
+                    return render(request, 'informes/consulta_planilla.html', {'form':form,'msj':msj})
+                msj = 'Resultado de la busqueda: '
+                return render(request, 'informes/consulta_planilla.html', {'form':form,'msj':msj, 'tabla':tabla})
+                        
+                        
+            elif fecha_de == 'Fin Armado' and estado_de == '1' and cliente == None and operario == None:
+                for valor in globales:
+                    if valor.fecha_finalizado_armado >= fecha_inicial and valor.fecha_finalizado_armado <= fecha_final:                            
+                        tabla.append(valor)
+                if not tabla:
+                    msj = 'Sin resultados.'
+                    return render(request, 'informes/consulta_planilla.html', {'form':form,'msj':msj})
+                msj = 'Resultado de la busqueda: '
+                return render(request, 'informes/consulta_planilla.html', {'form':form,'msj':msj, 'tabla':tabla})
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            else:
+                msj = 'Sin resultados.'
+                return render(request, 'informes/consulta_planilla.html', {'form':form,'msj':msj})
+        
+        
         else:
             msj = 'Formulario inválido, reintente.'
             return render(request, 'informes/consulta_planilla.html', {'form':form,'msj':msj})
@@ -45,7 +137,9 @@ def consulta_planilla(request):
             'fecha_final':fecha_hoy,
             
             })
-        return render(request, 'informes/consulta_planilla.html', {'form':form})
+        
+        msj = 'Llene 1 o más campos para buscar'
+        return render(request, 'informes/consulta_planilla.html', {'form':form,'msj':msj})
             
             
 
