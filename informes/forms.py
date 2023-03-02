@@ -70,41 +70,41 @@ class FormIniciarArm(forms.Form):
     
     
 class FormEditarGlobal(forms.Form):
-    numero = forms.IntegerField()
-    cliente = forms.CharField() #agarro de operaciones
-    sub_cliente = forms.CharField()
-    tipo = forms.CharField()
-    unidades = forms.IntegerField()
-    fecha_creacion = forms.DateField(input_formats=['%d/%m/%Y'])
-    fecha_procesado = forms.DateField(input_formats=['%d/%m/%Y'])
-    hora_procesado = forms.TimeField()
+    numero = forms.IntegerField(required=False)
+    cliente = forms.CharField(required=False) #agarro de operaciones
+    sub_cliente = forms.CharField(required=False)
+    tipo = forms.CharField(required=False)
+    unidades = forms.IntegerField(required=False)
+    fecha_creacion = forms.DateField(input_formats=['%d/%m/%Y'], required=False)
+    fecha_procesado = forms.DateField(input_formats=['%d/%m/%Y'], required=False)
+    hora_procesado = forms.TimeField(required=False)
     
     #esta parte es la que llena el administrativo
     
-    operario = forms.ModelChoiceField(queryset=PersonalDeposito.objects.all().order_by('nombre'))
-    fecha_picking = forms.DateField(input_formats=['%d/%m/%Y'])#fecha en la que finaliza el picking
-    fecha_inicio_picking = forms.DateField(input_formats=['%d/%m/%Y'])
+    operario = forms.ModelChoiceField(queryset=PersonalDeposito.objects.all().order_by('nombre'), required=False)
+    fecha_picking = forms.DateField(input_formats=['%d/%m/%Y'], required=False)#fecha en la que finaliza el picking
+    fecha_inicio_picking = forms.DateField(input_formats=['%d/%m/%Y'], required=False)
     hora_inicio_picking = forms.TimeField()
-    iniciado_por = forms.ModelChoiceField(queryset=PersonalDeposito.objects.all().order_by('nombre'))
+    iniciado_por = forms.ModelChoiceField(queryset=PersonalDeposito.objects.all().order_by('nombre'), required=False)
     hora_fin_picking = forms.TimeField()
-    usuario_inicio = forms.ModelChoiceField(queryset=PersonalDeposito.objects.all().order_by('nombre'))
-    finalizado_pk_por = forms.CharField()
+    usuario_inicio = forms.ModelChoiceField(queryset=PersonalDeposito.objects.all().order_by('nombre'), required=False)
+    finalizado_pk_por = forms.CharField(required=False)
     
-    fecha_armado = forms.DateField(input_formats=['%d/%m/%Y'])
-    fecha_finalizado_armado = forms.DateField(input_formats=['%d/%m/%Y'])
-    hora_fin_armado = forms.TimeField()
-    hora_inicio_armado = forms.TimeField()
-    inicio_arm_por = forms.ModelChoiceField(queryset=PersonalDeposito.objects.all().order_by('nombre'))
-    contribuyentes = forms.IntegerField()
-    finalizado_arm_por = forms.ModelChoiceField(queryset=PersonalDeposito.objects.all().order_by('nombre'))
-    usuario_inicio_arm = forms.ModelChoiceField(queryset=PersonalDeposito.objects.all().order_by('nombre'))
+    fecha_armado = forms.DateField(input_formats=['%d/%m/%Y'], required=False)
+    fecha_finalizado_armado = forms.DateField(input_formats=['%d/%m/%Y'], required=False)
+    hora_fin_armado = forms.TimeField(required=False)
+    hora_inicio_armado = forms.TimeField(required=False)
+    inicio_arm_por = forms.ModelChoiceField(queryset=PersonalDeposito.objects.all().order_by('nombre'), required=False)
+    contribuyentes = forms.IntegerField(required=False)
+    finalizado_arm_por = forms.ModelChoiceField(queryset=PersonalDeposito.objects.all().order_by('nombre'), required=False)
+    usuario_inicio_arm = forms.ModelChoiceField(queryset=PersonalDeposito.objects.all().order_by('nombre'), required=False)
     
-    estado_picking = forms.CharField()
-    estado_armado = forms.CharField()
-    nombre_planilla = forms.CharField()
+    estado_picking = forms.CharField(required=False)
+    estado_armado = forms.CharField(required=False)
+    nombre_planilla = forms.CharField(required=False)
     
-    en_picking = forms.CharField()
-    en_armado = forms.CharField()
+    en_picking = forms.CharField(required=False)
+    en_armado = forms.CharField(required=False)
     
     
     
@@ -125,12 +125,12 @@ class FormFiltroPlanilla(forms.Form):
     picking = forms.IntegerField(required=False)
     operario = forms.ModelChoiceField(queryset=PersonalDeposito.objects.all(), required=False)
     lista_estados = (
-        ("1", ''),
-        ("Armado", 'Armado'),
-        ("Picking", 'Picking')
+        ("1", 'Todos'),
+        ("PK Finalizado", 'PK Finalizado'),
+        ("PK Pendiente", 'PK Pendiente'),
+        ("ARM Finalizado", 'ARM Finalizado'),
+        ("ARM Pendiente", 'ARM Pendiente')
         
-        
-        
-        
+    
         )
     estado_de = forms.ChoiceField(choices=lista_estados, required=False)

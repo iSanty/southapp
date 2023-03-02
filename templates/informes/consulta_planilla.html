@@ -39,12 +39,12 @@
                 <p>Busqueda por fecha de:{{form.fecha_de}}
                 Desde: {{form.fecha_inicial}}
                 Hasta: {{form.fecha_final}}</p>
-                <p>Busqueda por cliente: {{form.cliente}}
-                Utilizar filtro de fecha en columna estado de: {{form.estado_de}}
-                Busqueda por operario: {{form.operario}}</p>
+                <p>Busqueda por cliente: {{form.cliente}} 
+                 Busqueda por estado de: {{form.estado_de}}
+                 Busqueda por operario: {{form.operario}}</p>
                 
                 
-                <button type="submit" class="btn btn-info">Grabar</button>
+                <button type="submit" class="btn btn-info">Buscar</button>
             </form>
             
         </div>
@@ -61,7 +61,73 @@
 
 
 {% if tabla %}
-{{tabla}}
+
+
+
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-12">
+            <div class="bg-white rounded h-100 p-4">
+                {% block titulo_detalle %}<h6 class="mb-4">Resultado de la busqueda: </h6>{% endblock titulo_detalle %}
+                {% comment %} <a href={% url 'informe_global' %}><button class="btn btn-success">Actualizar</a></button> {% endcomment %}
+                <table class="table table-bordered border-primary">
+                    <thead>
+                        <tr>
+                            
+                            <th scope="col">Cliente</th>
+                            <th scope="col">Tipo</th>
+                            <th scope="col">Picking</th>
+                            <th scope="col">Unidades</th>
+                            <th scope="col">Fecha Proceso</th>
+                            <th scope="col">Hora Proceso</th>
+                            <th scope="col">Operario</th>
+                            <th scope="col">Fecha Picking</th>
+                            <th scope="col">Hora Inicio Picking</th>
+                            <th scope="col">Hora Fin Picking</th>
+                            <th scope="col">Fecha Armado</th>
+                            <th scope="col">Hora Inicio Armado</th>
+                            <th scope="col">Hora Fin Armado</th>
+                            <th scope="col">Estado Picking</th>
+                            <th scope="col">Estado Armado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for valor in tabla %}
+                        <tr>
+                            
+                            <th>{{valor.nombre_planilla}}</th>
+                            <td>{{valor.tipo}}</td>
+                            <td>{{valor.numero}}</td>
+                            <td>{{valor.unidades}}</td>
+                            <td>{{valor.fecha_procesado | date:"d/m/Y"}}</td>
+                            <td>{{valor.hora_procesado}}</td>
+                            <td>{{valor.operario}}</td>
+                            <td>{{valor.fecha_picking | date:"d/m/Y"}}</td>
+                            <td>{{valor.hora_inicio_picking}}</td>
+                            <td>{{valor.hora_fin_picking}}</td>
+                            <td>{{valor.fecha_finalizado_armado | date:"d/m/Y"}}</td>
+                            <td>{{valor.hora_inicio_armado}}</td>
+                            <td>{{valor.hora_fin_armado}}</td>
+                            <td>{{valor.estado_picking}}</td>
+                            <td>{{valor.estado_armado}}</td>
+
+                            
+                            <td><button type="button" class="btn btn-outline-danger m-2"><a href={% url 'editar_global' valor.id %}>Editar</a></button></td>
+                            <td><button type="button" class="btn btn-outline-danger m-2"><a href='#'{% comment %} {% url 'edicion_ficha' fichero.id %} {% endcomment %} >Eliminar</a></button></td>
+  
+                            
+  
+                        </tr>
+                        
+                        {% endfor %}
+  
+  
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>   
 
 
 
