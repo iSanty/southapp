@@ -31,22 +31,21 @@
 <div class="row">
     <div class="col-lg-12">
 
-      <div class="card">
-        <div class="card-body">
+        <div class="card">
+            <div class="card-body">
 
-            <form action={% url 'consulta_planilla' %} method = "POST"> 
-                <p>Nro de picking: {{form.picking}}</p>
-                <p>Busqueda por fecha de:{{form.fecha_de}}
-                Desde: {{form.fecha_inicial}}
-                Hasta: {{form.fecha_final}}</p>
-                <p>Busqueda por cliente: {{form.cliente}} 
-                 Busqueda por estado de: {{form.estado_de}}
-                 Busqueda por operario: {{form.operario}}</p>
-                
-                
-                <button type="submit" class="btn btn-info">Buscar</button>
-            </form>
-            
+                <form action={% url 'consulta_planilla' %} method = "POST"> 
+                    <p>Nro de picking: {{form.picking}}</p>
+                    <p>Busqueda por fecha de:{{form.fecha_de}}
+                    Desde: {{form.fecha_inicial}}
+                    Hasta: {{form.fecha_final}}</p>
+                    <p>Busqueda por cliente: {{form.cliente}} 
+                    Busqueda por estado de: {{form.estado_de}}
+                    Busqueda por operario: {{form.operario}}</p>
+
+                    <button type="submit" class="btn btn-info">Buscar</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>
@@ -73,7 +72,6 @@
                 <table class="table table-bordered border-primary">
                     <thead>
                         <tr>
-                            
                             <th scope="col">Cliente</th>
                             <th scope="col">Tipo</th>
                             <th scope="col">Picking</th>
@@ -113,7 +111,7 @@
 
                             
                             <td><button type="button" class="btn btn-outline-danger m-2"><a href={% url 'editar_global' valor.id %}>Editar</a></button></td>
-                            <td><button type="button" class="btn btn-outline-danger m-2"><a href='#'{% comment %} {% url 'edicion_ficha' fichero.id %} {% endcomment %} >Eliminar</a></button></td>
+                            
   
                             
   

@@ -111,8 +111,8 @@ class FormEditarGlobal(forms.Form):
 class FormFiltroPlanilla(forms.Form):
     lista_fecha_1 = (
         ('Procesado', 'Procesado'),
-        ('Pickeo', 'Pickeo'),
-        ('Armado', 'Armado'), 
+        # ('Pickeo', 'Pickeo'),
+        # ('Armado', 'Armado'), 
         ('Fin Pickeo', 'Fin Pickeo'), 
         ('Fin Armado', 'Fin Armado')
         )

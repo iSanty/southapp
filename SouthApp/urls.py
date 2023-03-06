@@ -31,6 +31,7 @@ urlpatterns = [
     path('api/', include('api.urls')),
     path('bot/', include('bot.urls')),
     path('inicio/', include('pagina.urls')),
+    path('webhooks/', include('webhooks.urls'))
     
 
 ]
