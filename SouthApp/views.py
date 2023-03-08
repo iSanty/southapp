@@ -23,3 +23,8 @@ def index(request):
 @login_required
 def error(request):
     return render(request, '404.html')
+
+
+def documentacion(request):
+    
+    return render(request, "documentacion.html")

@@ -1373,6 +1373,19 @@ def detalle_por_subcliente(request, subcliente):
     return render(request, 'informes/detalle_por_subcliente.html',{'detalle':detalle})
 
 
+def detalle_picking_por_persona(request):
+    
+    
+    detalle = GlobalPK.objects.filter(fecha_picking=fecha_hoy_f).order_by('operario')
+    
+    
+    
+    return render(request, 'informes/picking_por_persona.html', {'detalle':detalle})
+    
+    
+    
+
+
 
 def detalle_pend_pk(request):
     detalle = GlobalPK.objects.filter(estado_picking='Pendiente')
@@ -1672,10 +1685,21 @@ def monitor(request):
     for valor in en_proceso_pk:
         en_proceso_pk_dia += valor.unidades
         
+    total_operarios_dia = []
     for valor in finalizado_pk_hoy:
         finalizado_pk_dia += valor.unidades
         
+        if not valor.operario in total_operarios_dia:
+            total_operarios_dia.append(valor.operario)
         
+        
+    cantidad_operarios = len(total_operarios_dia)
+    
+    if cantidad_operarios and finalizado_pk_dia:
+        picking_por_persona = finalizado_pk_dia / cantidad_operarios
+        
+    else:
+        picking_por_persona = 0
         
     for valor in pendiente_arm:
         pendiente_arm_dia += valor.unidades
@@ -1683,16 +1707,23 @@ def monitor(request):
     for valor in en_proceso_arm:
         en_proceso_arm_dia += valor.unidades
         
+        
+    total_armadores = 0
+    
     for valor in finalizado_arm_hoy:
         finalizado_arm_dia += valor.unidades
-    
+        total_armadores += valor.contribuyentes
+        
+    if finalizado_arm_dia and total_armadores:
+        armado_por_hora = (finalizado_arm_dia / total_armadores) / 7.5
+    else:
+        armado_por_hora = 0
+        
     for valor in base_del_dia_hoy:
         base_del_dia += valor.unidades
         
         
         
-    #calculo piking por hora
-    total_pickeado = finalizado_pk_dia
     
     
             
@@ -1703,7 +1734,9 @@ def monitor(request):
                                                      'pendiente_arm_dia':pendiente_arm_dia,
                                                      'en_proceso_arm_dia':en_proceso_arm_dia,
                                                      'finalizado_arm_dia':finalizado_arm_dia,
-                                                     'base_del_dia':base_del_dia
+                                                     'base_del_dia':base_del_dia,
+                                                     'picking_por_persona':picking_por_persona,
+                                                     'armado_por_hora':armado_por_hora
                                                     
                                                     
                                                     
@@ -1763,9 +1796,6 @@ def index_informes_2(request):
         
         
         
-    #calculo piking por hora
-    total_pickeado = finalizado_pk_dia
-    
     
             
     

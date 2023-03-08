@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from .views import index, error
+from .views import index, error, documentacion
 from django.conf.urls.static import static
 from django.conf import settings
 
@@ -31,7 +31,8 @@ urlpatterns = [
     path('api/', include('api.urls')),
     path('bot/', include('bot.urls')),
     path('inicio/', include('pagina.urls')),
-    path('webhooks/', include('webhooks.urls'))
+    path('webhooks/', include('webhooks.urls')),
+    path('documentacion/', documentacion, name="documentacion")
     
 
 ]
