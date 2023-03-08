@@ -43,7 +43,8 @@
                     Busqueda por estado de: {{form.estado_de}}
                     Busqueda por operario: {{form.operario}}</p>
 
-                    <button type="submit" class="btn btn-info">Buscar</button>
+                    <button type="submit" class="btn btn-info" name="btn_consulta">Buscar</button>
+                    
                 </form>
             </div>
         </div>
@@ -53,7 +54,9 @@
 <div class="col-lg-12">
     <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" role="alert">
         {{msj}}
+        <button onclick="exportTableToExcel('tblExcel')" type="submit" class="btn btn-info">Exportar</button>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+        
     </div>
 </div>
 
@@ -69,7 +72,7 @@
             <div class="bg-white rounded h-100 p-4">
                 {% block titulo_detalle %}<h6 class="mb-4">Resultado de la busqueda: </h6>{% endblock titulo_detalle %}
                 {% comment %} <a href={% url 'informe_global' %}><button class="btn btn-success">Actualizar</a></button> {% endcomment %}
-                <table class="table table-bordered border-primary">
+                <table id="tblExcel" class="table table-bordered border-primary">
                     <thead>
                         <tr>
                             <th scope="col">Cliente</th>
@@ -132,5 +135,37 @@
 {% endif %}
 
 
+<script>
+function exportTableToExcel(tableID, filename = ''){
+    var downloadLink;
+    var dataType = 'application/vnd.ms-excel';
+    var tableSelect = document.getElementById(tableID);
+    var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+    
+    // Specify file name
+    filename = filename?filename+'.xls':'excel_data.xls';
+    
+    // Create download link element
+    downloadLink = document.createElement("a");
+    
+    document.body.appendChild(downloadLink);
+    
+    if(navigator.msSaveOrOpenBlob){
+        var blob = new Blob(['ufeff', tableHTML], {
+            type: dataType
+        });
+        navigator.msSaveOrOpenBlob( blob, filename);
+    }else{
+        // Create a link to the file
+        downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+    
+        // Setting the file name
+        downloadLink.download = filename;
+        
+        //triggering the function
+        downloadLink.click();
+    }
+}
+</script>
 
 {% endblock graficos_tablas %}

@@ -32,6 +32,9 @@
   <link href={% static 'tema_claro/assets/vendor/remixicon/remixicon.css' %} rel="stylesheet">
   <link href={% static 'tema_claro/assets/vendor/simple-datatables/style.css' %} rel="stylesheet">
 
+
+
+  <script src={% static 'tema_claro/assets/js/ajax.js' %}></script>
   <!-- Template Main CSS File -->
   <link href={% static 'tema_claro/assets/css/style.css' %} rel="stylesheet">
 
@@ -372,11 +375,7 @@
               <i class="bi bi-circle"></i><span>Prep. Pedidos</span>
             </a>
           </li>
-          <li>
-            <a href={% url 'informe_global' %}>
-              <i class="bi bi-circle"></i><span>Informes</span>
-            </a>
-          </li>
+          
           
           
         </ul>
@@ -521,6 +520,7 @@
         <p><a href={% url 'mensajes_por_estado' %}>Mensajes WP por Estado de ePresis</a></p>
         <p><a href={% url 'consultar_estado' %}>Consulta estados de ePresis</a></p>
         <p><a href={% url 'mail_bot' %}>Edita el mail receptor de consultas del bot de WP</a></p>
+        <p><a href={% url 'documentacion' %}>Documentacion de APIs</a></p>
         <div class="pagetitle">
           <h1></h1>
           <nav>
