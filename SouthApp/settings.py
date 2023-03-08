@@ -14,7 +14,7 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 import dj_database_url
-import django_heroku
+
 
 
 load_dotenv()
@@ -129,14 +129,14 @@ WSGI_APPLICATION = 'SouthApp.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        #'ENGINE': 'django.db.backends.mysql',
+        #'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': 'dbsp',
         
         'HOST':'localhost',
-        'PORT':'3306',
+        'PORT':'3307',
         'USER':'root',
-        'PASSWORD':'2355',
+        'PASSWORD':'Sp07032023',
     }
 }
 
