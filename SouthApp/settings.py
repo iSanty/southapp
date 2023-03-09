@@ -110,42 +110,10 @@ TEMPLATES = [
 WSGI_APPLICATION = 'SouthApp.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-        
-#         # poner online
-#         #'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-        
-#         #Poner Online
-#         #'NAME': 'dbsp',
-#     }
-# }
 
 DATABASES = {
     
-    
-    # conexion MySQL al server
-    # 'default': {
-    #     #'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': 'dbsp',
-        
-    #     'HOST':'localhost',
-    #     'PORT':'3307',
-    #     'USER':'root',
-    #     'PASSWORD':'Sp07032023',
-    # },
-    
-    
-    # conexion MySQL de prueba
     'default': {
-        #'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'dbsp',
         

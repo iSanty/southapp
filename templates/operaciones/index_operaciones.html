@@ -228,11 +228,13 @@
                 Exportar SAAD
               </button>
             </a>
+            
             <a href="#">
               <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Exporta archivo XLS para importar en Epresis">
                 Exportar Epresis
               </button>
             </a>
+            {% if productos %}<label> Hay migraciones a SAAD Pendientes </label>{% endif %}
           </div>
         </div>
       </div>

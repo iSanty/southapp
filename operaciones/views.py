@@ -1335,6 +1335,10 @@ def index_deposito(request):
     t_001 = len(pendientes_001)
     
     pendiente_aforo = total - t_022 - t_001
-    return render(request, 'operaciones/index_operaciones.html',{'pendiente_aforo':pendiente_aforo} )
+    
+    productos = Producto.objects.filter(importado_saad='No')
+    
+    
+    return render(request, 'operaciones/index_operaciones.html',{'pendiente_aforo':pendiente_aforo, 'productos':productos} )
 
 
