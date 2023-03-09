@@ -1712,12 +1712,15 @@ def monitor(request):
     
     for valor in finalizado_arm_hoy:
         finalizado_arm_dia += valor.unidades
-        total_armadores += valor.contribuyentes
+        # total_armadores += valor.contribuyentes
         
-    if finalizado_arm_dia and total_armadores:
-        armado_por_hora = (finalizado_arm_dia / total_armadores) / 7.5
-    else:
-        armado_por_hora = 0
+    # if finalizado_arm_dia and total_armadores:
+        
+    #     armado_por_hora = finalizado_arm_dia / 7.5
+        
+    # else:
+        
+    armado_por_hora = 0
         
     for valor in base_del_dia_hoy:
         base_del_dia += valor.unidades

@@ -128,15 +128,31 @@ WSGI_APPLICATION = 'SouthApp.wsgi.application'
 # }
 
 DATABASES = {
+    
+    
+    # conexion MySQL al server
+    # 'default': {
+    #     #'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'dbsp',
+        
+    #     'HOST':'localhost',
+    #     'PORT':'3307',
+    #     'USER':'root',
+    #     'PASSWORD':'Sp07032023',
+    # },
+    
+    
+    # conexion MySQL de prueba
     'default': {
         #'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'dbsp',
         
         'HOST':'localhost',
-        'PORT':'3307',
-        'USER':'root',
-        'PASSWORD':'Sp07032023',
+        'PORT':os.getenv('PORT'),
+        'USER':os.getenv('USER'),
+        'PASSWORD':os.getenv('PASSWORD'),
     }
 }
 
